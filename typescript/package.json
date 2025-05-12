@@ -1,0 +1,57 @@
+{
+  "name": "@carbonapi/typescript-sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for CarbonAPI",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "generate-types": "openapi-typescript openapi.json --output src/types/api.ts"
+  },
+  "keywords": [
+    "carbonapi",
+    "sdk",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/carbonapi-sdks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/carbonapi-sdks/issues"
+  },
+  "homepage": "https://github.com/yourusername/carbonapi-sdks#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "express": "^4.18.3",
+    "jest": "^29.7.0",
+    "openapi-typescript": "^7.8.0",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.10.6",
+    "svix": "^1.15.0"
+  }
+}
