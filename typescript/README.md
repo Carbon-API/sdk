@@ -57,7 +57,7 @@ import express from "express";
 
 const app = express();
 
-// Remember to use RAW body type.
+// Remember to use RAW body type, otherwise this won't work as expected!
 app.use(express.raw({ type: "application/json" }));
 
 // Initialize the client with your API key and webhook secret
