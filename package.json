@@ -1,0 +1,14 @@
+{
+  "name": "carbonapi-sdks",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r clean && pnpm -r build",
+    "test": "pnpm -r test",
+    "release": "changeset publish",
+    "changeset": "changeset",
+    "version-packages": "changeset version"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.3"
+  }
+}

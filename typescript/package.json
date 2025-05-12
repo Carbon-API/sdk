@@ -9,6 +9,7 @@
     "README.md"
   ],
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint .",
@@ -30,13 +31,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/carbonapi-sdks.git"
+    "url": "git+https://github.com/carbon-api/sdks.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/carbonapi-sdks/issues"
+    "url": "https://github.com/carbon-api/sdks/issues"
   },
-  "homepage": "https://github.com/yourusername/carbonapi-sdks#readme",
+  "homepage": "https://github.com/carbon-api/sdks#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.29.3",
     "@eslint/js": "^9.26.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
