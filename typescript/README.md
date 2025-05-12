@@ -27,7 +27,7 @@ const client = new CarbonAPIClient({
 });
 
 // Upload a batch of documents
-const batchResponse = await client.uploadBatch({
+const batchResponse = await client.createDocumentEmissionsBatch({
   type: "url",
   documents: [
     {
@@ -42,9 +42,34 @@ const batchResponse = await client.uploadBatch({
 console.log("Batch ID:", batchResponse.batchId);
 
 // Get batch status and documents
-const batchStatus = await client.getBatch(batchResponse.batchId);
+const batchStatus = await client.getDocumentEmissionsBatch(
+  batchResponse.batchId
+);
 console.log("Batch Status:", batchStatus.status);
 console.log("Documents:", batchStatus.documents);
+
+// Create a batch of transactions
+const transactionBatchResponse = await client.createTransactionBatch({
+  transactions: [
+    {
+      amount: 100.0,
+      currency: "AUD",
+      category: "TRAVEL_AIR",
+      date: "2024-03-20",
+      meta: {
+        source: "example",
+      },
+    },
+  ],
+});
+console.log("Transaction Batch ID:", transactionBatchResponse.batchId);
+
+// Get transaction batch status
+const transactionBatchStatus = await client.getTransactionBatch(
+  transactionBatchResponse.batchId
+);
+console.log("Transaction Batch Status:", transactionBatchStatus.status);
+console.log("Transactions:", transactionBatchStatus.transactions);
 ```
 
 ### Webhook Handling
@@ -117,19 +142,27 @@ new CarbonAPIClient(config: CarbonAPIConfig)
 #### Methods
 
 - `getClient()`: Returns the underlying typed openapi-fetch client
-- `uploadBatch(batch: BatchDocuments)`: Upload a batch of documents for processing
-- `getBatch(batchId: string)`: Get the status and documents for a batch
+- `createDocumentEmissionsBatch(batch: BatchDocuments)`: Upload a batch of documents for processing
+- `getDocumentEmissionsBatch(batchId: string)`: Get the status and documents for a batch
+- `createTransactionBatch(batch: BatchTransactions)`: Create a batch of transactions
+- `getTransactionBatch(batchId: string)`: Get the status and transactions for a batch
 - `verifyWebhook(payload: string, headers: Record<string, string>)`: Verify and parse a webhook payload
 - `verifyWebhookRequest(request: Request)`: Verify and parse a webhook payload from a raw request
 
 ### Webhook Events
 
-The SDK supports the following webhook event types:
+The SDK supports webhook events with the following structure:
 
-- `batch.completed`: Emitted when a batch of documents has been processed
-- `batch.failed`: Emitted when a batch of documents has failed processing
-- `document.completed`: Emitted when a single document has been processed
-- `document.failed`: Emitted when a single document has failed processing
+```typescript
+interface WebhookEvent {
+  id: string;
+  type: string;
+  data: unknown;
+  timestamp: number;
+}
+```
+
+The event type and data structure will depend on the specific webhook event being received.
 
 ## Development
 
