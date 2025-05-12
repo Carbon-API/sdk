@@ -49,13 +49,15 @@ console.log("Documents:", batchStatus.documents);
 
 ### Webhook Handling
 
-The SDK includes built-in webhook verification using Svix. Here's how to handle webhooks:
+The SDK includes built-in webhook verification. Here's how to handle webhooks:
 
 ```typescript
 import { CarbonAPIClient } from "@carbonapi/typescript-sdk";
 import express from "express";
 
 const app = express();
+
+// Remember to use RAW body type.
 app.use(express.raw({ type: "application/json" }));
 
 // Initialize the client with your API key and webhook secret
