@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 0.2.3
+
+### Patch Changes
+
+- a9809d1: Add stub test to fix deploy
+
 ## 0.2.2
 
 ### Patch Changes
