@@ -53,7 +53,9 @@ export class CarbonAPIClient {
   /**
    * Upload a batch of documents
    */
-  public async uploadBatch(batch: components["schemas"]["BatchDocuments"]) {
+  public async createDocumentEmissionsBatch(
+    batch: components["schemas"]["BatchDocuments"]
+  ) {
     const { data, error } = await this.client.POST("/documents/batch", {
       body: batch,
     });
@@ -64,9 +66,38 @@ export class CarbonAPIClient {
   /**
    * Get batch status and documents
    */
-  public async getBatch(batchId: string) {
+  public async getDocumentEmissionsBatch(batchId: string) {
     const { data, error } = await this.client.GET(
       "/documents/batch/{batchId}",
+      {
+        params: {
+          path: { batchId },
+        },
+      }
+    );
+    if (error) throw error;
+    return data;
+  }
+
+  /**
+   * Create a batch of transactions
+   */
+  public async createTransactionBatch(
+    batch: components["schemas"]["BatchTransactions"]
+  ) {
+    const { data, error } = await this.client.POST("/transactions/batch", {
+      body: batch,
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  /**
+   * Get transaction batch status and transactions
+   */
+  public async getTransactionBatch(batchId: string) {
+    const { data, error } = await this.client.GET(
+      "/transactions/batch/{batchId}",
       {
         params: {
           path: { batchId },
