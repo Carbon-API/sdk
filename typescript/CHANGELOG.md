@@ -1,5 +1,15 @@
 # @carbonapi/typescript-sdk
 
+## 0.3.0
+
+### Minor Changes
+
+- 6048a5d: Add transaction batch
+
+### Patch Changes
+
+- 6048a5d: Update docs
+
 ## 0.2.3
 
 ### Patch Changes
