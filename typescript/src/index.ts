@@ -28,7 +28,7 @@ export class CarbonAPIClient {
     const userAgent = `carbonapi-typescript-sdk/${packageJson.version}`;
 
     this.client = createClient<paths>({
-      baseUrl: config.baseURL || "https://api.au.carbonapi.io/api",
+      baseUrl: config.baseURL || "https://api.aws-au.carbonapi.io/",
       headers: {
         "x-api-key": this.apiKey,
         "Content-Type": "application/json",
@@ -53,39 +53,24 @@ export class CarbonAPIClient {
   /**
    * Upload a batch of documents
    */
-  public async createDocumentEmissionsBatch(
-    batch: components["schemas"]["BatchDocuments"]
-  ) {
-    const { data, error } = await this.client.POST("/documents/batch", {
-      body: batch,
-    });
-    if (error) throw error;
-    return data;
+  public async createDocumentEmissionsBatch() {
+    throw new Error("Not implemented");
   }
 
   /**
    * Get batch status and documents
    */
-  public async getDocumentEmissionsBatch(batchId: string) {
-    const { data, error } = await this.client.GET(
-      "/documents/batch/{batchId}",
-      {
-        params: {
-          path: { batchId },
-        },
-      }
-    );
-    if (error) throw error;
-    return data;
+  public async getDocumentEmissionsBatch() {
+    throw new Error("Not implemented");
   }
 
   /**
    * Create a batch of transactions
    */
   public async createTransactionBatch(
-    batch: components["schemas"]["BatchTransactions"]
+    batch: components["schemas"]["TransactionDTO"][]
   ) {
-    const { data, error } = await this.client.POST("/transactions/batch", {
+    const { data, error } = await this.client.POST("/transaction/batch", {
       body: batch,
     });
     if (error) throw error;
@@ -97,7 +82,7 @@ export class CarbonAPIClient {
    */
   public async getTransactionBatch(batchId: string) {
     const { data, error } = await this.client.GET(
-      "/transactions/batch/{batchId}",
+      "/transaction/batch/{batchId}",
       {
         params: {
           path: { batchId },

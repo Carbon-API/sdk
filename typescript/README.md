@@ -26,48 +26,24 @@ const client = new CarbonAPIClient({
   // baseURL: 'https://custom-api-url.com',
 });
 
-// Upload a batch of documents
-const batchResponse = await client.createDocumentEmissionsBatch({
-  type: "url",
-  documents: [
-    {
-      fileUrl: "https://example.com/document.pdf",
-      categoryHint: "TRAVEL_AIR_TICKET",
-      meta: {
-        source: "example",
-      },
-    },
-  ],
-});
-console.log("Batch ID:", batchResponse.batchId);
-
-// Get batch status and documents
-const batchStatus = await client.getDocumentEmissionsBatch(
-  batchResponse.batchId
-);
-console.log("Batch Status:", batchStatus.status);
-console.log("Documents:", batchStatus.documents);
-
 // Create a batch of transactions
-const transactionBatchResponse = await client.createTransactionBatch({
-  transactions: [
-    {
-      amount: 100.0,
-      currency: "AUD",
-      category: "TRAVEL_AIR",
-      date: "2024-03-20",
-      meta: {
-        source: "example",
-      },
+const transactionBatchResponse = await client.createTransactionBatch([
+  {
+    amount: 100.0,
+    currency: "AUD",
+    category: "TRAVEL_AIR",
+    date: "2024-03-20",
+    meta: {
+      source: "example",
     },
-  ],
-});
-console.log("Transaction Batch ID:", transactionBatchResponse.batchId);
+  },
+]);
 
 // Get transaction batch status
 const transactionBatchStatus = await client.getTransactionBatch(
-  transactionBatchResponse.batchId
+  transactionBatchResponse[0].batchId
 );
+
 console.log("Transaction Batch Status:", transactionBatchStatus.status);
 console.log("Transactions:", transactionBatchStatus.transactions);
 ```
@@ -99,17 +75,8 @@ app.post("/webhook", async (req, res) => {
 
     // Handle different webhook event types
     switch (event.type) {
-      case "batch.completed":
+      case "transaction.batch.completed":
         console.log("Batch completed:", event.data);
-        break;
-      case "batch.failed":
-        console.log("Batch failed:", event.data);
-        break;
-      case "document.completed":
-        console.log("Document processed:", event.data);
-        break;
-      case "document.failed":
-        console.log("Document processing failed:", event.data);
         break;
     }
 
