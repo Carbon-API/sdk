@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 1.0.0
+
+### Major Changes
+
+- a227493: Updated to reflect current production capabilities
+
 ## 0.3.0
 
 ### Minor Changes
