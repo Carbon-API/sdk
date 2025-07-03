@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/documents/batch": {
+    "/transaction/batch": {
         parameters: {
             query?: never;
             header?: never;
@@ -13,410 +13,23 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Batch upload documents for analysis */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["BatchDocuments"];
-                };
-            };
-            responses: {
-                /** @description The batch ID. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @example 123e4567-e89b-12d3-a456-426614174000 */
-                            batchId?: string;
-                        };
-                    };
-                };
-            };
-        };
+        /** Submit a new batch of transactions for processing */
+        post: operations["TransactionController_createBatch"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/documents/batch/{batchId}": {
+    "/transaction/batch/{batchId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Retrieve a batch by ID */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    batchId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description An object representing the batch. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @enum {string} */
-                            status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
-                            /** @description The documents that were processed, or empty if the batch is still processing. */
-                            documents?: ({
-                                /**
-                                 * @description The country of the organisation receiving the document. Used to select emission factors.
-                                 * @enum {string}
-                                 */
-                                country: "NZ" | "AU" | "GB";
-                                /** @description The invoice number, reference, or other identifying code of the document. You can search any part of the document to find this. */
-                                reference?: string;
-                                financial: {
-                                    /** @description The total amount of the document in the currency of the document. */
-                                    total: number;
-                                    /** @description The subtotal amount of the document in the currency of the document. */
-                                    subtotal: number;
-                                    /** @description The tax amount of the document in the currency of the document. */
-                                    tax: number;
-                                    /** @description The supplier of the document. Try to align to well-known company names if possible. */
-                                    supplier?: string;
-                                    /** @description The customer of the document. */
-                                    customer?: string;
-                                    /** @description The 3-letter currency code which the document is billed in. */
-                                    currency?: string;
-                                };
-                                items: {
-                                    /** @description The start date of the line item, in UTC. */
-                                    periodFrom: string;
-                                    /** @description The end date of the line item, in UTC. */
-                                    periodTo: string;
-                                    /**
-                                     * @description A reference for the line item, such as a docket number, card number, or other meaningful identifier
-                                     * @example 1234567890
-                                     */
-                                    reference: string;
-                                    /** @description A description of the line item, such as a description of the goods or services provided. May be omitted for complex documents. */
-                                    description?: string;
-                                    /**
-                                     * @description The quantity of the line item.
-                                     * @example 100
-                                     */
-                                    quantity: number;
-                                    /**
-                                     * @description The unit associated with the quantity and emission factor
-                                     * @example litres
-                                     */
-                                    unit: string;
-                                    /**
-                                     * @description The code of the emission factor used to calculate the emissions for the line item from the list of emission factors.
-                                     * @example abc123
-                                     */
-                                    emissionFactorId: string;
-                                    /**
-                                     * @description Whether the line item has occured due to another activity, for example T&D losses.
-                                     * @example false
-                                     */
-                                    isSideEffect?: boolean;
-                                    meta?: Record<string, never>;
-                                    /** @description 0=EXPLICIT|1=DERIVED|2=MISSING|3=OTHER|4=UNKNOWN|5=UNSUPPORTED */
-                                    inference: number;
-                                }[];
-                            } & {
-                                /**
-                                 * @description The status of the document.
-                                 * @example COMPLETED
-                                 * @enum {string}
-                                 */
-                                status: "DOWNLOADING" | "PENDING" | "PROCESSING_DISCOVERING_TYPE" | "PROCESSING_RAG" | "PROCESSING_ANALYZING" | "COMPLETED" | "ERROR";
-                                /**
-                                 * @description The error that occurred while processing the document, if any.
-                                 * @example DOCUMENT_NOT_FOUND
-                                 * @enum {string}
-                                 */
-                                error?: "UNSUPPORTED_CONTENT_TYPE" | "UNPROCESSABLE_DOCUMENT" | "UNKNOWN" | "FILE_TOO_LARGE" | "PDF_PROCESSING_ERROR" | "PARSE_ERROR" | "S3_ERROR" | "EMPTY_DOCUMENT" | "TOO_MANY_PAGES" | "DOCUMENT_NOT_FOUND" | "ORGANISATION_NOT_FOUND" | "INVALID_REQUEST_BODY" | "DOWNLOAD_ERROR";
-                                /**
-                                 * @description The emission category of the document.
-                                 * @example TRAVEL_AIR_TICKET
-                                 * @enum {string}
-                                 */
-                                emissionCategory: "FUEL" | "ELECTRICITY" | "WASTE" | "FREIGHT_AIR" | "FREIGHT_ROAD" | "FREIGHT_SEAR" | "FREIGHT_RAIL" | "TRAVEL_AIR_TICKET" | "TRAVEL_AIR_REMITTANCE" | "TRAVEL_ROAD_CAR" | "TRAVEL_ROAD_BUS" | "TRAVEL_ROAD_TAXI_OR_RIDESHARE" | "TRAVEL_SEA" | "TRAVEL_RAIL" | "ACCOMMODATION" | "ACCOMODATION" | "SUPPLY_CHAIN" | "UNKNOWN";
-                                items: ({
-                                    /** @description The start date of the line item, in UTC. */
-                                    periodFrom: string;
-                                    /** @description The end date of the line item, in UTC. */
-                                    periodTo: string;
-                                    /**
-                                     * @description A reference for the line item, such as a docket number, card number, or other meaningful identifier
-                                     * @example 1234567890
-                                     */
-                                    reference: string;
-                                    /** @description A description of the line item, such as a description of the goods or services provided. May be omitted for complex documents. */
-                                    description?: string;
-                                    /**
-                                     * @description The quantity of the line item.
-                                     * @example 100
-                                     */
-                                    quantity: number;
-                                    /**
-                                     * @description The unit associated with the quantity and emission factor
-                                     * @example litres
-                                     */
-                                    unit: string;
-                                    /**
-                                     * @description The code of the emission factor used to calculate the emissions for the line item from the list of emission factors.
-                                     * @example abc123
-                                     */
-                                    emissionFactorId: string;
-                                    /**
-                                     * @description Whether the line item has occured due to another activity, for example T&D losses.
-                                     * @example false
-                                     */
-                                    isSideEffect?: boolean;
-                                    meta?: Record<string, never>;
-                                    /** @description 0=EXPLICIT|1=DERIVED|2=MISSING|3=OTHER|4=UNKNOWN|5=UNSUPPORTED */
-                                    inference: number;
-                                } & {
-                                    emissions: {
-                                        /**
-                                         * @description The amount of CO2e in kg. This is the emissions from the item itself.
-                                         * @example 100
-                                         */
-                                        co2e: number;
-                                        /**
-                                         * @description The amount of CO2 in kg. This is the CO2 emissions from the item itself.
-                                         * @example 100
-                                         */
-                                        co2: number;
-                                        /**
-                                         * @description The amount of CH4 in kg. This is the CH4 emissions from the item itself.
-                                         * @example 100
-                                         */
-                                        ch4: number;
-                                        /** @description The amount of N2O in kg. This is the N2O emissions from the item itself. */
-                                        n2o: number;
-                                    };
-                                    emissionFactor: {
-                                        /**
-                                         * @description The code of the emission factor.
-                                         * @example I_FLIGHTS_AIR_TRAVEL
-                                         */
-                                        code: string;
-                                        /**
-                                         * @description The name of the emission factor.
-                                         * @example International flights
-                                         */
-                                        name: string;
-                                        /**
-                                         * @description The year of the emission factor.
-                                         * @example 2023
-                                         */
-                                        yearOrDefault: string;
-                                        /**
-                                         * @description The source name of the emission factor.
-                                         * @example UK Government
-                                         */
-                                        sourceName: string;
-                                        /**
-                                         * @description The source URL of the emission factor.
-                                         * @example https://www.gov.uk/government/statistics/greenhouse-gas-reporting-conversion-factors-2023
-                                         */
-                                        sourceUrl: string;
-                                    };
-                                    /**
-                                     * @description Whether the item has occured due to another activity, for example T&D losses.
-                                     * @example false
-                                     */
-                                    isSideEffect?: boolean;
-                                    /**
-                                     * @description The steps that were taken to calculate the emissions for the item.
-                                     * @example [
-                                     *       "(example use only):",
-                                     *       "Extracted from document",
-                                     *       "Discovered origin airport (Heathrow) + destination airport (JFK)",
-                                     *       "Calculated using emission factor",
-                                     *       "Multiplied by number of passengers"
-                                     *     ]
-                                     */
-                                    steps?: string[];
-                                })[];
-                            })[];
-                            /**
-                             * @description The number of documents that were processed and billed, or 0 if the batch is still processing.
-                             * @default 0
-                             * @example 4
-                             */
-                            billedDocuments: number;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/transactions/batch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Batch upload transactions for analysis */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["BatchTransactions"];
-                };
-            };
-            responses: {
-                /** @description An object representing the batch. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            /** @example 123e4567-e89b-12d3-a456-426614174000 */
-                            batchId?: string;
-                        };
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/transactions/batch/{batchId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Retrieve a batch by ID */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    batchId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description The batch of transactions. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            batchId: string;
-                            transactions: {
-                                id: string;
-                                /** @description The date of the transaction, in ISO 8601 format. */
-                                date: string;
-                                /**
-                                 * @description The subtotal of the transaction.
-                                 * @example 100
-                                 */
-                                subtotal: number;
-                                /**
-                                 * @description The tax amount of the transaction.
-                                 * @example 10
-                                 */
-                                tax: number;
-                                /**
-                                 * @description The total amount of the transaction.
-                                 * @example 110
-                                 */
-                                total: number;
-                                /**
-                                 * @description The 3-letter currency code of the transaction.
-                                 * @example GBP
-                                 */
-                                currency: string;
-                                /**
-                                 * @description The 2-letter country code representing the country the transaction relates to.
-                                 * @example AU
-                                 */
-                                countryCode: string;
-                                /**
-                                 * @description The description of the transaction.
-                                 * @example Amazon.com
-                                 */
-                                description: string;
-                                /**
-                                 * @description The name of the supplier.
-                                 * @example Amazon
-                                 */
-                                supplierName: string;
-                                /**
-                                 * @description The account name of the source of the transaction.
-                                 * @example Office Expenses
-                                 */
-                                sourceAccount: string;
-                                measurement: {
-                                    /** @example 100.222 */
-                                    co2e: number;
-                                    /** @example 12.222 */
-                                    co2: number;
-                                    /** @example 23.222 */
-                                    ch4: number;
-                                    /** @example 10.222 */
-                                    n2o: number;
-                                    /** @example Scope3_BusinessTravel */
-                                    ghgProtocolCategory: string;
-                                    /** @example Category3_Transportation_BusinessTravel_Transport */
-                                    iso14064Category: string;
-                                    /** @example CarbonAPI AU Spend-Based Factor Library */
-                                    sourceName: string;
-                                    /**
-                                     * Format: uri
-                                     * @example https://carbonapi.io/factors
-                                     */
-                                    sourceUrl: string;
-                                };
-                                meta: {
-                                    /** @example I_TAXI_RIDESHARING */
-                                    category: string;
-                                };
-                            }[];
-                        };
-                    };
-                };
-            };
-        };
+        /** Get the results of a batch of transactions */
+        get: operations["TransactionController_getTransactionsForBatch"];
         put?: never;
         post?: never;
         delete?: never;
@@ -429,95 +42,86 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        BatchDocuments: {
-            /** @enum {string} */
-            type: "url";
-            /** @description The ID of the batch. If not provided, we will generate one. */
-            batchId?: string;
-            documents: {
-                /** @description The ID of the file to be processed. This can be used to help you keep track of requests. If supplied, we will also emit a webhook of progress on a per-file basis. */
-                fileId?: string;
-                /**
-                 * Format: uri
-                 * @description A link to the file to be processed, for example a presigned S3 bucket object URL.
-                 * @example https://s3.eu-west-2.amazonaws.com/my-bucket/my-object?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20130524T000000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b59cfa898d8b4c4e4355b2f9a98fb8c145dda827c92d9ac34897f0554d1e5bf4
-                 */
-                fileUrl: string;
-                /**
-                 * @description Provide a suggested document category. If set, then CarbonAPI will use this category to categorise the documents in the batch.
-                 * @enum {string}
-                 */
-                categoryHint?: "FUEL" | "ELECTRICITY" | "WASTE" | "FREIGHT_AIR" | "FREIGHT_ROAD" | "FREIGHT_SEAR" | "FREIGHT_RAIL" | "TRAVEL_AIR_TICKET" | "TRAVEL_AIR_REMITTANCE" | "TRAVEL_ROAD_CAR" | "TRAVEL_ROAD_BUS" | "TRAVEL_ROAD_TAXI_OR_RIDESHARE" | "TRAVEL_SEA" | "TRAVEL_RAIL" | "ACCOMMODATION" | "ACCOMODATION" | "SUPPLY_CHAIN" | "UNKNOWN";
-                /** @description Metadata to be associated with the document. This will be returned in the webhook, with all batch items as well as batch documents, and can be used to store additional information about the document. */
-                meta?: {
-                    [key: string]: string | number;
-                };
-            }[];
-            /** @description Metadata to be associated with the batch. This will be returned in the webhook, with all batch items as well as batch documents, and can be used to store additional information about the batch. */
-            meta?: {
-                [key: string]: string | number;
-            };
-        } | {
-            /** @enum {string} */
-            type: "s3";
-            /** @description The ID of the batch. If not provided, we will generate one. */
-            batchId?: string;
-            documents: {
-                bucket: string;
-                roleArn: string;
-            }[];
-            /** @description Metadata to be associated with the batch. This will be returned in the webhook, with all batch items as well as batch documents, and can be used to store additional information about the batch. */
-            meta?: {
-                [key: string]: string | number;
-            };
+        TransactionDTO: {
+            /**
+             * @description The id of the transaction, for example from Xero
+             * @example 11111111-1111-1111-1111-111111111111
+             */
+            id: string;
+            /**
+             * @description The date of the transaction, in ISO 8601 format
+             * @example 2021-01-01T00:00:00.000Z
+             */
+            date: string;
+            /**
+             * @description The subtotal of the transaction, in the currency of the transaction.
+             * @example 100
+             */
+            subtotal: number;
+            /**
+             * @description The tax amount of the transaction, in the currency of the transaction.
+             * @example 10
+             */
+            tax: number;
+            /**
+             * @description The total of the transaction, in the currency of the transaction.
+             * @example 110
+             */
+            total: number;
+            /**
+             * @description The description of the transaction
+             * @example Purchase of goods
+             */
+            description: string;
+            /**
+             * @description The name of the supplier.
+             * @example Air New Zealand
+             */
+            supplierName: string;
+            /**
+             * @description The source account of the transaction.
+             * @example Travel - International
+             */
+            sourceAccount: string;
+            /**
+             * @description The currency of the transaction, for example NZD
+             * @example NZD
+             */
+            currency: string;
+            /**
+             * @description The country code which you want to use for emissions calculations
+             * @example NZ
+             */
+            countryCode: string;
         };
-        BatchTransactions: {
-            batchId: string;
-            transactions: {
-                id: string;
-                /** @description The date of the transaction, in ISO 8601 format. */
-                date: string;
-                /**
-                 * @description The subtotal of the transaction.
-                 * @example 100
-                 */
-                subtotal: number;
-                /**
-                 * @description The tax amount of the transaction.
-                 * @example 10
-                 */
-                tax: number;
-                /**
-                 * @description The total amount of the transaction.
-                 * @example 110
-                 */
-                total: number;
-                /**
-                 * @description The 3-letter currency code of the transaction.
-                 * @example GBP
-                 */
-                currency: string;
-                /**
-                 * @description The 2-letter country code representing the country the transaction relates to.
-                 * @example AU
-                 */
-                countryCode: string;
-                /**
-                 * @description The description of the transaction.
-                 * @example Amazon.com
-                 */
-                description: string;
-                /**
-                 * @description The name of the supplier.
-                 * @example Amazon
-                 */
-                supplierName: string;
-                /**
-                 * @description The account name of the source of the transaction.
-                 * @example Office Expenses
-                 */
-                sourceAccount: string;
-            }[];
+        CreateBatchResponseDTO: {
+            batchIds: string[];
+        };
+        BasicBatchTransactionDTO: {
+            /**
+             * @description The id of the transaction
+             * @example 11111111-1111-1111-1111-111111111111
+             */
+            id: string;
+            /**
+             * @description The internal category code deduced from the transaction
+             * @example J_DIGITAL_SUBSCRIPTIONS
+             */
+            code: string;
+            /**
+             * @description The confidence score of the transaction
+             * @example 95.82
+             */
+            confidence: number;
+        };
+        GetBatchResponseDTO: {
+            id: string;
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            transactions: components["schemas"]["BasicBatchTransactionDTO"][];
         };
     };
     responses: never;
@@ -527,4 +131,51 @@ export interface components {
     pathItems: never;
 }
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    TransactionController_createBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TransactionDTO"][];
+            };
+        };
+        responses: {
+            /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateBatchResponseDTO"];
+                };
+            };
+        };
+    };
+    TransactionController_getTransactionsForBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                batchId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The results of the batch */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetBatchResponseDTO"];
+                };
+            };
+        };
+    };
+}
