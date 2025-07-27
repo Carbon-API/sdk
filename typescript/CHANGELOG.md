@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 1.1.1
+
+### Patch Changes
+
+- 4fcf3c6: Issue with publishing
+
 ## 1.1.0
 
 ### Minor Changes
