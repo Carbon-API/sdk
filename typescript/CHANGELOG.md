@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 1.1.0
+
+### Minor Changes
+
+- dab53d2: Update API to match new spec
+
 ## 1.0.0
 
 ### Major Changes
