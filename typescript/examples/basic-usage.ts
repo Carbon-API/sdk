@@ -12,20 +12,22 @@ async function main() {
 
   try {
     // Example: Upload a batch of documents
-    const batchResponse = await client.createTransactionBatch([
-      {
-        id: "123",
-        date: "2025-05-13T03:52:52Z",
-        tax: 10,
-        total: 100,
-        subtotal: 90,
-        description: "Amazon.com",
-        supplierName: "Amazon",
-        sourceAccount: "Office Expenses",
-        currency: "NZD",
-        countryCode: "NZ",
-      },
-    ]);
+    const batchResponse = await client.createTransactionBatch({
+      transactions: [
+        {
+          id: "123",
+          date: "2025-05-13T03:52:52Z",
+          tax: 10,
+          total: 100,
+          subtotal: 90,
+          description: "Amazon.com",
+          supplierName: "Amazon",
+          sourceAccount: "Office Expenses",
+          currency: "NZD",
+        },
+      ],
+      countryCode: "NZ",
+    });
 
     // Example: Get batch status and documents
     const batchId = batchResponse.batchIds[0];

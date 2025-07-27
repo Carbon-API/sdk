@@ -88,11 +88,16 @@ export interface components {
              * @example NZD
              */
             currency: string;
+        };
+        CreateBatchRequestDTO: {
+            /** @description The transactions to create a batch with */
+            transactions: components["schemas"]["TransactionDTO"][];
             /**
-             * @description The country code which you want to use for emissions calculations
+             * @description The country code of the transactions, for example NZ
              * @example NZ
+             * @enum {string}
              */
-            countryCode: string;
+            countryCode: "NZ";
         };
         CreateBatchResponseDTO: {
             batchIds: string[];
@@ -141,7 +146,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TransactionDTO"][];
+                "application/json": components["schemas"]["CreateBatchRequestDTO"];
             };
         };
         responses: {
