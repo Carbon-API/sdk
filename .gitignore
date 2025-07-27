@@ -38,3 +38,6 @@ openapi.json
 
 # Built SDKs
 typescript/dist/
+
+# playground
+playground

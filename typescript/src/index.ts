@@ -68,7 +68,7 @@ export class CarbonAPIClient {
    * Create a batch of transactions
    */
   public async createTransactionBatch(
-    batch: components["schemas"]["TransactionDTO"][]
+    batch: components["schemas"]["CreateBatchRequestDTO"]
   ) {
     const { data, error } = await this.client.POST("/transaction/batch", {
       body: batch,
