@@ -2,6 +2,11 @@
 
 A TypeScript SDK for interacting with the CarbonAPI, featuring full type safety and automatic type generation from OpenAPI specifications.
 
+## Requirements
+
+- An API key from the CarbonAPI Portal (https://portal.carbonapi.io)
+- A webhook signing secret from your project page.
+
 ## Installation
 
 ```bash
@@ -27,22 +32,26 @@ const client = new CarbonAPIClient({
 });
 
 // Create a batch of transactions
-const transactionBatchResponse = await client.createTransactionBatch([
-  {
-    amount: 100.0,
-    currency: "AUD",
-    category: "TRAVEL_AIR",
-    date: "2024-03-20",
-    meta: {
-      source: "example",
+const transactionBatchResponse = await client.createTransactionBatch({
+  transactions: [
+    {
+      id: "123",
+      date: "2025-05-13T03:52:52Z",
+      tax: 10,
+      total: 100,
+      subtotal: 90,
+      description: "Purchase of new laptop",
+      supplierName: "Mighty Ape",
+      sourceAccount: "Office Expenses",
+      currency: "NZD",
     },
-  },
-]);
+  ],
+  countryCode: "NZ",
+});
 
 // Get transaction batch status
-const transactionBatchStatus = await client.getTransactionBatch(
-  transactionBatchResponse[0].batchId
-);
+const batchId = transactionBatchResponse.batchIds[0];
+const transactionBatchStatus = await client.getTransactionBatch(batchId);
 
 console.log("Transaction Batch Status:", transactionBatchStatus.status);
 console.log("Transactions:", transactionBatchStatus.transactions);
@@ -103,18 +112,34 @@ new CarbonAPIClient(config: CarbonAPIConfig)
 ##### Configuration Options
 
 - `apiKey` (required): Your CarbonAPI API key
-- `baseURL` (optional): Custom base URL for the API (default: 'https://api.au.carbonapi.io/api')
+- `baseURL` (optional): Custom base URL for the API (default: 'https://api.aws-au.carbonapi.io/')
 - `webhookSecret` (optional): Your webhook signing secret for verifying webhook payloads
 
 #### Methods
 
 - `getClient()`: Returns the underlying typed openapi-fetch client
-- `createDocumentEmissionsBatch(batch: BatchDocuments)`: Upload a batch of documents for processing
-- `getDocumentEmissionsBatch(batchId: string)`: Get the status and documents for a batch
-- `createTransactionBatch(batch: BatchTransactions)`: Create a batch of transactions
+- `createTransactionBatch(batch: CreateBatchRequestDTO)`: Create a batch of transactions
 - `getTransactionBatch(batchId: string)`: Get the status and transactions for a batch
 - `verifyWebhook(payload: string, headers: Record<string, string>)`: Verify and parse a webhook payload
 - `verifyWebhookRequest(request: Request)`: Verify and parse a webhook payload from a raw request
+
+### Transaction Data Structure
+
+When creating a transaction batch, each transaction should have the following structure:
+
+```typescript
+interface TransactionDTO {
+  id: string; // Unique transaction identifier
+  date: string; // ISO 8601 date format
+  subtotal: number; // Transaction subtotal
+  tax: number; // Tax amount
+  total: number; // Total amount
+  description: string; // Transaction description
+  supplierName: string; // Supplier/vendor name
+  sourceAccount: string; // Source account name
+  currency: string; // Currency code (e.g., "NZD")
+}
+```
 
 ### Webhook Events
 
