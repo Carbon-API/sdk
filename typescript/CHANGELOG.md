@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 1.1.2
+
+### Patch Changes
+
+- 7dbf927: Update readme
+
 ## 1.1.1
 
 ### Patch Changes
