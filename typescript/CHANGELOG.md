@@ -1,5 +1,15 @@
 # @carbonapi/typescript-sdk
 
+## 1.2.0
+
+### Minor Changes
+
+- 420387a: Add webhook types to interface
+
+### Patch Changes
+
+- 420387a: Update readme
+
 ## 1.1.2
 
 ### Patch Changes
