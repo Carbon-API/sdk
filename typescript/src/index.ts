@@ -10,11 +10,14 @@ export interface CarbonAPIConfig {
   webhookSecret?: string;
 }
 
+type WebhookType = "document.batch.completed" | "transaction.batch.completed";
+
 export interface WebhookEvent {
-  id: string;
-  type: string;
-  data: unknown;
-  timestamp: number;
+  type: WebhookType;
+  batchId: string;
+  organisationId: string;
+  projectId: string;
+  timestamp: string;
 }
 
 export class CarbonAPIClient {
