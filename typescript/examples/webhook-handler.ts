@@ -11,31 +11,16 @@ const client = new CarbonAPIClient({
 });
 
 // Example webhook handler using Express
-app.post("/webhook", async (req, res) => {
+app.post("/webhook", async (req: express.Request, res: express.Response) => {
   try {
     // Verify and parse the webhook payload
-    const event = await client.verifyWebhookRequest(req);
+    const event = await client.verifyWebhookRequest(req.body as any);
 
     // Handle different webhook event types
     switch (event.type) {
-      case "batch.completed":
-        console.log("Batch completed:", event.data);
+      case "transaction.batch.completed":
+        console.log("Batch completed:", event.batchId);
         // Handle batch completion
-        break;
-
-      case "batch.failed":
-        console.log("Batch failed:", event.data);
-        // Handle batch failure
-        break;
-
-      case "document.completed":
-        console.log("Document processed:", event.data);
-        // Handle document processing completion
-        break;
-
-      case "document.failed":
-        console.log("Document processing failed:", event.data);
-        // Handle document processing failure
         break;
 
       default:
