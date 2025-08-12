@@ -14,7 +14,7 @@ const client = new CarbonAPIClient({
 app.post("/webhook", async (req: express.Request, res: express.Response) => {
   try {
     // Verify and parse the webhook payload
-    const event = await client.verifyWebhookRequest(req.body as any);
+    const event = await client.verifyWebhookRequest(req.body);
 
     // Handle different webhook event types
     switch (event.type) {
