@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 1.3.0
+
+### Minor Changes
+
+- 36036a0: Add new `potentialFactors` returned when a result is unknown
+
 ## 1.2.0
 
 ### Minor Changes
