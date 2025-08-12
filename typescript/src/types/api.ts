@@ -4,183 +4,189 @@
  */
 
 export interface paths {
-    "/transaction/batch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Submit a new batch of transactions for processing */
-        post: operations["TransactionController_createBatch"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/transaction/batch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/transaction/batch/{batchId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get the results of a batch of transactions */
-        get: operations["TransactionController_getTransactionsForBatch"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Submit a new batch of transactions for processing */
+    post: operations["TransactionController_createBatch"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/transaction/batch/{batchId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /** Get the results of a batch of transactions */
+    get: operations["TransactionController_getTransactionsForBatch"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        TransactionDTO: {
-            /**
-             * @description The id of the transaction, for example from Xero
-             * @example 11111111-1111-1111-1111-111111111111
-             */
-            id: string;
-            /**
-             * @description The date of the transaction, in ISO 8601 format
-             * @example 2021-01-01T00:00:00.000Z
-             */
-            date: string;
-            /**
-             * @description The subtotal of the transaction, in the currency of the transaction.
-             * @example 100
-             */
-            subtotal: number;
-            /**
-             * @description The tax amount of the transaction, in the currency of the transaction.
-             * @example 10
-             */
-            tax: number;
-            /**
-             * @description The total of the transaction, in the currency of the transaction.
-             * @example 110
-             */
-            total: number;
-            /**
-             * @description The description of the transaction
-             * @example Purchase of goods
-             */
-            description: string;
-            /**
-             * @description The name of the supplier.
-             * @example Air New Zealand
-             */
-            supplierName: string;
-            /**
-             * @description The source account of the transaction.
-             * @example Travel - International
-             */
-            sourceAccount: string;
-            /**
-             * @description The currency of the transaction, for example NZD
-             * @example NZD
-             */
-            currency: string;
-        };
-        CreateBatchRequestDTO: {
-            /** @description The transactions to create a batch with */
-            transactions: components["schemas"]["TransactionDTO"][];
-            /**
-             * @description The country code of the transactions, for example NZ
-             * @example NZ
-             * @enum {string}
-             */
-            countryCode: "NZ";
-        };
-        CreateBatchResponseDTO: {
-            batchIds: string[];
-        };
-        BasicBatchTransactionDTO: {
-            /**
-             * @description The id of the transaction
-             * @example 11111111-1111-1111-1111-111111111111
-             */
-            id: string;
-            /**
-             * @description The internal category code deduced from the transaction
-             * @example J_DIGITAL_SUBSCRIPTIONS
-             */
-            code: string;
-            /**
-             * @description The confidence score of the transaction
-             * @example 95.82
-             */
-            confidence: number;
-        };
-        GetBatchResponseDTO: {
-            id: string;
-            status: string;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            transactions: components["schemas"]["BasicBatchTransactionDTO"][];
-        };
+  schemas: {
+    TransactionDTO: {
+      /**
+       * @description The id of the transaction, for example from Xero
+       * @example 11111111-1111-1111-1111-111111111111
+       */
+      id: string;
+      /**
+       * @description The date of the transaction, in ISO 8601 format
+       * @example 2021-01-01T00:00:00.000Z
+       */
+      date: string;
+      /**
+       * @description The subtotal of the transaction, in the currency of the transaction.
+       * @example 100
+       */
+      subtotal: number;
+      /**
+       * @description The tax amount of the transaction, in the currency of the transaction.
+       * @example 10
+       */
+      tax: number;
+      /**
+       * @description The total of the transaction, in the currency of the transaction.
+       * @example 110
+       */
+      total: number;
+      /**
+       * @description The description of the transaction
+       * @example Purchase of goods
+       */
+      description: string;
+      /**
+       * @description The name of the supplier.
+       * @example Air New Zealand
+       */
+      supplierName: string;
+      /**
+       * @description The source account of the transaction.
+       * @example Travel - International
+       */
+      sourceAccount: string;
+      /**
+       * @description The currency of the transaction, for example NZD
+       * @example NZD
+       */
+      currency: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    CreateBatchRequestDTO: {
+      /** @description The transactions to create a batch with */
+      transactions: components["schemas"]["TransactionDTO"][];
+      /**
+       * @description The country code of the transactions, for example NZ
+       * @example NZ
+       * @enum {string}
+       */
+      countryCode: "NZ";
+    };
+    CreateBatchResponseDTO: {
+      batchIds: string[];
+    };
+    PotentialFactorDTO: {
+      code: string;
+      similarity: number;
+    };
+    BasicBatchTransactionDTO: {
+      /**
+       * @description The id of the transaction
+       * @example 11111111-1111-1111-1111-111111111111
+       */
+      id: string;
+      /**
+       * @description The internal category code deduced from the transaction
+       * @example J_DIGITAL_SUBSCRIPTIONS
+       */
+      code: string;
+      /**
+       * @description The confidence score of the transaction
+       * @example 95.82
+       */
+      confidence: number;
+      /** @description The potential factors of the transaction */
+      potentialFactors: components["schemas"]["PotentialFactorDTO"][];
+    };
+    GetBatchResponseDTO: {
+      id: string;
+      status: string;
+      /** Format: date-time */
+      createdAt: string;
+      /** Format: date-time */
+      updatedAt: string;
+      transactions: components["schemas"]["BasicBatchTransactionDTO"][];
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    TransactionController_createBatch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateBatchRequestDTO"];
-            };
-        };
-        responses: {
-            /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateBatchResponseDTO"];
-                };
-            };
-        };
+  TransactionController_createBatch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    TransactionController_getTransactionsForBatch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                batchId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description The results of the batch */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GetBatchResponseDTO"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateBatchRequestDTO"];
+      };
     };
+    responses: {
+      /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateBatchResponseDTO"];
+        };
+      };
+    };
+  };
+  TransactionController_getTransactionsForBatch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        batchId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description The results of the batch */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["GetBatchResponseDTO"];
+        };
+      };
+    };
+  };
 }
