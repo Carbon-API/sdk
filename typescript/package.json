@@ -56,6 +56,7 @@
     "typescript-eslint": "^8.32.0"
   },
   "dependencies": {
+    "exponential-backoff": "^3.1.2",
     "openapi-fetch": "^0.10.6",
     "svix": "^1.15.0"
   }
