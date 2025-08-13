@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 1.3.2
+
+### Patch Changes
+
+- 43c5295: Add exponential backoff
+
 ## 1.3.1
 
 ### Patch Changes
