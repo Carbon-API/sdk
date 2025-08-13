@@ -1,5 +1,6 @@
 import createClient from "openapi-fetch";
 import { Webhook } from "svix";
+import { backOff } from "exponential-backoff";
 import type { paths } from "./types/api";
 import type { components } from "./types/api";
 import packageJson from "../package.json";
@@ -19,6 +20,11 @@ export interface WebhookEvent {
   projectId: string;
   timestamp: string;
 }
+
+const backoffOptions = {
+  numOfAttempts: 5,
+  delayFirstAttempt: false,
+};
 
 export class CarbonAPIClient {
   private client: ReturnType<typeof createClient<paths>>;
@@ -73,9 +79,13 @@ export class CarbonAPIClient {
   public async createTransactionBatch(
     batch: components["schemas"]["CreateBatchRequestDTO"]
   ) {
-    const { data, error } = await this.client.POST("/transaction/batch", {
-      body: batch,
-    });
+    const { data, error } = await backOff(
+      () =>
+        this.client.POST("/transaction/batch", {
+          body: batch,
+        }),
+      backoffOptions
+    );
     if (error) throw error;
     return data;
   }
@@ -84,13 +94,14 @@ export class CarbonAPIClient {
    * Get transaction batch status and transactions
    */
   public async getTransactionBatch(batchId: string) {
-    const { data, error } = await this.client.GET(
-      "/transaction/batch/{batchId}",
-      {
-        params: {
-          path: { batchId },
-        },
-      }
+    const { data, error } = await backOff(
+      () =>
+        this.client.GET("/transaction/batch/{batchId}", {
+          params: {
+            path: { batchId },
+          },
+        }),
+      backoffOptions
     );
     if (error) throw error;
     return data;
