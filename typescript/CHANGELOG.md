@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 2.0.0
+
+### Major Changes
+
+- 9e12236: Bump default to 2025-10-01 API version
+
 ## 1.3.2
 
 ### Patch Changes
