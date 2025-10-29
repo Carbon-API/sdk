@@ -26,6 +26,8 @@ const backoffOptions = {
   delayFirstAttempt: false,
 };
 
+const defaultApiVersion = "2025-10-01";
+
 export class CarbonAPIClient {
   private client: ReturnType<typeof createClient<paths>>;
   private apiKey: string;
@@ -42,6 +44,7 @@ export class CarbonAPIClient {
         "x-api-key": this.apiKey,
         "Content-Type": "application/json",
         "User-Agent": userAgent,
+        "x-api-version": defaultApiVersion,
       },
     });
 
@@ -77,15 +80,16 @@ export class CarbonAPIClient {
    * Create a batch of transactions
    */
   public async createTransactionBatch(
-    batch: components["schemas"]["CreateBatchRequestDTO"]
+    batch: components["schemas"]["CreateBatchRequestDTO_2025_10_01"]
   ) {
-    const { data, error } = await backOff(
+    const { data, error, response } = await backOff(
       () =>
         this.client.POST("/transaction/batch", {
           body: batch,
         }),
       backoffOptions
     );
+    console.log(response);
     if (error) throw error;
     return data;
   }
