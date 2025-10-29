@@ -26,7 +26,8 @@ async function main() {
           currency: "NZD",
         },
       ],
-      countryCode: "NZ",
+      countryCode: "NZL",
+      factorClass: "commodity",
     });
 
     // Example: Get batch status and documents

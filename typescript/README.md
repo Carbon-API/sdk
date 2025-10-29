@@ -46,7 +46,8 @@ const transactionBatchResponse = await client.createTransactionBatch({
       currency: "NZD",
     },
   ],
-  countryCode: "NZ",
+  countryCode: "NZL",
+  factorClass: "commodity",
 });
 
 // Get transaction batch status
