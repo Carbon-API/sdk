@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/carbon-api/sdks#readme",
   "devDependencies": {
-    "@changesets/cli": "^2.29.3",
+    "@changesets/cli": "^2.29.7",
     "@eslint/js": "^9.26.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
