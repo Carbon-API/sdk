@@ -140,7 +140,7 @@ export interface components {
       countryCode: "NZ";
     };
     CreateBatchRequestDTO: {
-      /** @description The transactions to create a Commodity Code batch with */
+      /** @description The transactions to create a batch with */
       transactions: components["schemas"]["TransactionDTO"][];
       /**
        * @description The country code of the transactions, for example NZ
