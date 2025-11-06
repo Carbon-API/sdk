@@ -5,10 +5,17 @@ import type { paths } from "./types/api";
 import type { components } from "./types/api";
 import packageJson from "../package.json";
 
+export const VERSIONS = {
+  legacy: "legacy",
+  V2025_10_01: "2025-10-01",
+  latest: "2025-10-01",
+} as const;
+
 export interface CarbonAPIConfig {
   apiKey: string;
   baseURL?: string;
   webhookSecret?: string;
+  version?: (typeof VERSIONS)[keyof typeof VERSIONS];
 }
 
 type WebhookType = "document.batch.completed" | "transaction.batch.completed";
@@ -26,8 +33,6 @@ const backoffOptions = {
   delayFirstAttempt: false,
 };
 
-const defaultApiVersion = "2025-10-01";
-
 export class CarbonAPIClient {
   private client: ReturnType<typeof createClient<paths>>;
   private apiKey: string;
@@ -44,7 +49,7 @@ export class CarbonAPIClient {
         "x-api-key": this.apiKey,
         "Content-Type": "application/json",
         "User-Agent": userAgent,
-        "x-api-version": defaultApiVersion,
+        "x-api-version": config.version ?? VERSIONS.latest,
       },
     });
 
@@ -65,31 +70,56 @@ export class CarbonAPIClient {
   /**
    * Upload a batch of documents
    */
-  public async createDocumentEmissionsBatch() {
-    throw new Error("Not implemented");
+  public async createDocumentEmissionsBatch(
+    batch: components["schemas"]["CreateDocumentBatchRequestDTO"],
+  ): Promise<components["schemas"]["CreateDocumentBatchResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.POST("/document/batch", {
+          body: batch,
+        }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    if (!data) throw new Error("No data returned from API");
+    return data;
   }
 
   /**
    * Get batch status and documents
    */
-  public async getDocumentEmissionsBatch() {
-    throw new Error("Not implemented");
+  public async getDocumentEmissionsBatch(
+    id: string,
+  ): Promise<components["schemas"]["GetDocumentBatchResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.GET("/document/batch/{id}", {
+          params: {
+            path: { id },
+          },
+        }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    if (!data) throw new Error("No data returned from API");
+    return data;
   }
 
   /**
    * Create a batch of transactions
    */
   public async createTransactionBatch(
-    batch: components["schemas"]["CreateBatchRequestDTO_2025_10_01"]
+    batch:
+      | components["schemas"]["CreateBatchRequestDTO"]
+      | components["schemas"]["CreateLegacyBatchRequestDTO"],
   ) {
-    const { data, error, response } = await backOff(
+    const { data, error } = await backOff(
       () =>
         this.client.POST("/transaction/batch", {
           body: batch,
         }),
-      backoffOptions
+      backoffOptions,
     );
-    console.log(response);
     if (error) throw error;
     return data;
   }
@@ -97,7 +127,12 @@ export class CarbonAPIClient {
   /**
    * Get transaction batch status and transactions
    */
-  public async getTransactionBatch(batchId: string) {
+  public async getTransactionBatch(
+    batchId: string,
+  ): Promise<
+    | components["schemas"]["GetLegacyBatchResponseDTO"]
+    | components["schemas"]["GetBatchResponseDTO"]
+  > {
     const { data, error } = await backOff(
       () =>
         this.client.GET("/transaction/batch/{batchId}", {
@@ -105,7 +140,7 @@ export class CarbonAPIClient {
             path: { batchId },
           },
         }),
-      backoffOptions
+      backoffOptions,
     );
     if (error) throw error;
     return data;
@@ -120,11 +155,11 @@ export class CarbonAPIClient {
    */
   public verifyWebhook(
     payload: string,
-    headers: Record<string, string>
+    headers: Record<string, string>,
   ): WebhookEvent {
     if (!this.webhook) {
       throw new Error(
-        "Webhook secret not configured. Set webhookSecret in the client config."
+        "Webhook secret not configured. Set webhookSecret in the client config.",
       );
     }
 
@@ -133,7 +168,7 @@ export class CarbonAPIClient {
       return event;
     } catch (error) {
       throw new Error(
-        `Webhook verification failed: ${error instanceof Error ? error.message : "Unknown error"}`
+        `Webhook verification failed: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
   }

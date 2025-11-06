@@ -4,747 +4,763 @@
  */
 
 export interface paths {
-    "/transaction/batch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Submit a new batch of transactions for processing */
-        post: operations["TransactionController_createBatch"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/transaction/batch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/transaction/batch/{batchId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get the results of a batch of transactions
-         * @description Retrieve the contents of a categorisation batch, by batch id. For more information, see: [Categorising Expenses Guide](https://docs.carbonapi.io/docs/guides/processing-expenses). For a guide on the taxonomy returned, see: [Expense Categorisation Taxonomy](https://docs.carbonapi.io/docs/taxonomy/expense-categorisation).
-         */
-        get: operations["TransactionController_getTransactionsForBatch"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Submit a new batch of transactions for processing */
+    post: operations["TransactionController_createBatch"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/transaction/batch/{batchId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/document/batch": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Submit a new batch of documents for processing
-         * @description Submit a new batch of documents for processing. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
-         */
-        post: operations["DocumentController_createDocumentBatch"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /**
+     * Get the results of a batch of transactions
+     * @description Retrieve the contents of a categorisation batch, by batch id. For more information, see: [Categorising Expenses Guide](https://docs.carbonapi.io/docs/guides/processing-expenses). For a guide on the taxonomy returned, see: [Expense Categorisation Taxonomy](https://docs.carbonapi.io/docs/taxonomy/expense-categorisation).
+     */
+    get: operations["TransactionController_getTransactionsForBatch"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/document/batch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/document/batch/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get the document batch */
-        get: operations["DocumentController_getDocumentBatch"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /**
+     * Submit a new batch of documents for processing
+     * @description Submit a new batch of documents for processing. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
+     */
+    post: operations["DocumentController_createDocumentBatch"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/document/batch/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /** Get the document batch */
+    get: operations["DocumentController_getDocumentBatch"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        TransactionDTO: {
-            /**
-             * @description The id of the transaction, for example from Xero
-             * @example 11111111-1111-1111-1111-111111111111
-             */
-            id: string;
-            /**
-             * @description The date of the transaction, in ISO 8601 format
-             * @example 2021-01-01T00:00:00.000Z
-             */
-            date: string;
-            /**
-             * @description The subtotal of the transaction, in the currency of the transaction.
-             * @example 100
-             */
-            subtotal: number;
-            /**
-             * @description The tax amount of the transaction, in the currency of the transaction.
-             * @example 10
-             */
-            tax: number;
-            /**
-             * @description The total of the transaction, in the currency of the transaction.
-             * @example 110
-             */
-            total: number;
-            /**
-             * @description The description of the transaction
-             * @example Purchase of goods
-             */
-            description: string;
-            /**
-             * @description The name of the supplier.
-             * @example Air New Zealand
-             */
-            supplierName: string;
-            /**
-             * @description The source account of the transaction.
-             * @example Travel - International
-             */
-            sourceAccount: string;
-            /**
-             * @description The currency of the transaction, for example NZD
-             * @example NZD
-             */
-            currency: string;
-        };
-        CreateBatchRequestDTO: {
-            /** @description The transactions to create a batch with */
-            transactions: components["schemas"]["TransactionDTO"][];
-            /**
-             * @description The country code of the transactions, for example NZ
-             * @example NZ
-             * @enum {string}
-             */
-            countryCode: "NZ" | "AU";
-        };
-        CreateBatchResponseDTO: {
-            batchIds: string[];
-        };
-        PotentialFactorDTO: {
-            code: string;
-            similarity: number;
-        };
-        EmissionFactorBatchResultDTO: {
-            /**
-             * @description The name of the emission factor
-             * @example Flights and Air Travel
-             */
-            name: string;
-            /**
-             * @description The source of the emission factor
-             * @example CarbonAPI Example Factor Source
-             */
-            source: string;
-            /**
-             * @description The source URL of the emission factor
-             * @example https://www.carbonapi.io
-             */
-            sourceUrl: string;
-            /**
-             * @description The scope of the emission factor
-             * @example Scope1
-             */
-            scope: string;
-        };
-        FullBatchTransactionDTO: {
-            /**
-             * @description The id of the transaction
-             * @example 11111111-1111-1111-1111-111111111111
-             */
-            id: string;
-            /**
-             * @description The internal category code deduced from the transaction
-             * @example I_FLIGHTS_AIR_TRAVEL
-             */
-            code: string;
-            /**
-             * @description The confidence score of the transaction
-             * @example 95.82
-             */
-            confidence: number;
-            /** @description If we were unable to determine the category, we'll return the factors we considered, for use in UI applications. */
-            potentialFactors: components["schemas"]["PotentialFactorDTO"][];
-            /**
-             * @description The calculated CO2e of the transaction
-             * @example 114.5
-             */
-            co2e: number;
-            /**
-             * @description The emission factor of the transaction
-             * @example {
-             *       "name": "Flights and Air Travel",
-             *       "source": "CarbonAPI Example Factor Source",
-             *       "sourceUrl": "https://www.carbonapi.io"
-             *     }
-             */
-            emissionFactor: components["schemas"]["EmissionFactorBatchResultDTO"];
-        };
-        GetBatchResponseDTO: {
-            id: string;
-            status: string;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            transactions: components["schemas"]["FullBatchTransactionDTO"][];
-        };
-        CreateBatchRequestDTO_2025_10_01: {
-            /** @description The transactions to create a batch with */
-            transactions: components["schemas"]["TransactionDTO"][];
-            /**
-             * @description The 3-letter ISO country code of the transactions, for example NZL
-             * @example NZL
-             * @enum {string}
-             */
-            countryCode: "NZL" | "AUS";
-            /**
-             * @description The type of factors to use
-             * @example commodity
-             */
-            factorClass?: string;
-            /**
-             * @description Whether to require, prefer, or ignore supplier factors
-             * @example REQUIRE_SUPPLIER_FACTOR
-             * @enum {string}
-             */
-            supplierFactorPolicy?: "REQUIRE_SUPPLIER_FACTOR" | "PREFER_SUPPLIER_FACTOR" | "IGNORE_SUPPLIER_FACTOR";
-            /**
-             * @description Whether to require reasonable, require limited, or no assurance for supplier factors
-             * @example REQUIRE_REASONABLE_ASSURANCE
-             * @enum {string}
-             */
-            supplierFactorAssurancePolicy?: "REQUIRE_REASONABLE_ASSURANCE" | "REQUIRE_LIMITED_ASSURANCE" | "NO_ASSURANCE_PREFERENCE";
-        };
-        TransactionEmissionFactorDTO: {
-            /**
-             * @description The name of the emission factor
-             * @example Flights and Air Travel
-             */
-            name?: string;
-            /**
-             * @description The URN of the emission factor
-             * @example urn:carbonapi:emission-factor:flights-air-travel
-             */
-            urn?: string;
-            /**
-             * @description The source of the emission factor
-             * @example CarbonAPI Example Factor Source
-             */
-            source?: string;
-            /**
-             * @description The source URL of the emission factor
-             * @example https://www.carbonapi.io
-             */
-            sourceUrl?: string;
-            /**
-             * @description The version of the emission factor source
-             * @example 1.0
-             */
-            sourceVersion?: string;
-            /**
-             * @description The data year of the emission factor
-             * @example 2023
-             */
-            sourceDataYear?: number;
-            /**
-             * @description The valuation method of the emission factor
-             * @example PP
-             */
-            valuationMethod?: string;
-            /**
-             * @description The LCA activity of the emission factor
-             * @example cradle_to_shelf
-             */
-            lcaActivity?: string;
-            /**
-             * @description The scope of the emission factor
-             * @example 3
-             */
-            scope?: number;
-            /**
-             * @description The confidence score of the emission factor match
-             * @example 0.95
-             */
-            confidence?: number;
-            /**
-             * @description The match type of the emission factor
-             * @example DirectMatch
-             */
-            matchType?: string;
-        };
-        TransactionMeasurementConstituentsDTO: {
-            /**
-             * @description CO2 emissions
-             * @example 100.03
-             */
-            co2?: number;
-            /**
-             * @description N2O emissions
-             * @example 0.3
-             */
-            n2o?: number;
-            /**
-             * @description CH4 emissions
-             * @example 0.2
-             */
-            ch4?: number;
-            /**
-             * @description Scope 1 emissions
-             * @example 0
-             */
-            scope1?: number;
-            /**
-             * @description Scope 2 emissions
-             * @example 0
-             */
-            scope2?: number;
-            /**
-             * @description Scope 3 emissions
-             * @example 100.5
-             */
-            scope3?: number;
-        };
-        TransactionMeasurementDTO: {
-            /**
-             * @description The calculated CO2e of the transaction
-             * @example 100.5
-             */
-            co2e?: number;
-            /** @description The constituents making up the total emissions, if available */
-            constituents?: components["schemas"]["TransactionMeasurementConstituentsDTO"];
-        };
-        TransactionStepDTO: {
-            /**
-             * @description The step ID
-             * @example PREDICT_CATEGORY
-             */
-            id: string;
-            /**
-             * @description The step metadata
-             * @example {
-             *       "alternativeCategories": [
-             *         {
-             *           "urn": "urn:carbonapi:emission-factor:flights",
-             *           "confidence": 0.95
-             *         }
-             *       ]
-             *     }
-             */
-            meta?: Record<string, never>;
-        };
-        TransactionDTO_2025_10_01: {
-            /**
-             * @description The external ID of the transaction
-             * @example txn-123
-             */
-            id: string;
-            /** @description The emission factor information */
-            emissionFactor?: components["schemas"]["TransactionEmissionFactorDTO"];
-            /** @description The measurement information */
-            measurement?: components["schemas"]["TransactionMeasurementDTO"];
-            /** @description The processing steps */
-            steps: components["schemas"]["TransactionStepDTO"][];
-        };
-        GetBatchResponseDTO_2025_10_01: {
-            /**
-             * @description The batch ID
-             * @example batch-123
-             */
-            id: string;
-            /**
-             * @description The batch status
-             * @example Completed
-             */
-            status: string;
-            /**
-             * Format: date-time
-             * @description The batch creation date
-             * @example 2023-01-01T00:00:00.000Z
-             */
-            createdAt: string;
-            /**
-             * Format: date-time
-             * @description The batch update date
-             * @example 2023-01-01T00:00:00.000Z
-             */
-            updatedAt: string;
-            /** @description The transactions in the batch */
-            transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
-        };
-        DocumentDTO: {
-            /**
-             * @description A link to the file to be processed, for example a presigned S3 bucket object URL. Must be HTTPS and from an allowed domain.
-             * @example https://s3.amazonaws.com/example/example.pdf?X-AMZ-Signature=example
-             */
-            fileUrl: string;
-            /**
-             * @description The ID of the file to be processed. This can be used to help you keep track of requests. If supplied, we will also emit a webhook of progress on a per-file basis.
-             * @example file1234
-             */
-            fileId: string;
-            /**
-             * @description Provide a suggested document category. If set, then CarbonAPI will use this category to categorise the documents in the batch.
-             * @example FUEL
-             */
-            categoryHint: string;
-            /**
-             * @description Optional metadata for the document
-             * @example {
-             *       "key": "value"
-             *     }
-             */
-            meta: Record<string, never>;
-        };
-        CreateDocumentBatchRequestDTO: {
-            /** @description The documents to create a batch with */
-            documents: components["schemas"]["DocumentDTO"][];
-            /**
-             * @description The type of submission you are performing - for now just URL is supported.
-             * @example url
-             */
-            type: string;
-            /**
-             * @description An optional batchId for your own reconciliation.
-             * @example 11111111-1111-1111-1111-111111111111
-             */
-            batchId: string;
-            /**
-             * @description An optional meta object for your own reconciliation.
-             * @example {
-             *       "key": "value"
-             *     }
-             */
-            meta: Record<string, never>;
-        };
-        CreateDocumentBatchResponseDTO: {
-            /**
-             * @description The id of the batch
-             * @example 11111111-1111-1111-1111-111111111111
-             */
-            batchId: string;
-        };
-        DocumentFinancialInformation: {
-            /**
-             * @description Total
-             * @example 1000
-             */
-            total: number;
-            /**
-             * @description Subtotal
-             * @example 900
-             */
-            subtotal: number;
-            /**
-             * @description Tax
-             * @example 100
-             */
-            tax: number;
-            /**
-             * @description Supplier
-             * @example ABC Corp
-             */
-            supplier: string;
-            /**
-             * @description Customer
-             * @example XYZ Ltd
-             */
-            customer: string;
-            /**
-             * @description Currency
-             * @example USD
-             */
-            currency: string;
-        };
-        DocumentEmissionFactorItem: {
-            /**
-             * @description The emission factor code
-             * @example ACTIVITY_SCOPE2_ELECTRICITY_USAGE_ELECTRICITY_USED
-             */
-            code: string;
-            /**
-             * @description The emission factor name
-             * @example Electricity Used
-             */
-            name: string;
-            /**
-             * @description The year or default value for the emission factor
-             * @example 2023
-             */
-            yearOrDefault: string;
-            /**
-             * @description The source name of the emission factor
-             * @example EPA
-             */
-            sourceName: string;
-            /**
-             * @description The source URL of the emission factor
-             * @example https://www.epa.gov/emission-factors
-             */
-            sourceUrl: string;
-        };
-        DocumentEmissionsItem: {
-            /**
-             * @description CO2 equivalent emissions (kg CO2e)
-             * @example 1.5
-             */
-            co2e: number;
-            /**
-             * @description CO2 emissions (kg CO2)
-             * @example 1.2
-             */
-            co2: number;
-            /**
-             * @description CH4 emissions (kg CH4)
-             * @example 0.1
-             */
-            ch4: number;
-            /**
-             * @description N2O emissions (kg N2O)
-             * @example 0.2
-             */
-            n2o: number;
-        };
-        DocumentResponseItem: {
-            /**
-             * @description The start period of the emission
-             * @example 2023-03-01T00:00:00
-             */
-            periodFrom: string;
-            /**
-             * @description The end period of the emission
-             * @example 2023-03-31T23:59:59
-             */
-            periodTo: string;
-            /**
-             * @description Reference identifier for the emission
-             * @example REF-001
-             */
-            reference: string;
-            /**
-             * @description Description of the emission
-             * @example Electricity consumption for office building
-             */
-            description: string;
-            /**
-             * @description Quantity of the emission
-             * @example 1000
-             */
-            quantity: number;
-            /**
-             * @description Unit of measurement
-             * @example kWh
-             */
-            unit: string;
-            /**
-             * @description Emission factor ID
-             * @example ef-001
-             */
-            emissionFactorId: string;
-            /**
-             * @description Inference type
-             * @example 0
-             */
-            inference: number;
-            /**
-             * @description Processing steps
-             * @example [
-             *       "Calculate the emissions for the electricity used.",
-             *       "Apply transmission and distribution losses."
-             *     ]
-             */
-            steps: string[];
-            /**
-             * @description Hash of the processed document
-             * @example abc123def456
-             */
-            hash: string;
-            /** @description Emission factor details */
-            emissionFactor: components["schemas"]["DocumentEmissionFactorItem"];
-            /** @description Emissions breakdown */
-            emissions: components["schemas"]["DocumentEmissionsItem"];
-            /**
-             * @description Whether this is a side effect
-             * @example false
-             */
-            isSideEffect: boolean;
-            /**
-             * @description Optional metadata
-             * @example {
-             *       "key": "value"
-             *     }
-             */
-            meta: Record<string, never>;
-        };
-        DocumentResponseDTO: {
-            /**
-             * @description Processing status
-             * @example completed
-             */
-            status: string;
-            /**
-             * @description Document category
-             * @example FUEL
-             */
-            category: string;
-            /**
-             * @description Total tokens processed
-             * @example 1500
-             */
-            totalTokens: number;
-            /**
-             * @description Country code
-             * @example US
-             */
-            country: string;
-            /**
-             * @description Document reference
-             * @example DOC-001
-             */
-            reference: string;
-            /**
-             * @description Financial information
-             * @example {
-             *       "total": 1000,
-             *       "subtotal": 900,
-             *       "tax": 100,
-             *       "supplier": "ABC Corp",
-             *       "customer": "XYZ Ltd",
-             *       "currency": "USD"
-             *     }
-             */
-            financial: components["schemas"]["DocumentFinancialInformation"];
-            /** @description Response items */
-            items: components["schemas"]["DocumentResponseItem"][];
-        };
-        GetDocumentBatchResponseDTO: {
-            /**
-             * @description Batch processing status
-             * @example completed
-             */
-            status: string;
-            /** @description Array of document responses */
-            documents: components["schemas"]["DocumentResponseDTO"][];
-        };
+  schemas: {
+    TransactionDTO: {
+      /**
+       * @description The id of the transaction, for example from Xero
+       * @example 11111111-1111-1111-1111-111111111111
+       */
+      id: string;
+      /**
+       * @description The date of the transaction, in ISO 8601 format
+       * @example 2021-01-01T00:00:00.000Z
+       */
+      date: string;
+      /**
+       * @description The subtotal of the transaction, in the currency of the transaction.
+       * @example 100
+       */
+      subtotal: number;
+      /**
+       * @description The tax amount of the transaction, in the currency of the transaction.
+       * @example 10
+       */
+      tax: number;
+      /**
+       * @description The total of the transaction, in the currency of the transaction.
+       * @example 110
+       */
+      total: number;
+      /**
+       * @description The description of the transaction
+       * @example Purchase of goods
+       */
+      description: string;
+      /**
+       * @description The name of the supplier.
+       * @example Air New Zealand
+       */
+      supplierName: string;
+      /**
+       * @description The source account of the transaction.
+       * @example Travel - International
+       */
+      sourceAccount: string;
+      /**
+       * @description The currency of the transaction, for example NZD
+       * @example NZD
+       */
+      currency: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    CreateLegacyBatchRequestDTO: {
+      /** @description The transactions to create a legacy batch (Industry code) with */
+      transactions: components["schemas"]["TransactionDTO"][];
+      /**
+       * @description The country code of the transactions, for example NZ
+       * @example NZ
+       * @enum {string}
+       */
+      countryCode: "NZ";
+    };
+    CreateBatchRequestDTO: {
+      /** @description The transactions to create a Commodity Code batch with */
+      transactions: components["schemas"]["TransactionDTO"][];
+      /**
+       * @description The country code of the transactions, for example NZ
+       * @example NZ
+       * @enum {string}
+       */
+      countryCode: "NZL" | "AUS";
+      /**
+       * @description The class of factors to use for classification and creating measurements. Default: commodity
+       */
+      factorClass?: "industry" | "commodity";
+    };
+    CreateBatchResponseDTO: {
+      batchIds: string[];
+    };
+    PotentialFactorDTO: {
+      code: string;
+      similarity: number;
+    };
+    BasicBatchTransactionDTO: {
+      /**
+       * @description The id of the transaction
+       * @example 11111111-1111-1111-1111-111111111111
+       */
+      id: string;
+      /**
+       * @description The internal category code deduced from the transaction
+       * @example J_DIGITAL_SUBSCRIPTIONS
+       */
+      code: string;
+      /**
+       * @description The confidence score of the transaction
+       * @example 95.82
+       */
+      confidence: number;
+      /** @description The potential factors of the transaction */
+      potentialFactors: components["schemas"]["PotentialFactorDTO"][];
+    };
+    GetLegacyBatchResponseDTO: {
+      id: string;
+      status: string;
+      /** Format: date-time */
+      createdAt: string;
+      /** Format: date-time */
+      updatedAt: string;
+      transactions: components["schemas"]["BasicBatchTransactionDTO"][];
+    };
+    GetBatchResponseDTO: {
+      /**
+       * @description The batch ID
+       * @example "batch-123"
+       */
+      id: string;
+      /**
+       * @description The batch status
+       * @example "Completed"
+       */
+      status: string;
+      /**
+       * @description The batch creation date
+       * @example "2023-01-01T00:00:00.000Z"
+       * @format date-time
+       */
+      createdAt: string;
+      /**
+       * @description The batch update date
+       * @example "2023-01-01T00:00:00.000Z"
+       * @format date-time
+       */
+      updatedAt: string;
+      /**
+       * @description The transactions in the batch
+       */
+      transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
+    };
+    CreateBatchRequestDTO_2025_10_01: {
+      /** @description The transactions to create a batch with */
+      transactions: components["schemas"]["TransactionDTO"][];
+      /**
+       * @description The 3-letter ISO country code of the transactions, for example NZL
+       * @example NZL
+       * @enum {string}
+       */
+      countryCode: "NZL" | "AUS";
+      /**
+       * @description The type of factors to use
+       * @example commodity
+       */
+      factorClass?: string;
+      /**
+       * @description Whether to require, prefer, or ignore supplier factors
+       * @example REQUIRE_SUPPLIER_FACTOR
+       * @enum {string}
+       */
+      supplierFactorPolicy?:
+        | "REQUIRE_SUPPLIER_FACTOR"
+        | "PREFER_SUPPLIER_FACTOR"
+        | "IGNORE_SUPPLIER_FACTOR";
+      /**
+       * @description Whether to require reasonable, require limited, or no assurance for supplier factors
+       * @example REQUIRE_REASONABLE_ASSURANCE
+       * @enum {string}
+       */
+      supplierFactorAssurancePolicy?:
+        | "REQUIRE_REASONABLE_ASSURANCE"
+        | "REQUIRE_LIMITED_ASSURANCE"
+        | "NO_ASSURANCE_PREFERENCE";
+    };
+    TransactionEmissionFactorDTO: {
+      /**
+       * @description The name of the emission factor
+       * @example Flights and Air Travel
+       */
+      name?: string;
+      /**
+       * @description The URN of the emission factor
+       * @example urn:carbonapi:emission-factor:flights-air-travel
+       */
+      urn?: string;
+      /**
+       * @description The source of the emission factor
+       * @example CarbonAPI Example Factor Source
+       */
+      source?: string;
+      /**
+       * @description The source URL of the emission factor
+       * @example https://www.carbonapi.io
+       */
+      sourceUrl?: string;
+      /**
+       * @description The version of the emission factor source
+       * @example 1.0
+       */
+      sourceVersion?: string;
+      /**
+       * @description The data year of the emission factor
+       * @example 2023
+       */
+      sourceDataYear?: number;
+      /**
+       * @description The valuation method of the emission factor
+       * @example PP
+       */
+      valuationMethod?: string;
+      /**
+       * @description The LCA activity of the emission factor
+       * @example cradle_to_shelf
+       */
+      lcaActivity?: string;
+      /**
+       * @description The scope of the emission factor
+       * @example 3
+       */
+      scope?: number;
+      /**
+       * @description The confidence score of the emission factor match
+       * @example 0.95
+       */
+      confidence?: number;
+      /**
+       * @description The match type of the emission factor
+       * @example DirectMatch
+       */
+      matchType?: string;
+    };
+    TransactionMeasurementConstituentsDTO: {
+      /**
+       * @description CO2 emissions
+       * @example 100.03
+       */
+      co2?: number;
+      /**
+       * @description N2O emissions
+       * @example 0.3
+       */
+      n2o?: number;
+      /**
+       * @description CH4 emissions
+       * @example 0.2
+       */
+      ch4?: number;
+      /**
+       * @description Scope 1 emissions
+       * @example 0
+       */
+      scope1?: number;
+      /**
+       * @description Scope 2 emissions
+       * @example 0
+       */
+      scope2?: number;
+      /**
+       * @description Scope 3 emissions
+       * @example 100.5
+       */
+      scope3?: number;
+    };
+    TransactionMeasurementDTO: {
+      /**
+       * @description The calculated CO2e of the transaction
+       * @example 100.5
+       */
+      co2e?: number;
+      /** @description The constituents making up the total emissions, if available */
+      constituents?: components["schemas"]["TransactionMeasurementConstituentsDTO"];
+    };
+    TransactionStepDTO: {
+      /**
+       * @description The step ID
+       * @example PREDICT_CATEGORY
+       */
+      id: string;
+      /**
+       * @description The step metadata
+       * @example {
+       *       "alternativeCategories": [
+       *         {
+       *           "urn": "urn:carbonapi:emission-factor:flights",
+       *           "confidence": 0.95
+       *         }
+       *       ]
+       *     }
+       */
+      meta?: Record<string, never>;
+    };
+    TransactionDTO_2025_10_01: {
+      /**
+       * @description The external ID of the transaction
+       * @example txn-123
+       */
+      id: string;
+      /** @description The emission factor information */
+      emissionFactor?: components["schemas"]["TransactionEmissionFactorDTO"];
+      /** @description The measurement information */
+      measurement?: components["schemas"]["TransactionMeasurementDTO"];
+      /** @description The processing steps */
+      steps: components["schemas"]["TransactionStepDTO"][];
+    };
+    GetBatchResponseDTO_2025_10_01: {
+      /**
+       * @description The batch ID
+       * @example batch-123
+       */
+      id: string;
+      /**
+       * @description The batch status
+       * @example Completed
+       */
+      status: string;
+      /**
+       * Format: date-time
+       * @description The batch creation date
+       * @example 2023-01-01T00:00:00.000Z
+       */
+      createdAt: string;
+      /**
+       * Format: date-time
+       * @description The batch update date
+       * @example 2023-01-01T00:00:00.000Z
+       */
+      updatedAt: string;
+      /** @description The transactions in the batch */
+      transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
+    };
+    DocumentDTO: {
+      /**
+       * @description A link to the file to be processed, for example a presigned S3 bucket object URL. Must be HTTPS and from an allowed domain.
+       * @example https://s3.amazonaws.com/example/example.pdf?X-AMZ-Signature=example
+       */
+      fileUrl: string;
+      /**
+       * @description The ID of the file to be processed. This can be used to help you keep track of requests. If supplied, we will also emit a webhook of progress on a per-file basis.
+       * @example file1234
+       */
+      fileId: string;
+      /**
+       * @description Provide a suggested document category. If set, then CarbonAPI will use this category to categorise the documents in the batch.
+       * @example FUEL
+       */
+      categoryHint: string;
+      /**
+       * @description Optional metadata for the document
+       * @example {
+       *       "key": "value"
+       *     }
+       */
+      meta: Record<string, never>;
+    };
+    CreateDocumentBatchRequestDTO: {
+      /** @description The documents to create a batch with */
+      documents: components["schemas"]["DocumentDTO"][];
+      /**
+       * @description The type of submission you are performing - for now just URL is supported.
+       * @example url
+       */
+      type: string;
+      /**
+       * @description An optional batchId for your own reconciliation.
+       * @example 11111111-1111-1111-1111-111111111111
+       */
+      batchId: string;
+      /**
+       * @description An optional meta object for your own reconciliation.
+       * @example {
+       *       "key": "value"
+       *     }
+       */
+      meta: Record<string, never>;
+    };
+    CreateDocumentBatchResponseDTO: {
+      /**
+       * @description The id of the batch
+       * @example 11111111-1111-1111-1111-111111111111
+       */
+      batchId: string;
+    };
+    DocumentFinancialInformation: {
+      /**
+       * @description Total
+       * @example 1000
+       */
+      total: number;
+      /**
+       * @description Subtotal
+       * @example 900
+       */
+      subtotal: number;
+      /**
+       * @description Tax
+       * @example 100
+       */
+      tax: number;
+      /**
+       * @description Supplier
+       * @example ABC Corp
+       */
+      supplier: string;
+      /**
+       * @description Customer
+       * @example XYZ Ltd
+       */
+      customer: string;
+      /**
+       * @description Currency
+       * @example USD
+       */
+      currency: string;
+    };
+    DocumentEmissionFactorItem: {
+      /**
+       * @description The emission factor code
+       * @example ACTIVITY_SCOPE2_ELECTRICITY_USAGE_ELECTRICITY_USED
+       */
+      code: string;
+      /**
+       * @description The emission factor name
+       * @example Electricity Used
+       */
+      name: string;
+      /**
+       * @description The year or default value for the emission factor
+       * @example 2023
+       */
+      yearOrDefault: string;
+      /**
+       * @description The source name of the emission factor
+       * @example EPA
+       */
+      sourceName: string;
+      /**
+       * @description The source URL of the emission factor
+       * @example https://www.epa.gov/emission-factors
+       */
+      sourceUrl: string;
+    };
+    DocumentEmissionsItem: {
+      /**
+       * @description CO2 equivalent emissions (kg CO2e)
+       * @example 1.5
+       */
+      co2e: number;
+      /**
+       * @description CO2 emissions (kg CO2)
+       * @example 1.2
+       */
+      co2: number;
+      /**
+       * @description CH4 emissions (kg CH4)
+       * @example 0.1
+       */
+      ch4: number;
+      /**
+       * @description N2O emissions (kg N2O)
+       * @example 0.2
+       */
+      n2o: number;
+    };
+    DocumentResponseItem: {
+      /**
+       * @description The start period of the emission
+       * @example 2023-03-01T00:00:00
+       */
+      periodFrom: string;
+      /**
+       * @description The end period of the emission
+       * @example 2023-03-31T23:59:59
+       */
+      periodTo: string;
+      /**
+       * @description Reference identifier for the emission
+       * @example REF-001
+       */
+      reference: string;
+      /**
+       * @description Description of the emission
+       * @example Electricity consumption for office building
+       */
+      description: string;
+      /**
+       * @description Quantity of the emission
+       * @example 1000
+       */
+      quantity: number;
+      /**
+       * @description Unit of measurement
+       * @example kWh
+       */
+      unit: string;
+      /**
+       * @description Emission factor ID
+       * @example ef-001
+       */
+      emissionFactorId: string;
+      /**
+       * @description Inference type
+       * @example 0
+       */
+      inference: number;
+      /**
+       * @description Processing steps
+       * @example [
+       *       "Calculate the emissions for the electricity used.",
+       *       "Apply transmission and distribution losses."
+       *     ]
+       */
+      steps: string[];
+      /**
+       * @description Hash of the processed document
+       * @example abc123def456
+       */
+      hash: string;
+      /** @description Emission factor details */
+      emissionFactor: components["schemas"]["DocumentEmissionFactorItem"];
+      /** @description Emissions breakdown */
+      emissions: components["schemas"]["DocumentEmissionsItem"];
+      /**
+       * @description Whether this is a side effect
+       * @example false
+       */
+      isSideEffect: boolean;
+      /**
+       * @description Optional metadata
+       * @example {
+       *       "key": "value"
+       *     }
+       */
+      meta: Record<string, never>;
+    };
+    DocumentResponseDTO: {
+      /**
+       * @description Processing status
+       * @example completed
+       */
+      status: string;
+      /**
+       * @description Document category
+       * @example FUEL
+       */
+      category: string;
+      /**
+       * @description Total tokens processed
+       * @example 1500
+       */
+      totalTokens: number;
+      /**
+       * @description Country code
+       * @example US
+       */
+      country: string;
+      /**
+       * @description Document reference
+       * @example DOC-001
+       */
+      reference: string;
+      /**
+       * @description Financial information
+       * @example {
+       *       "total": 1000,
+       *       "subtotal": 900,
+       *       "tax": 100,
+       *       "supplier": "ABC Corp",
+       *       "customer": "XYZ Ltd",
+       *       "currency": "USD"
+       *     }
+       */
+      financial: components["schemas"]["DocumentFinancialInformation"];
+      /** @description Response items */
+      items: components["schemas"]["DocumentResponseItem"][];
+    };
+    GetDocumentBatchResponseDTO: {
+      /**
+       * @description Batch processing status
+       * @example completed
+       */
+      status: string;
+      /** @description Array of document responses */
+      documents: components["schemas"]["DocumentResponseDTO"][];
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    TransactionController_createBatch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateBatchRequestDTO_2025_10_01"];
-            };
-        };
-        responses: {
-            /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateBatchResponseDTO"];
-                };
-            };
-        };
+  TransactionController_createBatch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    TransactionController_getTransactionsForBatch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                batchId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description The results of the batch */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GetBatchResponseDTO_2025_10_01"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json":
+          | components["schemas"]["CreateBatchRequestDTO_2025_10_01"]
+          | components["schemas"]["CreateLegacyBatchRequestDTO"];
+      };
     };
-    DocumentController_createDocumentBatch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateDocumentBatchRequestDTO"];
-            };
+        content: {
+          "application/json": components["schemas"]["CreateBatchResponseDTO"];
         };
-        responses: {
-            /** @description Processing is queued, and will be processed in the background. Subscribe to the document.batch.completed webhook event to get notified when processing is complete. The batch id is returned. */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateDocumentBatchResponseDTO"];
-                };
-            };
-        };
+      };
     };
-    DocumentController_getDocumentBatch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GetDocumentBatchResponseDTO"];
-                };
-            };
-        };
+  };
+  TransactionController_getTransactionsForBatch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        batchId: string;
+      };
+      cookie?: never;
     };
+    requestBody?: never;
+    responses: {
+      /** @description The results of the batch */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json":
+            | components["schemas"]["GetLegacyBatchResponseDTO"]
+            | components["schemas"]["GetBatchResponseDTO_2025_10_01"];
+        };
+      };
+    };
+  };
+  DocumentController_createDocumentBatch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateDocumentBatchRequestDTO"];
+      };
+    };
+    responses: {
+      /** @description Processing is queued, and will be processed in the background. Subscribe to the document.batch.completed webhook event to get notified when processing is complete. The batch id is returned. */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateDocumentBatchResponseDTO"];
+        };
+      };
+    };
+  };
+  DocumentController_getDocumentBatch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["GetDocumentBatchResponseDTO"];
+        };
+      };
+    };
+  };
 }
