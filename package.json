@@ -9,6 +9,6 @@
     "version-packages": "changeset version"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.3"
+    "@changesets/cli": "^2.29.7"
   }
 }
