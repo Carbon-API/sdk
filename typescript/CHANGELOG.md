@@ -1,5 +1,15 @@
 # @carbonapi/typescript-sdk
 
+## 4.0.0
+
+### Major Changes
+
+- 3d5b72d: Implement document endpoints, and support API versioning
+
+### Patch Changes
+
+- 1a45f25: dependency updates
+
 ## 3.0.0
 
 ### Major Changes
