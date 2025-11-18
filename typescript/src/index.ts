@@ -6,7 +6,6 @@ import type { components } from "./types/api";
 import packageJson from "../package.json";
 
 export const VERSIONS = {
-  legacy: "legacy",
   V2025_10_01: "2025-10-01",
   latest: "2025-10-01",
 } as const;
@@ -109,9 +108,7 @@ export class CarbonAPIClient {
    * Create a batch of transactions
    */
   public async createTransactionBatch(
-    batch:
-      | components["schemas"]["CreateBatchRequestDTO"]
-      | components["schemas"]["CreateLegacyBatchRequestDTO"],
+    batch: components["schemas"]["CreateBatchRequestDTO"],
   ) {
     const { data, error } = await backOff(
       () =>
@@ -129,10 +126,7 @@ export class CarbonAPIClient {
    */
   public async getTransactionBatch(
     batchId: string,
-  ): Promise<
-    | components["schemas"]["GetLegacyBatchResponseDTO"]
-    | components["schemas"]["GetBatchResponseDTO"]
-  > {
+  ): Promise<components["schemas"]["GetBatchResponseDTO"]> {
     const { data, error } = await backOff(
       () =>
         this.client.GET("/transaction/batch/{batchId}", {
