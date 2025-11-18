@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CarbonAPIClient, VERSIONS } from "../src/index";
+import { CarbonAPIClient, VERSIONS } from "../src";
 import createClient from "openapi-fetch";
 import { Webhook } from "svix";
 import { backOff } from "exponential-backoff";
