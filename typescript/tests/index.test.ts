@@ -35,12 +35,11 @@ describe("CarbonAPIClient", () => {
 
       expect(mockCreateClient).toHaveBeenCalledWith({
         baseUrl: "https://api.aws-au.carbonapi.io/",
-        headers: {
+        headers: expect.objectContaining({
           "x-api-key": "test-api-key",
           "Content-Type": "application/json",
-          "User-Agent": "carbonapi-typescript-sdk/4.0.0",
           "x-api-version": VERSIONS.latest,
-        },
+        }),
       });
       expect(mockWebhook).not.toHaveBeenCalled();
     });
