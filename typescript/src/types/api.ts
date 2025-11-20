@@ -677,9 +677,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json":
-          | components["schemas"]["CreateBatchRequestDTO_2025_10_01"]
-          | components["schemas"]["CreateLegacyBatchRequestDTO"];
+        "application/json": components["schemas"]["CreateBatchRequestDTO_2025_10_01"];
       };
     };
     responses: {
@@ -711,9 +709,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json":
-            | components["schemas"]["GetLegacyBatchResponseDTO"]
-            | components["schemas"]["GetBatchResponseDTO_2025_10_01"];
+          "application/json": components["schemas"]["GetBatchResponseDTO_2025_10_01"];
         };
       };
     };
