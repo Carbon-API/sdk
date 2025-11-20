@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 5.0.0
+
+### Major Changes
+
+- 542781b: Deprecate legacy version client
+
 ## 4.0.0
 
 ### Major Changes
