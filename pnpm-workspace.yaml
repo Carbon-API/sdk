@@ -1,2 +1,6 @@
 packages:
   - "typescript"
+
+# Mitigate supply-chain attacks by specifying a day-long cooldown between a package release and it
+# being able to be used as an installation candidate.
+minimumReleaseAge: 1440
