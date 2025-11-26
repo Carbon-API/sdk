@@ -151,7 +151,7 @@ export interface components {
       /**
        * @description The class of factors to use for classification and creating measurements. Default: commodity
        */
-      factorClass?: "industry" | "commodity";
+      factorClass?: "commodity";
     };
     CreateBatchResponseDTO: {
       batchIds: string[];
@@ -226,7 +226,7 @@ export interface components {
        */
       countryCode: "NZL" | "AUS";
       /**
-       * @description The type of factors to use
+       * @description The type of factors to use. Currently only accepts "commodity". Industry factors will be available in future.
        * @example commodity
        */
       factorClass?: string;
