@@ -81,13 +81,7 @@ export interface paths {
 }
 export type webhooks = Record<string, never>;
 export type ALLOWED_COUNTRIES = {
-  // ISAPC
   AUS: "AUS";
-
-  // THINKSTEP NA06CC
-  NZL: "NZL";
-
-  // EXIOBASE
   AUT: "AUT";
   BEL: "BEL";
   BGR: "BGR";
@@ -120,6 +114,7 @@ export type ALLOWED_COUNTRIES = {
   MLT: "MLT";
   NLD: "NLD";
   NOR: "NOR";
+  NZL: "NZL";
   POL: "POL";
   PRT: "PRT";
   ROU: "ROU";
