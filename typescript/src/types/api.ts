@@ -80,6 +80,58 @@ export interface paths {
   };
 }
 export type webhooks = Record<string, never>;
+export type ALLOWED_COUNTRIES = {
+  // ISAPC
+  AUS: "AUS";
+
+  // THINKSTEP NA06CC
+  NZL: "NZL";
+
+  // EXIOBASE
+  AUT: "AUT";
+  BEL: "BEL";
+  BGR: "BGR";
+  BRA: "BRA";
+  CAN: "CAN";
+  CHE: "CHE";
+  CHN: "CHN";
+  CYP: "CYP";
+  CZE: "CZE";
+  DEU: "DEU";
+  DNK: "DNK";
+  ESP: "ESP";
+  EST: "EST";
+  FIN: "FIN";
+  FRA: "FRA";
+  GBR: "GBR";
+  GRC: "GRC";
+  HRV: "HRV";
+  HUN: "HUN";
+  IDN: "IDN";
+  IND: "IND";
+  IRL: "IRL";
+  ITA: "ITA";
+  JPN: "JPN";
+  KOR: "KOR";
+  LTU: "LTU";
+  LUX: "LUX";
+  LVA: "LVA";
+  MEX: "MEX";
+  MLT: "MLT";
+  NLD: "NLD";
+  NOR: "NOR";
+  POL: "POL";
+  PRT: "PRT";
+  ROU: "ROU";
+  RUS: "RUS";
+  SVK: "SVK";
+  SVN: "SVN";
+  SWE: "SWE";
+  TUR: "TUR";
+  TWN: "TWN";
+  USA: "USA";
+  ZAF: "ZAF";
+};
 export interface components {
   schemas: {
     TransactionDTO: {
@@ -147,7 +199,7 @@ export interface components {
        * @example NZ
        * @enum {string}
        */
-      countryCode: "NZL" | "AUS";
+      countryCode: ALLOWED_COUNTRIES[keyof ALLOWED_COUNTRIES];
       /**
        * @description The class of factors to use for classification and creating measurements. Default: commodity
        */
@@ -224,7 +276,7 @@ export interface components {
        * @example NZL
        * @enum {string}
        */
-      countryCode: "NZL" | "AUS";
+      countryCode: ALLOWED_COUNTRIES[keyof ALLOWED_COUNTRIES];
       /**
        * @description The type of factors to use. Currently only accepts "commodity". Industry factors will be available in future.
        * @example commodity
@@ -666,6 +718,7 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+
 export type $defs = Record<string, never>;
 export interface operations {
   TransactionController_createBatch: {
