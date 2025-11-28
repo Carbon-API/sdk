@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.0.0
+
+### Major Changes
+
+- d169961: Breaking Change: Remove "Industry" as a factorClass option
+
 ## 5.0.0
 
 ### Major Changes
