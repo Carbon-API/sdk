@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.1.0
+
+### Minor Changes
+
+- 16d6e9a: Expand list of allowed country codes, and correct return types
+
 ## 6.0.0
 
 ### Major Changes
