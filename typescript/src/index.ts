@@ -108,7 +108,7 @@ export class CarbonAPIClient {
    * Create a batch of transactions
    */
   public async createTransactionBatch(
-    batch: components["schemas"]["CreateBatchRequestDTO"],
+    batch: components["schemas"]["CreateBatchRequestDTO_2025_10_01"],
   ) {
     const { data, error } = await backOff(
       () =>
@@ -126,7 +126,7 @@ export class CarbonAPIClient {
    */
   public async getTransactionBatch(
     batchId: string,
-  ): Promise<components["schemas"]["GetBatchResponseDTO"]> {
+  ): Promise<components["schemas"]["GetBatchResponseDTO_2025_10_01"]> {
     const { data, error } = await backOff(
       () =>
         this.client.GET("/transaction/batch/{batchId}", {
