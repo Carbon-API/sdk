@@ -218,13 +218,13 @@ export interface components {
              * @example NZL
              * @enum {string}
              */
-            countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF";
+            countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
             /**
              * @description The type of factors to use
              * @example commodity
              * @enum {string}
              */
-            factorClass?: "commodity";
+            factorClass?: "industry" | "commodity";
             /**
              * @description Whether to require, prefer, or ignore supplier factors
              * @example REQUIRE_SUPPLIER_FACTOR
