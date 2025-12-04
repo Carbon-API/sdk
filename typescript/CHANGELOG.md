@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.2.0
+
+### Minor Changes
+
+- 1cd57c8: Add additional GLORIA countries
+
 ## 6.1.0
 
 ### Minor Changes
