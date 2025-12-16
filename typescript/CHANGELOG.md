@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.2.1
+
+### Patch Changes
+
+- bdf84b5: updates to resolve dependency vulnerabilities
+
 ## 6.2.0
 
 ### Minor Changes
