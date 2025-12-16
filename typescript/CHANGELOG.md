@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.2.2
+
+### Patch Changes
+
+- d289dec: remove redundant lock file
+
 ## 6.2.1
 
 ### Patch Changes
