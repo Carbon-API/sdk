@@ -141,6 +141,56 @@ export class CarbonAPIClient {
   }
 
   /**
+   * Process pre-categorised transactions synchronously
+   */
+  public async calculatePreCategorisedTransactions(
+    params: components["schemas"]["CreateSyncTransactionRequestDTO"],
+  ): Promise<components["schemas"]["CreateSyncTransactionResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.POST("/transaction/pre-categorised", {
+          body: params,
+        }),
+      backoffOptions,
+    );
+
+    if (error) throw error;
+
+    return data;
+  }
+
+  /**
+   * List taxonomies/categories
+   */
+  public async listTaxonomies(): Promise<
+    components["schemas"]["ListTaxonomyResponseDTO"]
+  > {
+    const { data, error } = await backOff(
+      () => this.client.GET("/taxonomy/commodity", {}),
+      backoffOptions,
+    );
+    if (error) throw error;
+    return data;
+  }
+
+  /**
+   * List commodity URNs under a taxonomy prefix
+   */
+  public async listCommodityUrnsUnderPrefix(
+    parentUrn: string,
+  ): Promise<components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.GET("/taxonomy/commodity/{parentUrn}", {
+          params: { path: { parentUrn } },
+        }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    return data;
+  }
+
+  /**
    * Verify and parse a webhook payload
    * @param payload The raw webhook payload
    * @param headers The webhook request headers

@@ -41,6 +41,66 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/transaction/pre-categorised": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Process pre-categorised transactions synchronously
+     * @description Submit transactions with pre-categorised URNs and receive results immediately. All transactions must include a valid URN. This endpoint processes transactions synchronously and is charged at 25% of the regular expense categorisation cost.
+     */
+    post: operations["TransactionController_calculatePreCategorisedTransactions"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/taxonomy/commodity": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List top-level spend commodity taxonomy URNs
+     * @description Returns **Taxonomy** for spend commodities, e.g. `urn:ef:spend:commodity:mining`.
+     */
+    get: operations["TaxonomyController_listTopLevelCommodityTaxonomies"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/taxonomy/commodity/{parentUrn}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List commodity URNs under a taxonomy prefix
+     * @description Pass the parent URN **URL-encoded** as a single path segment (e.g. `GET /taxonomy/commodity/urn%3Aef%3Aspend%3Acommodity%3Amining`).
+     */
+    get: operations["TaxonomyController_listCommodityUrnsUnderPrefix"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/document/batch": {
     parameters: {
       query?: never;
@@ -128,6 +188,11 @@ export interface components {
        * @example NZD
        */
       currency: string;
+      /**
+       * @description Optional pre-categorised URN for the transaction. If provided and valid, AI categorisation will be skipped.
+       * @example urn:ef:spend:commodity:manufacturing:manufacture-of-computers-peripheral-equipment
+       */
+      urn?: string;
     };
     CreateBatchRequestDTO: {
       /** @description The transactions to create a batch with */
@@ -617,6 +682,48 @@ export interface components {
       /** @description The transactions in the batch */
       transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
     };
+    CreateSyncTransactionRequestDTO: {
+      /** @description The transactions to process synchronously. Each transaction must include a valid URN. */
+      transactions: components["schemas"]["TransactionDTO"][];
+      /**
+       * @description The country code for the transactions (ISO 3166-1 alpha-3)
+       * @example NZL
+       */
+      countryCode: string;
+      /**
+       * @description The factor class to use for emission factor selection
+       * @example commodity
+       * @enum {string}
+       */
+      factorClass?: "commodity" | "industry";
+    };
+    CreateSyncTransactionResponseDTO: {
+      /** @description The processed transactions with measurements */
+      transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
+    };
+    TaxonomyNodePublicDTO: {
+      urn: string;
+      /** @enum {string} */
+      type: "Commodity" | "Industry" | "Activity" | "Product" | "Supplier";
+      parentId?: string | null;
+      name: string;
+      description: string;
+      availability: string[];
+      sicCode?: string | null;
+    };
+    ListTaxonomyResponseDTO: {
+      items: components["schemas"]["TaxonomyNodePublicDTO"][];
+    };
+    TaxonomyCommodityUrnItemDTO: {
+      urn: string;
+      name: string;
+      description: string;
+      availability: string[];
+      sicCode?: string | null;
+    };
+    ListTaxonomyCommodityUrnsResponseDTO: {
+      items: components["schemas"]["TaxonomyCommodityUrnItemDTO"][];
+    };
     DocumentDTO: {
       /**
        * @description A link to the file to be processed, for example a presigned S3 bucket object URL. Must be HTTPS and from an allowed domain.
@@ -922,6 +1029,240 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["GetBatchResponseDTO_2025_10_01"];
+        };
+      };
+    };
+  };
+  TransactionController_calculatePreCategorisedTransactions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateSyncTransactionRequestDTO"];
+      };
+    };
+    responses: {
+      /** @description The processed transactions with measurements returned immediately */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateSyncTransactionResponseDTO"];
+        };
+      };
+    };
+  };
+  TaxonomyController_listTopLevelCommodityTaxonomies: {
+    parameters: {
+      query?: {
+        /** @description Case-insensitive filter on taxonomy name (contains). */
+        q?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ListTaxonomyResponseDTO"];
+        };
+      };
+    };
+  };
+  TaxonomyController_listCommodityUrnsUnderPrefix: {
+    parameters: {
+      query?: {
+        /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
+        countryCode?:
+          | "AUS"
+          | "NZL"
+          | "AUT"
+          | "BEL"
+          | "BGR"
+          | "BRA"
+          | "CAN"
+          | "CHE"
+          | "CHN"
+          | "CYP"
+          | "CZE"
+          | "DEU"
+          | "DNK"
+          | "ESP"
+          | "EST"
+          | "FIN"
+          | "FRA"
+          | "GBR"
+          | "GRC"
+          | "HRV"
+          | "HUN"
+          | "IDN"
+          | "IND"
+          | "IRL"
+          | "ITA"
+          | "JPN"
+          | "KOR"
+          | "LTU"
+          | "LUX"
+          | "LVA"
+          | "MEX"
+          | "MLT"
+          | "NLD"
+          | "NOR"
+          | "POL"
+          | "PRT"
+          | "ROU"
+          | "RUS"
+          | "SVK"
+          | "SVN"
+          | "SWE"
+          | "TUR"
+          | "TWN"
+          | "USA"
+          | "ZAF"
+          | "AFG"
+          | "AGO"
+          | "ALB"
+          | "ARE"
+          | "ARG"
+          | "ARM"
+          | "AZE"
+          | "BDI"
+          | "BEN"
+          | "BFA"
+          | "BGD"
+          | "BHR"
+          | "BHS"
+          | "BIH"
+          | "BLR"
+          | "BLZ"
+          | "BOL"
+          | "BRN"
+          | "BTN"
+          | "BWA"
+          | "CAF"
+          | "CHL"
+          | "CIV"
+          | "CMR"
+          | "COD"
+          | "COG"
+          | "COL"
+          | "CRI"
+          | "CUB"
+          | "DJI"
+          | "DYE"
+          | "DOM"
+          | "DZA"
+          | "ECU"
+          | "EGY"
+          | "ERI"
+          | "ETH"
+          | "GAB"
+          | "GEO"
+          | "GHA"
+          | "GIN"
+          | "GMB"
+          | "GNQ"
+          | "GTM"
+          | "HND"
+          | "HKG"
+          | "HTI"
+          | "IRN"
+          | "IRQ"
+          | "ISL"
+          | "ISR"
+          | "JAM"
+          | "JOR"
+          | "KAZ"
+          | "KEN"
+          | "KGZ"
+          | "KHM"
+          | "KWT"
+          | "LAO"
+          | "LBN"
+          | "LBR"
+          | "LBY"
+          | "LKA"
+          | "MAR"
+          | "MDA"
+          | "MDG"
+          | "MKD"
+          | "MLI"
+          | "MMR"
+          | "MNG"
+          | "MOZ"
+          | "MRT"
+          | "MWI"
+          | "MYS"
+          | "NAM"
+          | "NER"
+          | "NGA"
+          | "NIC"
+          | "NPL"
+          | "OMN"
+          | "PAK"
+          | "PSE"
+          | "PAN"
+          | "PER"
+          | "PHL"
+          | "PNG"
+          | "PRY"
+          | "QAT"
+          | "RWA"
+          | "SAU"
+          | "SDS"
+          | "SEN"
+          | "SGP"
+          | "SLE"
+          | "SLV"
+          | "SOM"
+          | "SRB"
+          | "SDN"
+          | "SYR"
+          | "TCD"
+          | "TGO"
+          | "THA"
+          | "TJK"
+          | "TKM"
+          | "TUN"
+          | "TZA"
+          | "UGA"
+          | "UKR"
+          | "URY"
+          | "UZB"
+          | "VEN"
+          | "VNM"
+          | "YEM"
+          | "ZMB"
+          | "ZWE";
+        /** @description Case-insensitive filter on activity name (contains). */
+        q?: string;
+        /** @description Maximum number of URNs to return (default 2000, max 5000). */
+        limit?: number;
+      };
+      header?: never;
+      path: {
+        parentUrn: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"];
         };
       };
     };
