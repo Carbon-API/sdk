@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.3.0
+
+### Minor Changes
+
+- c7e31d4: Add new exposed apis
+
 ## 6.2.2
 
 ### Patch Changes
