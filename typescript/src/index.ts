@@ -1,8 +1,7 @@
 import createClient from "openapi-fetch";
 import { Webhook } from "svix";
 import { backOff } from "exponential-backoff";
-import type { paths } from "./types/api";
-import type { components } from "./types/api";
+import type { paths, components, operations } from "./types/api";
 import packageJson from "../package.json";
 
 export const VERSIONS = {
@@ -17,7 +16,10 @@ export interface CarbonAPIConfig {
   version?: (typeof VERSIONS)[keyof typeof VERSIONS];
 }
 
-type WebhookType = "document.batch.completed" | "transaction.batch.completed";
+type WebhookType =
+  | "document.batch.completed"
+  | "transaction.batch.completed"
+  | "supplier.batch.completed";
 
 export interface WebhookEvent {
   type: WebhookType;
@@ -187,6 +189,61 @@ export class CarbonAPIClient {
       backoffOptions,
     );
     if (error) throw error;
+    return data;
+  }
+
+  /**
+   * Resolve a supplier by name and country and estimate emissions for a transaction amount (synchronous).
+   * For bulk processing, use {@link CarbonAPIClient.createSupplierBatch} instead.
+   */
+  public async searchSupplierSync(
+    query: operations["SupplierController_searchSupplier"]["parameters"]["query"],
+  ): Promise<components["schemas"]["SupplierSearchSyncResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.GET("/supplier/search/sync", {
+          params: { query },
+        }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    if (!data) throw new Error("No data returned from API");
+    return data;
+  }
+
+  /**
+   * Queue up to 100 suppliers for background emission estimation.
+   * Subscribe to the `supplier.batch.completed` webhook, then call {@link CarbonAPIClient.getSupplierBatch}.
+   */
+  public async createSupplierBatch(
+    batch: components["schemas"]["CreateSupplierBatchRequestDTO"],
+  ) {
+    const { data, error } = await backOff(
+      () =>
+        this.client.POST("/supplier/search/batch", {
+          body: batch,
+        }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    return data;
+  }
+
+  /**
+   * Get the status and per-item results of a supplier emission batch (after `supplier.batch.completed`).
+   */
+  public async getSupplierBatch(
+    batchId: string,
+  ): Promise<components["schemas"]["GetSupplierBatchResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.GET("/supplier/batch/{batchId}", {
+          params: { path: { batchId } },
+        }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    if (!data) throw new Error("No data returned from API");
     return data;
   }
 
