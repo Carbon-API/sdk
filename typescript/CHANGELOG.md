@@ -1,5 +1,12 @@
 # @carbonapi/typescript-sdk
 
+## 6.4.0
+
+### Minor Changes
+
+- f4d1c1a: Addition of supplier APIs
+- f4d1c1a: Add new exposed apis
+
 ## 6.3.0
 
 ### Minor Changes
