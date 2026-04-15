@@ -193,6 +193,21 @@ export class CarbonAPIClient {
   }
 
   /**
+   * Search for a commodity by name
+   */
+  public async searchCommodity(
+    query: operations["TaxonomyController_searchCommodities_2025-10-01"]["parameters"]["query"],
+  ): Promise<components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"]> {
+    const { data, error } = await backOff(
+      () =>
+        this.client.GET("/taxonomy/commodity/search", { params: { query } }),
+      backoffOptions,
+    );
+    if (error) throw error;
+    return data;
+  }
+
+  /**
    * Resolve a supplier by name and country and estimate emissions for a transaction amount (synchronous).
    * For bulk processing, use {@link CarbonAPIClient.createSupplierBatch} instead.
    */
