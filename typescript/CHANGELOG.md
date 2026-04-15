@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.5.0
+
+### Minor Changes
+
+- 0fc673a: Add search endpoint and fix issue with missing property in supplier search outputs
+
 ## 6.4.0
 
 ### Minor Changes
