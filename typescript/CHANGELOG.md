@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 6.5.1
+
+### Patch Changes
+
+- bf241c4: Expose the search method
+
 ## 6.5.0
 
 ### Minor Changes
