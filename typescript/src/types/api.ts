@@ -14,7 +14,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** Submit a new batch of transactions for processing */
-        post: operations["TransactionController_createBatch"];
+        post: operations["TransactionController_createBatch_2025-10-01"];
         delete?: never;
         options?: never;
         head?: never;
@@ -32,7 +32,7 @@ export interface paths {
          * Get the results of a batch of transactions
          * @description Retrieve the contents of a categorisation batch, by batch id. For more information, see: [Categorising Expenses Guide](https://docs.carbonapi.io/docs/guides/processing-expenses). For a guide on the taxonomy returned, see: [Expense Categorisation Taxonomy](https://docs.carbonapi.io/docs/taxonomy/expense-categorisation).
          */
-        get: operations["TransactionController_getTransactionsForBatch"];
+        get: operations["TransactionController_getTransactionsForBatch_2025-10-01"];
         put?: never;
         post?: never;
         delete?: never;
@@ -54,7 +54,7 @@ export interface paths {
          * Process pre-categorised transactions synchronously
          * @description Submit transactions with pre-categorised URNs and receive results immediately. All transactions must include a valid URN. This endpoint processes transactions synchronously and is charged at 25% of the regular expense categorisation cost.
          */
-        post: operations["TransactionController_calculatePreCategorisedTransactions"];
+        post: operations["TransactionController_calculatePreCategorisedTransactions_2025-10-01"];
         delete?: never;
         options?: never;
         head?: never;
@@ -144,7 +144,27 @@ export interface paths {
          * List top-level spend commodity taxonomy URNs
          * @description Returns **Taxonomy** for spend commodities, e.g. `urn:ef:spend:commodity:mining`.
          */
-        get: operations["TaxonomyController_listTopLevelCommodityTaxonomies"];
+        get: operations["TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/taxonomy/commodity/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search leaf commodity items
+         * @description Returns leaf commodity items whose name contains the `q` substring (case-insensitive). Optionally filter by country availability. Results are capped at 500.
+         */
+        get: operations["TaxonomyController_searchCommodities_2025-10-01"];
         put?: never;
         post?: never;
         delete?: never;
@@ -164,7 +184,7 @@ export interface paths {
          * List commodity URNs under a taxonomy prefix
          * @description Pass the parent URN **URL-encoded** as a single path segment (e.g. `GET /taxonomy/commodity/urn%3Aef%3Aspend%3Acommodity%3Amining`).
          */
-        get: operations["TaxonomyController_listCommodityUrnsUnderPrefix"];
+        get: operations["TaxonomyController_listCommodityUrnsUnderPrefix_2025-10-01"];
         put?: never;
         post?: never;
         delete?: never;
@@ -607,6 +627,34 @@ export interface components {
             /** @description The processed transactions with measurements */
             transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
         };
+        SupplierSearchCommodityActivityDTO: {
+            /**
+             * @description Spend-commodity taxonomy URN.
+             * @example urn:ef:spend:commodity:transport-postal-warehousing:passenger-air-transport
+             */
+            urn: string;
+            /**
+             * @description Human-readable name of the commodity activity.
+             * @example Passenger air transport
+             */
+            name: string;
+            /**
+             * @description Description from the commodity taxonomy.
+             * @example Scheduled and charter passenger air services.
+             */
+            description: string;
+            /**
+             * @description SIC code when present on the taxonomy row.
+             * @example 4811
+             */
+            sicCode: string | null;
+        };
+        SupplierSearchActivitiesDTO: {
+            /** @description Primary commodity activity used for factor selection. */
+            primary: components["schemas"]["SupplierSearchCommodityActivityDTO"];
+            /** @description Additional commodity activities mapped from the supplier industry (may be empty). */
+            secondary: components["schemas"]["SupplierSearchCommodityActivityDTO"][];
+        };
         SupplierSearchEmissionsDTO: {
             /**
              * @description CO₂-equivalent emissions in kg for the given transaction amount.
@@ -767,6 +815,16 @@ export interface components {
              */
             address_country?: string;
             /**
+             * @description Latitude for the supplier headquarters address.
+             * @example -36.8485
+             */
+            address_latitude?: number;
+            /**
+             * @description Longitude for the supplier headquarters address.
+             * @example 174.7633
+             */
+            address_longitude?: number;
+            /**
              * @description Supplier website.
              * @example https://www.airnewzealand.co.nz
              */
@@ -793,6 +851,8 @@ export interface components {
              * @example NZL
              */
             countryCode?: string;
+            /** @description Spend-commodity taxonomy rows for the primary activity (used for emission factor selection) and any secondary mappings from the supplier industry. */
+            activities: components["schemas"]["SupplierSearchActivitiesDTO"];
             /** @description Estimated CO₂e emissions for the supplied amount. */
             emissions: components["schemas"]["SupplierSearchEmissionsDTO"];
             /** @description Foreign-exchange data applied to normalise the amount. */
@@ -814,7 +874,7 @@ export interface components {
              */
             id: string;
             /**
-             * @description The name of the supplier. Must be between 3 and 256 characters.
+             * @description The name of the supplier. Must be between 2 and 256 characters after trimming leading and trailing whitespace.
              * @example Air New Zealand
              */
             name: string;
@@ -876,7 +936,7 @@ export interface components {
             /** @description Disambiguation hints from the request */
             disambiguationHints?: string[];
             /** @description When status is Completed, the supplier resolution payload (same shape as GET /supplier/search/sync, nested under `supplier` in stored results). */
-            supplier?: Record<string, never>;
+            supplier?: components["schemas"]["SupplierSearchSyncResponseDTO"];
             /** @description When status is Error, structured error details */
             error?: Record<string, never>;
         };
@@ -1177,7 +1237,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    TransactionController_createBatch: {
+    "TransactionController_createBatch_2025-10-01": {
         parameters: {
             query?: never;
             header?: never;
@@ -1201,7 +1261,7 @@ export interface operations {
             };
         };
     };
-    TransactionController_getTransactionsForBatch: {
+    "TransactionController_getTransactionsForBatch_2025-10-01": {
         parameters: {
             query?: never;
             header?: never;
@@ -1223,7 +1283,7 @@ export interface operations {
             };
         };
     };
-    TransactionController_calculatePreCategorisedTransactions: {
+    "TransactionController_calculatePreCategorisedTransactions_2025-10-01": {
         parameters: {
             query?: never;
             header?: never;
@@ -1250,7 +1310,7 @@ export interface operations {
     SupplierController_searchSupplier: {
         parameters: {
             query: {
-                /** @description The name of the supplier. Must be between 3 and 256 characters. */
+                /** @description The name of the supplier. Must be between 2 and 256 characters after trimming leading and trailing whitespace. */
                 name: string;
                 /** @description The country code of the supplier. */
                 countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
@@ -1387,7 +1447,7 @@ export interface operations {
             };
         };
     };
-    TaxonomyController_listTopLevelCommodityTaxonomies: {
+    "TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01": {
         parameters: {
             query?: {
                 /** @description Case-insensitive filter on taxonomy name (contains). */
@@ -1409,7 +1469,33 @@ export interface operations {
             };
         };
     };
-    TaxonomyController_listCommodityUrnsUnderPrefix: {
+    "TaxonomyController_searchCommodities_2025-10-01": {
+        parameters: {
+            query: {
+                /** @description Case-insensitive query string. */
+                q: string;
+                /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
+                countryCode?: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
+                /** @description Maximum number of results to return (default 100, max 500). */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"];
+                };
+            };
+        };
+    };
+    "TaxonomyController_listCommodityUrnsUnderPrefix_2025-10-01": {
         parameters: {
             query?: {
                 /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
