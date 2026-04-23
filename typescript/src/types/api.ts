@@ -4,2426 +4,1582 @@
  */
 
 export interface paths {
-  "/transaction/batch": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/transaction/batch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit a new batch of transactions for processing */
+        post: operations["TransactionController_createBatch_2025-10-01"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Submit a new batch of transactions for processing */
-    post: operations["TransactionController_createBatch_2025-10-01"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/transaction/batch/{batchId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/transaction/batch/{batchId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the results of a batch of transactions
+         * @description Retrieve the contents of a categorisation batch, by batch id. For more information, see: [Categorising Expenses Guide](https://docs.carbonapi.io/docs/guides/processing-expenses). For a guide on the taxonomy returned, see: [Expense Categorisation Taxonomy](https://docs.carbonapi.io/docs/taxonomy/expense-categorisation).
+         */
+        get: operations["TransactionController_getTransactionsForBatch_2025-10-01"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get the results of a batch of transactions
-     * @description Retrieve the contents of a categorisation batch, by batch id. For more information, see: [Categorising Expenses Guide](https://docs.carbonapi.io/docs/guides/processing-expenses). For a guide on the taxonomy returned, see: [Expense Categorisation Taxonomy](https://docs.carbonapi.io/docs/taxonomy/expense-categorisation).
-     */
-    get: operations["TransactionController_getTransactionsForBatch_2025-10-01"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/transaction/pre-categorised": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/transaction/pre-categorised": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Process pre-categorised transactions synchronously
+         * @description Submit transactions with pre-categorised URNs and receive results immediately. All transactions must include a valid URN. This endpoint processes transactions synchronously and is charged at 25% of the regular expense categorisation cost.
+         */
+        post: operations["TransactionController_calculatePreCategorisedTransactions_2025-10-01"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Process pre-categorised transactions synchronously
-     * @description Submit transactions with pre-categorised URNs and receive results immediately. All transactions must include a valid URN. This endpoint processes transactions synchronously and is charged at 25% of the regular expense categorisation cost.
-     */
-    post: operations["TransactionController_calculatePreCategorisedTransactions_2025-10-01"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/supplier/search/sync": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/supplier/search/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Resolve a supplier and estimate emissions (synchronous)
+         * @description Looks up a supplier by name and country, resolves an emission factor for it, and returns a CO₂e estimate for the supplied transaction amount.
+         *
+         *     Use this endpoint when you need an immediate answer for a single supplier. For bulk submissions or high-throughput scenarios, use `POST /supplier/search/batch` instead.
+         */
+        get: operations["SupplierController_searchSupplier"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Resolve a supplier and estimate emissions (synchronous)
-     * @description Looks up a supplier by name and country, resolves an emission factor for it, and returns a CO₂e estimate for the supplied transaction amount.
-     *
-     *     Use this endpoint when you need an immediate answer for a single supplier. For bulk submissions or high-throughput scenarios, use `POST /supplier/search/batch` instead.
-     */
-    get: operations["SupplierController_searchSupplier"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/supplier/search/batch": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/supplier/search/batch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit suppliers for queued emission estimation (batch)
+         * @description Queue up to **100 suppliers** for background processing.
+         *
+         *     Subscribe to the **`supplier.batch.completed`** webhook event for each `batchId` returned. Once the webhook fires, call `GET /supplier/batch/{batchId}` to retrieve per-item results.
+         */
+        post: operations["SupplierController_createSupplierBatch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Submit suppliers for queued emission estimation (batch)
-     * @description Queue up to **100 suppliers** for background processing.
-     *
-     *     Subscribe to the **`supplier.batch.completed`** webhook event for each `batchId` returned. Once the webhook fires, call `GET /supplier/batch/{batchId}` to retrieve per-item results.
-     */
-    post: operations["SupplierController_createSupplierBatch"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/supplier/batch/{batchId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/supplier/batch/{batchId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the results of a supplier emission batch
+         * @description Poll this endpoint after receiving a **`supplier.batch.completed`** webhook for a given `batchId`.
+         *
+         *     While the batch is `Pending` or `Processing`, the `suppliers` array is empty. Once the batch reaches `Completed` or `Error`, each row is returned with:
+         *     - `status` — `Completed` (successful estimate) or `Error` (non-retriable item failure)
+         *     - `supplier` — the full emission estimate (same shape as `GET /supplier/search/sync`) when `Completed`
+         *     - `error` — structured error details when `Error`
+         *     - `id` — the client-supplied id you sent in the batch request, for correlation
+         *
+         *     A batch with `status: Error` at the batch level means all SQS retries were exhausted; individual item-level errors do **not** set the batch to `Error`.
+         */
+        get: operations["SupplierController_getSupplierBatch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get the results of a supplier emission batch
-     * @description Poll this endpoint after receiving a **`supplier.batch.completed`** webhook for a given `batchId`.
-     *
-     *     While the batch is `Pending` or `Processing`, the `suppliers` array is empty. Once the batch reaches `Completed` or `Error`, each row is returned with:
-     *     - `status` — `Completed` (successful estimate) or `Error` (non-retriable item failure)
-     *     - `supplier` — the full emission estimate (same shape as `GET /supplier/search/sync`) when `Completed`
-     *     - `error` — structured error details when `Error`
-     *     - `id` — the client-supplied id you sent in the batch request, for correlation
-     *
-     *     A batch with `status: Error` at the batch level means all SQS retries were exhausted; individual item-level errors do **not** set the batch to `Error`.
-     */
-    get: operations["SupplierController_getSupplierBatch"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/taxonomy/commodity": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/taxonomy/commodity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List top-level spend commodity taxonomy URNs
+         * @description Returns **Taxonomy** for spend commodities, e.g. `urn:ef:spend:commodity:mining`.
+         */
+        get: operations["TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List top-level spend commodity taxonomy URNs
-     * @description Returns **Taxonomy** for spend commodities, e.g. `urn:ef:spend:commodity:mining`.
-     */
-    get: operations["TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/taxonomy/commodity/search": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/taxonomy/commodity/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search leaf commodity items
+         * @description Returns leaf commodity items whose **name or description** match the query using full-text search and trigram similarity. Supports natural-language queries (e.g. `air travel`) and tolerates minor typos. Results are ranked by relevance. Optionally filter by country availability. Capped at 500.
+         */
+        get: operations["TaxonomyController_searchCommodities_2025-10-01"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Search leaf commodity items
-     * @description Returns leaf commodity items whose name contains the `q` substring (case-insensitive). Optionally filter by country availability. Results are capped at 500.
-     */
-    get: operations["TaxonomyController_searchCommodities_2025-10-01"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/taxonomy/commodity/{parentUrn}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/taxonomy/commodity/{parentUrn}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List commodity URNs under a taxonomy prefix
+         * @description Pass the parent URN **URL-encoded** as a single path segment (e.g. `GET /taxonomy/commodity/urn%3Aef%3Aspend%3Acommodity%3Amining`).
+         */
+        get: operations["TaxonomyController_listCommodityUrnsUnderPrefix_2025-10-01"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List commodity URNs under a taxonomy prefix
-     * @description Pass the parent URN **URL-encoded** as a single path segment (e.g. `GET /taxonomy/commodity/urn%3Aef%3Aspend%3Acommodity%3Amining`).
-     */
-    get: operations["TaxonomyController_listCommodityUrnsUnderPrefix_2025-10-01"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/document/batch": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/document/batch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit a new batch of documents for processing
+         * @description Submit a new batch of documents for processing. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
+         */
+        post: operations["DocumentController_createDocumentBatch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Submit a new batch of documents for processing
-     * @description Submit a new batch of documents for processing. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
-     */
-    post: operations["DocumentController_createDocumentBatch"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/document/batch/{id}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/document/batch/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the document batch */
+        get: operations["DocumentController_getDocumentBatch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** Get the document batch */
-    get: operations["DocumentController_getDocumentBatch"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    TransactionDTO: {
-      /**
-       * @description The id of the transaction, for example from Xero
-       * @example 11111111-1111-1111-1111-111111111111
-       */
-      id: string;
-      /**
-       * @description The date of the transaction, in ISO 8601 format
-       * @example 2021-01-01T00:00:00.000Z
-       */
-      date: string;
-      /**
-       * @description The subtotal of the transaction, in the currency of the transaction.
-       * @example 100
-       */
-      subtotal: number;
-      /**
-       * @description The tax amount of the transaction, in the currency of the transaction.
-       * @example 10
-       */
-      tax: number;
-      /**
-       * @description The total of the transaction, in the currency of the transaction.
-       * @example 110
-       */
-      total: number;
-      /**
-       * @description The description of the transaction
-       * @example Purchase of goods
-       */
-      description: string;
-      /**
-       * @description The name of the supplier.
-       * @example Air New Zealand
-       */
-      supplierName: string;
-      /**
-       * @description The source account of the transaction.
-       * @example Travel - International
-       */
-      sourceAccount: string;
-      /**
-       * @description The currency of the transaction, for example NZD
-       * @example NZD
-       */
-      currency: string;
-      /**
-       * @description Optional pre-categorised URN for the transaction. If provided and valid, AI categorisation will be skipped.
-       * @example urn:ef:spend:commodity:manufacturing:manufacture-of-computers-peripheral-equipment
-       */
-      urn?: string;
+    schemas: {
+        TransactionDTO: {
+            /**
+             * @description The id of the transaction, for example from Xero
+             * @example 11111111-1111-1111-1111-111111111111
+             */
+            id: string;
+            /**
+             * @description The date of the transaction, in ISO 8601 format
+             * @example 2021-01-01T00:00:00.000Z
+             */
+            date: string;
+            /**
+             * @description The subtotal of the transaction, in the currency of the transaction.
+             * @example 100
+             */
+            subtotal: number;
+            /**
+             * @description The tax amount of the transaction, in the currency of the transaction.
+             * @example 10
+             */
+            tax: number;
+            /**
+             * @description The total of the transaction, in the currency of the transaction.
+             * @example 110
+             */
+            total: number;
+            /**
+             * @description The description of the transaction
+             * @example Purchase of goods
+             */
+            description: string;
+            /**
+             * @description The name of the supplier.
+             * @example Air New Zealand
+             */
+            supplierName: string;
+            /**
+             * @description The source account of the transaction.
+             * @example Travel - International
+             */
+            sourceAccount: string;
+            /**
+             * @description The currency of the transaction, for example NZD
+             * @example NZD
+             */
+            currency: string;
+            /**
+             * @description Optional pre-categorised URN for the transaction. If provided and valid, AI categorisation will be skipped.
+             * @example urn:ef:spend:commodity:manufacturing:manufacture-of-computers-peripheral-equipment
+             */
+            urn?: string;
+        };
+        CreateBatchRequestDTO: {
+            /** @description The transactions to create a batch with */
+            transactions: components["schemas"]["TransactionDTO"][];
+            /**
+             * @description The country code of the transactions, for example NZ
+             * @example NZ
+             * @enum {string}
+             */
+            countryCode: "NZ" | "AU";
+        };
+        CreateBatchResponseDTO: {
+            batchIds: string[];
+        };
+        PotentialFactorDTO: {
+            code: string;
+            similarity: number;
+        };
+        EmissionFactorBatchResultDTO: {
+            /**
+             * @description The name of the emission factor
+             * @example Flights and Air Travel
+             */
+            name: string;
+            /**
+             * @description The source of the emission factor
+             * @example CarbonAPI Example Factor Source
+             */
+            source: string;
+            /**
+             * @description The source URL of the emission factor
+             * @example https://www.carbonapi.io
+             */
+            sourceUrl: string;
+            /**
+             * @description The scope of the emission factor
+             * @example Scope1
+             */
+            scope: string;
+        };
+        FullBatchTransactionDTO: {
+            /**
+             * @description The id of the transaction
+             * @example 11111111-1111-1111-1111-111111111111
+             */
+            id: string;
+            /**
+             * @description The internal category code deduced from the transaction
+             * @example I_FLIGHTS_AIR_TRAVEL
+             */
+            code: string;
+            /**
+             * @description The confidence score of the transaction
+             * @example 95.82
+             */
+            confidence: number;
+            /** @description If we were unable to determine the category, we'll return the factors we considered, for use in UI applications. */
+            potentialFactors: components["schemas"]["PotentialFactorDTO"][];
+            /**
+             * @description The calculated CO2e of the transaction
+             * @example 114.5
+             */
+            co2e: number;
+            /**
+             * @description The emission factor of the transaction
+             * @example {
+             *       "name": "Flights and Air Travel",
+             *       "source": "CarbonAPI Example Factor Source",
+             *       "sourceUrl": "https://www.carbonapi.io"
+             *     }
+             */
+            emissionFactor: components["schemas"]["EmissionFactorBatchResultDTO"];
+        };
+        GetBatchResponseDTO: {
+            id: string;
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            transactions: components["schemas"]["FullBatchTransactionDTO"][];
+        };
+        CreateBatchRequestDTO_2025_10_01: {
+            /** @description The transactions to create a batch with */
+            transactions: components["schemas"]["TransactionDTO"][];
+            /**
+             * @description The 3-letter ISO country code of the transactions, for example NZL
+             * @example NZL
+             * @enum {string}
+             */
+            countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
+            /**
+             * @description The type of factors to use
+             * @example commodity
+             * @enum {string}
+             */
+            factorClass?: "commodity";
+            /**
+             * @description Whether to require, prefer, or ignore supplier factors
+             * @example REQUIRE_SUPPLIER_FACTOR
+             * @enum {string}
+             */
+            supplierFactorPolicy?: "REQUIRE_SUPPLIER_FACTOR" | "PREFER_SUPPLIER_FACTOR" | "IGNORE_SUPPLIER_FACTOR";
+            /**
+             * @description Whether to require reasonable, require limited, or no assurance for supplier factors
+             * @example REQUIRE_REASONABLE_ASSURANCE
+             * @enum {string}
+             */
+            supplierFactorAssurancePolicy?: "REQUIRE_REASONABLE_ASSURANCE" | "REQUIRE_LIMITED_ASSURANCE" | "NO_ASSURANCE_PREFERENCE";
+        };
+        TransactionTaxonomyDTO: {
+            /**
+             * @description The taxonomy name
+             * @example Growing of cereals (except rice), leguminous crops and oil seeds
+             */
+            name?: string;
+            /**
+             * @description The taxonomy URN
+             * @example urn:ef:spend:commodity:agriculture-forestry-fishing:growing-cereals-legumes-oilseeds
+             */
+            urn?: string;
+            /**
+             * @description The SIC code associated with the taxonomy
+             * @example 01110
+             */
+            sicCode?: string;
+            /**
+             * @description The confidence score of the taxonomy prediction
+             * @example 0.95
+             */
+            confidence?: number;
+            /**
+             * @description The status of the object
+             * @example SUCCESS
+             * @enum {string}
+             */
+            status: "SUCCESS" | "ERROR";
+            /**
+             * @description The error message of the object
+             * @example Error message
+             */
+            error?: string;
+        };
+        TransactionEmissionFactorDTO: {
+            /**
+             * @description The status of the object
+             * @example SUCCESS
+             * @enum {string}
+             */
+            status: "SUCCESS" | "ERROR";
+            /**
+             * @description The error message of the object
+             * @example Error message
+             */
+            error?: string;
+            /**
+             * @description The source of the emission factor
+             * @example CarbonAPI Example Factor Source
+             */
+            source?: string;
+            /**
+             * @description The source URL of the emission factor
+             * @example https://www.carbonapi.io
+             */
+            sourceUrl?: string;
+            /**
+             * @description The version of the emission factor source
+             * @example 1.0
+             */
+            sourceVersion?: string;
+            /**
+             * @description The data year of the emission factor
+             * @example 2023
+             */
+            sourceDataYear?: number;
+            /**
+             * @description The valuation method of the emission factor
+             * @example PP
+             */
+            valuationMethod?: string;
+            /**
+             * @description The LCA activity of the emission factor
+             * @example cradle_to_shelf
+             */
+            lcaActivity?: string;
+            /**
+             * @description The suggested scope of the emission factor
+             * @example 3
+             */
+            scope?: number;
+            /**
+             * @description An ID to use to match to the external data source the emission factor was sourced from, for example the NA06CC code, Exiobase Name, etc.
+             * @example electricity_supply
+             */
+            externalLocator?: string;
+            /**
+             * @description The match type of the emission factor
+             * @example DirectMatch
+             */
+            matchType?: string;
+            /**
+             * @description Any notes relating to the use or intended use of the emission factor
+             * @example This is a test note
+             */
+            notes?: string;
+            /**
+             * @description The base currency of the emission factor
+             * @example USD
+             */
+            factorCurrency?: string;
+        };
+        TransactionMeasurementConstituentsDTO: {
+            /**
+             * @description CO2 emissions
+             * @example 100.03
+             */
+            co2?: number;
+            /**
+             * @description N2O emissions
+             * @example 0.3
+             */
+            n2o?: number;
+            /**
+             * @description CH4 emissions
+             * @example 0.2
+             */
+            ch4?: number;
+            /**
+             * @description Scope 1 emissions
+             * @example 0
+             */
+            scope1?: number;
+            /**
+             * @description Scope 2 emissions
+             * @example 0
+             */
+            scope2?: number;
+            /**
+             * @description Scope 3 emissions
+             * @example 100.5
+             */
+            scope3?: number;
+        };
+        TransactionMeasurementDTO: {
+            /**
+             * @description The status of the object
+             * @example SUCCESS
+             * @enum {string}
+             */
+            status: "SUCCESS" | "ERROR";
+            /**
+             * @description The error message of the object
+             * @example Error message
+             */
+            error?: string;
+            /**
+             * @description The calculated CO2e of the transaction
+             * @example 100.5
+             */
+            co2e?: number;
+            /** @description The constituents making up the total emissions, if available */
+            constituents?: components["schemas"]["TransactionMeasurementConstituentsDTO"];
+        };
+        TransactionStepDTO: {
+            /**
+             * @description The step ID
+             * @example PREDICT_CATEGORY
+             */
+            id: string;
+            /**
+             * @description The step metadata
+             * @example {
+             *       "alternativeCategories": [
+             *         {
+             *           "urn": "urn:carbonapi:emission-factor:flights",
+             *           "confidence": 0.95
+             *         }
+             *       ]
+             *     }
+             */
+            meta?: Record<string, never>;
+        };
+        TransactionDTO_2025_10_01: {
+            /**
+             * @description The external ID of the transaction
+             * @example txn-123
+             */
+            id: string;
+            /** @description The categorised taxonomy information */
+            taxonomy?: components["schemas"]["TransactionTaxonomyDTO"];
+            /** @description The emission factor information */
+            emissionFactor?: components["schemas"]["TransactionEmissionFactorDTO"];
+            /** @description The measurement information */
+            measurement?: components["schemas"]["TransactionMeasurementDTO"];
+            /** @description The processing steps */
+            steps: components["schemas"]["TransactionStepDTO"][];
+        };
+        GetBatchResponseDTO_2025_10_01: {
+            /**
+             * @description The batch ID
+             * @example batch-123
+             */
+            id: string;
+            /**
+             * @description The batch status
+             * @example Completed
+             */
+            status: string;
+            /**
+             * Format: date-time
+             * @description The batch creation date
+             * @example 2023-01-01T00:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description The batch update date
+             * @example 2023-01-01T00:00:00.000Z
+             */
+            updatedAt: string;
+            /** @description The transactions in the batch */
+            transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
+        };
+        CreateSyncTransactionRequestDTO: {
+            /** @description The transactions to process synchronously. Each transaction must include a valid URN. */
+            transactions: components["schemas"]["TransactionDTO"][];
+            /**
+             * @description The country code for the transactions (ISO 3166-1 alpha-3)
+             * @example NZL
+             */
+            countryCode: string;
+            /**
+             * @description The factor class to use for emission factor selection
+             * @example commodity
+             * @enum {string}
+             */
+            factorClass?: "commodity" | "industry";
+        };
+        CreateSyncTransactionResponseDTO: {
+            /** @description The processed transactions with measurements */
+            transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
+        };
+        SupplierSearchCommodityActivityDTO: {
+            /**
+             * @description Spend-commodity taxonomy URN.
+             * @example urn:ef:spend:commodity:transport-postal-warehousing:passenger-air-transport
+             */
+            urn: string;
+            /**
+             * @description Human-readable name of the commodity activity.
+             * @example Passenger air transport
+             */
+            name: string;
+            /**
+             * @description Description from the commodity taxonomy.
+             * @example Scheduled and charter passenger air services.
+             */
+            description: string;
+            /**
+             * @description SIC code when present on the taxonomy row.
+             * @example 4811
+             */
+            sicCode: string | null;
+        };
+        SupplierSearchActivitiesDTO: {
+            /** @description Primary commodity activity used for factor selection. */
+            primary: components["schemas"]["SupplierSearchCommodityActivityDTO"];
+            /** @description Additional commodity activities mapped from the supplier industry (may be empty). */
+            secondary: components["schemas"]["SupplierSearchCommodityActivityDTO"][];
+        };
+        SupplierSearchEmissionsDTO: {
+            /**
+             * @description CO₂-equivalent emissions in kg for the given transaction amount.
+             * @example 123.45
+             */
+            co2e?: number;
+        };
+        SupplierSearchFxDTO: {
+            /**
+             * @description Exchange rate used to normalise the amount to USD.
+             * @example 0.612
+             */
+            exchangeRate?: number;
+            /**
+             * @description Foreign-exchange data source name.
+             * @example ECB
+             */
+            source?: string;
+            /**
+             * @description URL of the foreign-exchange data source.
+             * @example https://www.ecb.europa.eu
+             */
+            sourceURL?: string;
+            /**
+             * @description Informational note about the FX data.
+             * @example null
+             */
+            note?: string;
+        };
+        SupplierSearchCpiDTO: {
+            /**
+             * @description CPI inflation correction factor applied to the emission factor.
+             * @example 1.03
+             */
+            correctionFactor?: number;
+            /**
+             * @description Year of the emission factor.
+             * @example 2021
+             */
+            factorYear?: number;
+            /**
+             * @description Year of the transaction.
+             * @example 2024
+             */
+            transactionYear?: number;
+            /**
+             * @description CPI index for the factor year.
+             * @example 105.2
+             */
+            factorIndex?: number;
+            /**
+             * @description CPI index for the transaction year.
+             * @example 108.6
+             */
+            transactionIndex?: number;
+        };
+        SupplierSearchFactorDTO: {
+            /**
+             * @description Human-readable name of the emission factor.
+             * @example Air transport — domestic (economy)
+             */
+            name?: string;
+            /**
+             * @description Unique URN of the emission factor.
+             * @example urn:ef:industry:transport:air-nz
+             */
+            urn?: string;
+            /**
+             * @description ISO 3166-1 alpha-3 country code of the emission factor.
+             * @example NZL
+             */
+            countryCode?: string;
+            /**
+             * @description Organisation that published the factor.
+             * @example Ministry for the Environment NZ
+             */
+            provider?: string;
+            /**
+             * @description Source dataset name.
+             * @example NZ Greenhouse Gas Inventory
+             */
+            source?: string;
+            /**
+             * @description URL of the source dataset.
+             * @example https://environment.govt.nz
+             */
+            sourceUrl?: string;
+            /**
+             * @description GHG Protocol scope (1, 2, or 3).
+             * @example 3
+             */
+            scope?: number;
+            /**
+             * @description Valuation method used (e.g. spend-based, activity-based).
+             * @example spend-based
+             */
+            valuationMethod?: string;
+            /**
+             * @description Date the factor dataset was released.
+             * @example 2023-06-01
+             */
+            releaseDate?: string;
+            /**
+             * @description Version of the factor dataset.
+             * @example 1.0
+             */
+            dataVersion?: string;
+            /**
+             * @description Reference year of the underlying activity data.
+             * @example 2021
+             */
+            dataYear?: number;
+            /**
+             * @description LCA activity stage (e.g. cradle-to-gate).
+             * @example cradle-to-gate
+             */
+            lcaActivity?: string;
+            /**
+             * @description Impact category (e.g. climate change).
+             * @example climate change
+             */
+            impactCategory?: string;
+        };
+        SupplierSearchSyncResponseDTO: {
+            /**
+             * @description Resolved supplier name.
+             * @example Air New Zealand
+             */
+            name: string;
+            /**
+             * @description Unique supplier URN.
+             * @example urn:supplier:air-new-zealand-nzl
+             */
+            urn: string;
+            /**
+             * @description Street address of the supplier headquarters.
+             * @example 185 Fanshawe Street
+             */
+            address_street?: string;
+            /**
+             * @description City of the supplier headquarters.
+             * @example Auckland
+             */
+            address_city?: string;
+            /**
+             * @description State or region of the supplier headquarters.
+             * @example null
+             */
+            address_state?: string;
+            /**
+             * @description Postcode of the supplier headquarters.
+             * @example 1010
+             */
+            address_postcode?: string;
+            /**
+             * @description ISO 3166-1 alpha-3 country code resolved from the supplier's registered address.
+             * @example NZL
+             */
+            address_country?: string;
+            /**
+             * @description Latitude for the supplier headquarters address.
+             * @example -36.8485
+             */
+            address_latitude?: number;
+            /**
+             * @description Longitude for the supplier headquarters address.
+             * @example 174.7633
+             */
+            address_longitude?: number;
+            /**
+             * @description Supplier website.
+             * @example https://www.airnewzealand.co.nz
+             */
+            website?: string;
+            /**
+             * @description Short description of the supplier.
+             * @example National carrier of New Zealand.
+             */
+            summary?: string;
+            /**
+             * @description Industry URN the supplier was mapped to.
+             * @example urn:ef:industry:transport:air-passenger-transport
+             */
+            industry?: string;
+            /**
+             * @description URL of the supplier's logo.
+             * @example https://logo.clearbit.com/airnewzealand.co.nz
+             */
+            logoUrl?: string;
+            /** @description Known product or service names for the supplier. */
+            products?: string[];
+            /**
+             * @description Country code used when searching for the supplier.
+             * @example NZL
+             */
+            countryCode?: string;
+            /** @description Spend-commodity taxonomy rows for the primary activity (used for emission factor selection) and any secondary mappings from the supplier industry. */
+            activities: components["schemas"]["SupplierSearchActivitiesDTO"];
+            /** @description Estimated CO₂e emissions for the supplied amount. */
+            emissions: components["schemas"]["SupplierSearchEmissionsDTO"];
+            /** @description Foreign-exchange data applied to normalise the amount. */
+            fx: components["schemas"]["SupplierSearchFxDTO"];
+            /** @description CPI inflation correction applied to the emission factor. */
+            cpi: components["schemas"]["SupplierSearchCpiDTO"];
+            /** @description The emission factor used for this estimate. */
+            factor: components["schemas"]["SupplierSearchFactorDTO"];
+            /**
+             * @description True when the factor was resolved from a supplier-specific database match rather than an industry average.
+             * @example false
+             */
+            isSupplierFactor: boolean;
+        };
+        CreateSupplierBatchItemDTO: {
+            /**
+             * @description Id you assign to this row to correlate it with your own records in batch item results and webhooks.
+             * @example line-item-4821
+             */
+            id: string;
+            /**
+             * @description The name of the supplier. Must be between 2 and 256 characters after trimming leading and trailing whitespace.
+             * @example Air New Zealand
+             */
+            name: string;
+            /**
+             * @description The country code of the supplier.
+             * @example NZL
+             * @enum {string}
+             */
+            countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
+            /**
+             * @description The total value of the transaction, including tax.
+             * @example 115
+             */
+            total: number;
+            /**
+             * @description The subtotal value of the transaction, excluding tax.
+             * @example 100
+             */
+            subtotal: number;
+            /**
+             * @description The tax value of the transaction.
+             * @example 15
+             */
+            tax: number;
+            /**
+             * @description The currency of the transaction.
+             * @example USD
+             * @enum {string}
+             */
+            currency: "NZD" | "AUD" | "USD" | "EUR" | "GBP" | "CAD" | "CHF" | "CNY" | "PHP" | "HKD" | "IDR" | "INR" | "SGD" | "SEK" | "JPY" | "KRW" | "AED" | "MYR" | "THB" | "TWD" | "VND";
+            /**
+             * @description Optional disambiguation hints (e.g. bank fees, industrial gases) to steer the search when the supplier name could refer to multiple companies.
+             * @example [
+             *       "bank fees",
+             *       "account charges",
+             *       "banks and money"
+             *     ]
+             */
+            disambiguationHints?: Record<string, never>[][];
+        };
+        CreateSupplierBatchRequestDTO: {
+            /** @description Up to 100 suppliers to resolve and estimate emissions for. */
+            suppliers: components["schemas"]["CreateSupplierBatchItemDTO"][];
+        };
+        CreateSupplierBatchResponseDTO: {
+            /** @description Batch ids (one per chunk). Subscribe to supplier.batch.completed for each chunk when processing finishes. */
+            batchIds: string[];
+        };
+        GetSupplierBatchItemResponseDTO: {
+            /**
+             * @description CarbonAPI id for this row in the batch
+             * @example clxxxxxxxx
+             */
+            itemId: string;
+            /**
+             * @description The id you supplied in the batch submission
+             * @example line-item-4821
+             */
+            id: string;
+            /**
+             * @description Processing status for this supplier row
+             * @enum {string}
+             */
+            status: "Pending" | "Processing" | "Completed" | "Error";
+            name: string;
+            countryCode: string;
+            /** @description Transaction total value, including tax */
+            total: number;
+            /** @description Transaction subtotal value, excluding tax */
+            subtotal: number;
+            /** @description Transaction tax value */
+            tax: number;
+            currency: string;
+            /** @description Disambiguation hints from the request */
+            disambiguationHints?: string[];
+            /** @description When status is Completed, the supplier resolution payload (same shape as GET /supplier/search/sync, nested under `supplier` in stored results). */
+            supplier?: components["schemas"]["SupplierSearchSyncResponseDTO"];
+            /** @description When status is Error, structured error details */
+            error?: Record<string, never>;
+        };
+        GetSupplierBatchResponseDTO: {
+            id: string;
+            /** @description Batch status (Pending, Processing, Completed, Error) */
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** @description Populated when the batch is Completed or Error; empty while Pending or Processing (same idea as GET /transaction/batch/:batchId). */
+            suppliers: components["schemas"]["GetSupplierBatchItemResponseDTO"][];
+        };
+        TaxonomyNodePublicDTO: {
+            urn: string;
+            /** @enum {string} */
+            type: "Commodity" | "Industry" | "Activity" | "Product" | "Supplier";
+            parentId?: string | null;
+            name: string;
+            description: string;
+            availability: string[];
+            sicCode?: string | null;
+        };
+        ListTaxonomyResponseDTO: {
+            items: components["schemas"]["TaxonomyNodePublicDTO"][];
+        };
+        TaxonomyCommodityUrnItemDTO: {
+            urn: string;
+            name: string;
+            description: string;
+            availability: string[];
+            sicCode?: string | null;
+        };
+        ListTaxonomyCommodityUrnsResponseDTO: {
+            items: components["schemas"]["TaxonomyCommodityUrnItemDTO"][];
+        };
+        DocumentDTO: {
+            /**
+             * @description A link to the file to be processed, for example a presigned S3 bucket object URL. Must be HTTPS and from an allowed domain.
+             * @example https://s3.amazonaws.com/example/example.pdf?X-AMZ-Signature=example
+             */
+            fileUrl: string;
+            /**
+             * @description The ID of the file to be processed. This can be used to help you keep track of requests. If supplied, we will also emit a webhook of progress on a per-file basis.
+             * @example file1234
+             */
+            fileId: string;
+            /**
+             * @description Provide a suggested document category. If set, then CarbonAPI will use this category to categorise the documents in the batch.
+             * @example FUEL
+             */
+            categoryHint: string;
+            /**
+             * @description Optional metadata for the document
+             * @example {
+             *       "key": "value"
+             *     }
+             */
+            meta: Record<string, never>;
+        };
+        CreateDocumentBatchRequestDTO: {
+            /** @description The documents to create a batch with */
+            documents: components["schemas"]["DocumentDTO"][];
+            /**
+             * @description The type of submission you are performing - for now just URL is supported.
+             * @example url
+             */
+            type: string;
+            /**
+             * @description An optional batchId for your own reconciliation.
+             * @example 11111111-1111-1111-1111-111111111111
+             */
+            batchId: string;
+            /**
+             * @description An optional meta object for your own reconciliation.
+             * @example {
+             *       "key": "value"
+             *     }
+             */
+            meta: Record<string, never>;
+        };
+        CreateDocumentBatchResponseDTO: {
+            /**
+             * @description The id of the batch
+             * @example 11111111-1111-1111-1111-111111111111
+             */
+            batchId: string;
+        };
+        DocumentFinancialInformation: {
+            /**
+             * @description Total
+             * @example 1000
+             */
+            total: number;
+            /**
+             * @description Subtotal
+             * @example 900
+             */
+            subtotal: number;
+            /**
+             * @description Tax
+             * @example 100
+             */
+            tax: number;
+            /**
+             * @description Supplier
+             * @example ABC Corp
+             */
+            supplier: string;
+            /**
+             * @description Customer
+             * @example XYZ Ltd
+             */
+            customer: string;
+            /**
+             * @description Currency
+             * @example USD
+             */
+            currency: string;
+        };
+        DocumentEmissionFactorItem: {
+            /**
+             * @description The emission factor code
+             * @example ACTIVITY_SCOPE2_ELECTRICITY_USAGE_ELECTRICITY_USED
+             */
+            code: string;
+            /**
+             * @description The emission factor name
+             * @example Electricity Used
+             */
+            name: string;
+            /**
+             * @description The year or default value for the emission factor
+             * @example 2023
+             */
+            yearOrDefault: string;
+            /**
+             * @description The source name of the emission factor
+             * @example EPA
+             */
+            sourceName: string;
+            /**
+             * @description The source URL of the emission factor
+             * @example https://www.epa.gov/emission-factors
+             */
+            sourceUrl: string;
+        };
+        DocumentEmissionsItem: {
+            /**
+             * @description CO2 equivalent emissions (kg CO2e)
+             * @example 1.5
+             */
+            co2e: number;
+            /**
+             * @description CO2 emissions (kg CO2)
+             * @example 1.2
+             */
+            co2: number;
+            /**
+             * @description CH4 emissions (kg CH4)
+             * @example 0.1
+             */
+            ch4: number;
+            /**
+             * @description N2O emissions (kg N2O)
+             * @example 0.2
+             */
+            n2o: number;
+        };
+        DocumentResponseItem: {
+            /**
+             * @description The start period of the emission
+             * @example 2023-03-01T00:00:00
+             */
+            periodFrom: string;
+            /**
+             * @description The end period of the emission
+             * @example 2023-03-31T23:59:59
+             */
+            periodTo: string;
+            /**
+             * @description Reference identifier for the emission
+             * @example REF-001
+             */
+            reference: string;
+            /**
+             * @description Description of the emission
+             * @example Electricity consumption for office building
+             */
+            description: string;
+            /**
+             * @description Quantity of the emission
+             * @example 1000
+             */
+            quantity: number;
+            /**
+             * @description Unit of measurement
+             * @example kWh
+             */
+            unit: string;
+            /**
+             * @description Emission factor ID
+             * @example ef-001
+             */
+            emissionFactorId: string;
+            /**
+             * @description Inference type
+             * @example 0
+             */
+            inference: number;
+            /**
+             * @description Processing steps
+             * @example [
+             *       "Calculate the emissions for the electricity used.",
+             *       "Apply transmission and distribution losses."
+             *     ]
+             */
+            steps: string[];
+            /**
+             * @description Hash of the processed document
+             * @example abc123def456
+             */
+            hash: string;
+            /** @description Emission factor details */
+            emissionFactor: components["schemas"]["DocumentEmissionFactorItem"];
+            /** @description Emissions breakdown */
+            emissions: components["schemas"]["DocumentEmissionsItem"];
+            /**
+             * @description Whether this is a side effect
+             * @example false
+             */
+            isSideEffect: boolean;
+            /**
+             * @description Optional metadata
+             * @example {
+             *       "key": "value"
+             *     }
+             */
+            meta: Record<string, never>;
+        };
+        DocumentResponseDTO: {
+            /**
+             * @description Processing status
+             * @example completed
+             */
+            status: string;
+            /**
+             * @description Document category
+             * @example FUEL
+             */
+            category: string;
+            /**
+             * @description Total tokens processed
+             * @example 1500
+             */
+            totalTokens: number;
+            /**
+             * @description Country code
+             * @example US
+             */
+            country: string;
+            /**
+             * @description Document reference
+             * @example DOC-001
+             */
+            reference: string;
+            /**
+             * @description Financial information
+             * @example {
+             *       "total": 1000,
+             *       "subtotal": 900,
+             *       "tax": 100,
+             *       "supplier": "ABC Corp",
+             *       "customer": "XYZ Ltd",
+             *       "currency": "USD"
+             *     }
+             */
+            financial: components["schemas"]["DocumentFinancialInformation"];
+            /** @description Response items */
+            items: components["schemas"]["DocumentResponseItem"][];
+        };
+        GetDocumentBatchResponseDTO: {
+            /**
+             * @description Batch processing status
+             * @example completed
+             */
+            status: string;
+            /** @description Array of document responses */
+            documents: components["schemas"]["DocumentResponseDTO"][];
+        };
     };
-    CreateBatchRequestDTO: {
-      /** @description The transactions to create a batch with */
-      transactions: components["schemas"]["TransactionDTO"][];
-      /**
-       * @description The country code of the transactions, for example NZ
-       * @example NZ
-       * @enum {string}
-       */
-      countryCode: "NZ" | "AU";
-    };
-    CreateBatchResponseDTO: {
-      batchIds: string[];
-    };
-    PotentialFactorDTO: {
-      code: string;
-      similarity: number;
-    };
-    EmissionFactorBatchResultDTO: {
-      /**
-       * @description The name of the emission factor
-       * @example Flights and Air Travel
-       */
-      name: string;
-      /**
-       * @description The source of the emission factor
-       * @example CarbonAPI Example Factor Source
-       */
-      source: string;
-      /**
-       * @description The source URL of the emission factor
-       * @example https://www.carbonapi.io
-       */
-      sourceUrl: string;
-      /**
-       * @description The scope of the emission factor
-       * @example Scope1
-       */
-      scope: string;
-    };
-    FullBatchTransactionDTO: {
-      /**
-       * @description The id of the transaction
-       * @example 11111111-1111-1111-1111-111111111111
-       */
-      id: string;
-      /**
-       * @description The internal category code deduced from the transaction
-       * @example I_FLIGHTS_AIR_TRAVEL
-       */
-      code: string;
-      /**
-       * @description The confidence score of the transaction
-       * @example 95.82
-       */
-      confidence: number;
-      /** @description If we were unable to determine the category, we'll return the factors we considered, for use in UI applications. */
-      potentialFactors: components["schemas"]["PotentialFactorDTO"][];
-      /**
-       * @description The calculated CO2e of the transaction
-       * @example 114.5
-       */
-      co2e: number;
-      /**
-       * @description The emission factor of the transaction
-       * @example {
-       *       "name": "Flights and Air Travel",
-       *       "source": "CarbonAPI Example Factor Source",
-       *       "sourceUrl": "https://www.carbonapi.io"
-       *     }
-       */
-      emissionFactor: components["schemas"]["EmissionFactorBatchResultDTO"];
-    };
-    GetBatchResponseDTO: {
-      id: string;
-      status: string;
-      /** Format: date-time */
-      createdAt: string;
-      /** Format: date-time */
-      updatedAt: string;
-      transactions: components["schemas"]["FullBatchTransactionDTO"][];
-    };
-    CreateBatchRequestDTO_2025_10_01: {
-      /** @description The transactions to create a batch with */
-      transactions: components["schemas"]["TransactionDTO"][];
-      /**
-       * @description The 3-letter ISO country code of the transactions, for example NZL
-       * @example NZL
-       * @enum {string}
-       */
-      countryCode:
-        | "AUS"
-        | "NZL"
-        | "AUT"
-        | "BEL"
-        | "BGR"
-        | "BRA"
-        | "CAN"
-        | "CHE"
-        | "CHN"
-        | "CYP"
-        | "CZE"
-        | "DEU"
-        | "DNK"
-        | "ESP"
-        | "EST"
-        | "FIN"
-        | "FRA"
-        | "GBR"
-        | "GRC"
-        | "HRV"
-        | "HUN"
-        | "IDN"
-        | "IND"
-        | "IRL"
-        | "ITA"
-        | "JPN"
-        | "KOR"
-        | "LTU"
-        | "LUX"
-        | "LVA"
-        | "MEX"
-        | "MLT"
-        | "NLD"
-        | "NOR"
-        | "POL"
-        | "PRT"
-        | "ROU"
-        | "RUS"
-        | "SVK"
-        | "SVN"
-        | "SWE"
-        | "TUR"
-        | "TWN"
-        | "USA"
-        | "ZAF"
-        | "AFG"
-        | "AGO"
-        | "ALB"
-        | "ARE"
-        | "ARG"
-        | "ARM"
-        | "AZE"
-        | "BDI"
-        | "BEN"
-        | "BFA"
-        | "BGD"
-        | "BHR"
-        | "BHS"
-        | "BIH"
-        | "BLR"
-        | "BLZ"
-        | "BOL"
-        | "BRN"
-        | "BTN"
-        | "BWA"
-        | "CAF"
-        | "CHL"
-        | "CIV"
-        | "CMR"
-        | "COD"
-        | "COG"
-        | "COL"
-        | "CRI"
-        | "CUB"
-        | "DJI"
-        | "DYE"
-        | "DOM"
-        | "DZA"
-        | "ECU"
-        | "EGY"
-        | "ERI"
-        | "ETH"
-        | "GAB"
-        | "GEO"
-        | "GHA"
-        | "GIN"
-        | "GMB"
-        | "GNQ"
-        | "GTM"
-        | "HND"
-        | "HKG"
-        | "HTI"
-        | "IRN"
-        | "IRQ"
-        | "ISL"
-        | "ISR"
-        | "JAM"
-        | "JOR"
-        | "KAZ"
-        | "KEN"
-        | "KGZ"
-        | "KHM"
-        | "KWT"
-        | "LAO"
-        | "LBN"
-        | "LBR"
-        | "LBY"
-        | "LKA"
-        | "MAR"
-        | "MDA"
-        | "MDG"
-        | "MKD"
-        | "MLI"
-        | "MMR"
-        | "MNG"
-        | "MOZ"
-        | "MRT"
-        | "MWI"
-        | "MYS"
-        | "NAM"
-        | "NER"
-        | "NGA"
-        | "NIC"
-        | "NPL"
-        | "OMN"
-        | "PAK"
-        | "PSE"
-        | "PAN"
-        | "PER"
-        | "PHL"
-        | "PNG"
-        | "PRY"
-        | "QAT"
-        | "RWA"
-        | "SAU"
-        | "SDS"
-        | "SEN"
-        | "SGP"
-        | "SLE"
-        | "SLV"
-        | "SOM"
-        | "SRB"
-        | "SDN"
-        | "SYR"
-        | "TCD"
-        | "TGO"
-        | "THA"
-        | "TJK"
-        | "TKM"
-        | "TUN"
-        | "TZA"
-        | "UGA"
-        | "UKR"
-        | "URY"
-        | "UZB"
-        | "VEN"
-        | "VNM"
-        | "YEM"
-        | "ZMB"
-        | "ZWE";
-      /**
-       * @description The type of factors to use
-       * @example commodity
-       * @enum {string}
-       */
-      factorClass?: "commodity";
-      /**
-       * @description Whether to require, prefer, or ignore supplier factors
-       * @example REQUIRE_SUPPLIER_FACTOR
-       * @enum {string}
-       */
-      supplierFactorPolicy?:
-        | "REQUIRE_SUPPLIER_FACTOR"
-        | "PREFER_SUPPLIER_FACTOR"
-        | "IGNORE_SUPPLIER_FACTOR";
-      /**
-       * @description Whether to require reasonable, require limited, or no assurance for supplier factors
-       * @example REQUIRE_REASONABLE_ASSURANCE
-       * @enum {string}
-       */
-      supplierFactorAssurancePolicy?:
-        | "REQUIRE_REASONABLE_ASSURANCE"
-        | "REQUIRE_LIMITED_ASSURANCE"
-        | "NO_ASSURANCE_PREFERENCE";
-    };
-    TransactionTaxonomyDTO: {
-      /**
-       * @description The taxonomy name
-       * @example Growing of cereals (except rice), leguminous crops and oil seeds
-       */
-      name?: string;
-      /**
-       * @description The taxonomy URN
-       * @example urn:ef:spend:commodity:agriculture-forestry-fishing:growing-cereals-legumes-oilseeds
-       */
-      urn?: string;
-      /**
-       * @description The SIC code associated with the taxonomy
-       * @example 01110
-       */
-      sicCode?: string;
-      /**
-       * @description The confidence score of the taxonomy prediction
-       * @example 0.95
-       */
-      confidence?: number;
-      /**
-       * @description The status of the object
-       * @example SUCCESS
-       * @enum {string}
-       */
-      status: "SUCCESS" | "ERROR";
-      /**
-       * @description The error message of the object
-       * @example Error message
-       */
-      error?: string;
-    };
-    TransactionEmissionFactorDTO: {
-      /**
-       * @description The status of the object
-       * @example SUCCESS
-       * @enum {string}
-       */
-      status: "SUCCESS" | "ERROR";
-      /**
-       * @description The error message of the object
-       * @example Error message
-       */
-      error?: string;
-      /**
-       * @description The source of the emission factor
-       * @example CarbonAPI Example Factor Source
-       */
-      source?: string;
-      /**
-       * @description The source URL of the emission factor
-       * @example https://www.carbonapi.io
-       */
-      sourceUrl?: string;
-      /**
-       * @description The version of the emission factor source
-       * @example 1.0
-       */
-      sourceVersion?: string;
-      /**
-       * @description The data year of the emission factor
-       * @example 2023
-       */
-      sourceDataYear?: number;
-      /**
-       * @description The valuation method of the emission factor
-       * @example PP
-       */
-      valuationMethod?: string;
-      /**
-       * @description The LCA activity of the emission factor
-       * @example cradle_to_shelf
-       */
-      lcaActivity?: string;
-      /**
-       * @description The suggested scope of the emission factor
-       * @example 3
-       */
-      scope?: number;
-      /**
-       * @description An ID to use to match to the external data source the emission factor was sourced from, for example the NA06CC code, Exiobase Name, etc.
-       * @example electricity_supply
-       */
-      externalLocator?: string;
-      /**
-       * @description The match type of the emission factor
-       * @example DirectMatch
-       */
-      matchType?: string;
-      /**
-       * @description Any notes relating to the use or intended use of the emission factor
-       * @example This is a test note
-       */
-      notes?: string;
-      /**
-       * @description The base currency of the emission factor
-       * @example USD
-       */
-      factorCurrency?: string;
-    };
-    TransactionMeasurementConstituentsDTO: {
-      /**
-       * @description CO2 emissions
-       * @example 100.03
-       */
-      co2?: number;
-      /**
-       * @description N2O emissions
-       * @example 0.3
-       */
-      n2o?: number;
-      /**
-       * @description CH4 emissions
-       * @example 0.2
-       */
-      ch4?: number;
-      /**
-       * @description Scope 1 emissions
-       * @example 0
-       */
-      scope1?: number;
-      /**
-       * @description Scope 2 emissions
-       * @example 0
-       */
-      scope2?: number;
-      /**
-       * @description Scope 3 emissions
-       * @example 100.5
-       */
-      scope3?: number;
-    };
-    TransactionMeasurementDTO: {
-      /**
-       * @description The status of the object
-       * @example SUCCESS
-       * @enum {string}
-       */
-      status: "SUCCESS" | "ERROR";
-      /**
-       * @description The error message of the object
-       * @example Error message
-       */
-      error?: string;
-      /**
-       * @description The calculated CO2e of the transaction
-       * @example 100.5
-       */
-      co2e?: number;
-      /** @description The constituents making up the total emissions, if available */
-      constituents?: components["schemas"]["TransactionMeasurementConstituentsDTO"];
-    };
-    TransactionStepDTO: {
-      /**
-       * @description The step ID
-       * @example PREDICT_CATEGORY
-       */
-      id: string;
-      /**
-       * @description The step metadata
-       * @example {
-       *       "alternativeCategories": [
-       *         {
-       *           "urn": "urn:carbonapi:emission-factor:flights",
-       *           "confidence": 0.95
-       *         }
-       *       ]
-       *     }
-       */
-      meta?: Record<string, never>;
-    };
-    TransactionDTO_2025_10_01: {
-      /**
-       * @description The external ID of the transaction
-       * @example txn-123
-       */
-      id: string;
-      /** @description The categorised taxonomy information */
-      taxonomy?: components["schemas"]["TransactionTaxonomyDTO"];
-      /** @description The emission factor information */
-      emissionFactor?: components["schemas"]["TransactionEmissionFactorDTO"];
-      /** @description The measurement information */
-      measurement?: components["schemas"]["TransactionMeasurementDTO"];
-      /** @description The processing steps */
-      steps: components["schemas"]["TransactionStepDTO"][];
-    };
-    GetBatchResponseDTO_2025_10_01: {
-      /**
-       * @description The batch ID
-       * @example batch-123
-       */
-      id: string;
-      /**
-       * @description The batch status
-       * @example Completed
-       */
-      status: string;
-      /**
-       * Format: date-time
-       * @description The batch creation date
-       * @example 2023-01-01T00:00:00.000Z
-       */
-      createdAt: string;
-      /**
-       * Format: date-time
-       * @description The batch update date
-       * @example 2023-01-01T00:00:00.000Z
-       */
-      updatedAt: string;
-      /** @description The transactions in the batch */
-      transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
-    };
-    CreateSyncTransactionRequestDTO: {
-      /** @description The transactions to process synchronously. Each transaction must include a valid URN. */
-      transactions: components["schemas"]["TransactionDTO"][];
-      /**
-       * @description The country code for the transactions (ISO 3166-1 alpha-3)
-       * @example NZL
-       */
-      countryCode: string;
-      /**
-       * @description The factor class to use for emission factor selection
-       * @example commodity
-       * @enum {string}
-       */
-      factorClass?: "commodity" | "industry";
-    };
-    CreateSyncTransactionResponseDTO: {
-      /** @description The processed transactions with measurements */
-      transactions: components["schemas"]["TransactionDTO_2025_10_01"][];
-    };
-    SupplierSearchCommodityActivityDTO: {
-      /**
-       * @description Spend-commodity taxonomy URN.
-       * @example urn:ef:spend:commodity:transport-postal-warehousing:passenger-air-transport
-       */
-      urn: string;
-      /**
-       * @description Human-readable name of the commodity activity.
-       * @example Passenger air transport
-       */
-      name: string;
-      /**
-       * @description Description from the commodity taxonomy.
-       * @example Scheduled and charter passenger air services.
-       */
-      description: string;
-      /**
-       * @description SIC code when present on the taxonomy row.
-       * @example 4811
-       */
-      sicCode: string | null;
-    };
-    SupplierSearchActivitiesDTO: {
-      /** @description Primary commodity activity used for factor selection. */
-      primary: components["schemas"]["SupplierSearchCommodityActivityDTO"];
-      /** @description Additional commodity activities mapped from the supplier industry (may be empty). */
-      secondary: components["schemas"]["SupplierSearchCommodityActivityDTO"][];
-    };
-    SupplierSearchEmissionsDTO: {
-      /**
-       * @description CO₂-equivalent emissions in kg for the given transaction amount.
-       * @example 123.45
-       */
-      co2e?: number;
-    };
-    SupplierSearchFxDTO: {
-      /**
-       * @description Exchange rate used to normalise the amount to USD.
-       * @example 0.612
-       */
-      exchangeRate?: number;
-      /**
-       * @description Foreign-exchange data source name.
-       * @example ECB
-       */
-      source?: string;
-      /**
-       * @description URL of the foreign-exchange data source.
-       * @example https://www.ecb.europa.eu
-       */
-      sourceURL?: string;
-      /**
-       * @description Informational note about the FX data.
-       * @example null
-       */
-      note?: string;
-    };
-    SupplierSearchCpiDTO: {
-      /**
-       * @description CPI inflation correction factor applied to the emission factor.
-       * @example 1.03
-       */
-      correctionFactor?: number;
-      /**
-       * @description Year of the emission factor.
-       * @example 2021
-       */
-      factorYear?: number;
-      /**
-       * @description Year of the transaction.
-       * @example 2024
-       */
-      transactionYear?: number;
-      /**
-       * @description CPI index for the factor year.
-       * @example 105.2
-       */
-      factorIndex?: number;
-      /**
-       * @description CPI index for the transaction year.
-       * @example 108.6
-       */
-      transactionIndex?: number;
-    };
-    SupplierSearchFactorDTO: {
-      /**
-       * @description Human-readable name of the emission factor.
-       * @example Air transport — domestic (economy)
-       */
-      name?: string;
-      /**
-       * @description Unique URN of the emission factor.
-       * @example urn:ef:industry:transport:air-nz
-       */
-      urn?: string;
-      /**
-       * @description ISO 3166-1 alpha-3 country code of the emission factor.
-       * @example NZL
-       */
-      countryCode?: string;
-      /**
-       * @description Organisation that published the factor.
-       * @example Ministry for the Environment NZ
-       */
-      provider?: string;
-      /**
-       * @description Source dataset name.
-       * @example NZ Greenhouse Gas Inventory
-       */
-      source?: string;
-      /**
-       * @description URL of the source dataset.
-       * @example https://environment.govt.nz
-       */
-      sourceUrl?: string;
-      /**
-       * @description GHG Protocol scope (1, 2, or 3).
-       * @example 3
-       */
-      scope?: number;
-      /**
-       * @description Valuation method used (e.g. spend-based, activity-based).
-       * @example spend-based
-       */
-      valuationMethod?: string;
-      /**
-       * @description Date the factor dataset was released.
-       * @example 2023-06-01
-       */
-      releaseDate?: string;
-      /**
-       * @description Version of the factor dataset.
-       * @example 1.0
-       */
-      dataVersion?: string;
-      /**
-       * @description Reference year of the underlying activity data.
-       * @example 2021
-       */
-      dataYear?: number;
-      /**
-       * @description LCA activity stage (e.g. cradle-to-gate).
-       * @example cradle-to-gate
-       */
-      lcaActivity?: string;
-      /**
-       * @description Impact category (e.g. climate change).
-       * @example climate change
-       */
-      impactCategory?: string;
-    };
-    SupplierSearchSyncResponseDTO: {
-      /**
-       * @description Resolved supplier name.
-       * @example Air New Zealand
-       */
-      name: string;
-      /**
-       * @description Unique supplier URN.
-       * @example urn:supplier:air-new-zealand-nzl
-       */
-      urn: string;
-      /**
-       * @description Street address of the supplier headquarters.
-       * @example 185 Fanshawe Street
-       */
-      address_street?: string;
-      /**
-       * @description City of the supplier headquarters.
-       * @example Auckland
-       */
-      address_city?: string;
-      /**
-       * @description State or region of the supplier headquarters.
-       * @example null
-       */
-      address_state?: string;
-      /**
-       * @description Postcode of the supplier headquarters.
-       * @example 1010
-       */
-      address_postcode?: string;
-      /**
-       * @description ISO 3166-1 alpha-3 country code resolved from the supplier's registered address.
-       * @example NZL
-       */
-      address_country?: string;
-      /**
-       * @description Latitude for the supplier headquarters address.
-       * @example -36.8485
-       */
-      address_latitude?: number;
-      /**
-       * @description Longitude for the supplier headquarters address.
-       * @example 174.7633
-       */
-      address_longitude?: number;
-      /**
-       * @description Supplier website.
-       * @example https://www.airnewzealand.co.nz
-       */
-      website?: string;
-      /**
-       * @description Short description of the supplier.
-       * @example National carrier of New Zealand.
-       */
-      summary?: string;
-      /**
-       * @description Industry URN the supplier was mapped to.
-       * @example urn:ef:industry:transport:air-passenger-transport
-       */
-      industry?: string;
-      /**
-       * @description URL of the supplier's logo.
-       * @example https://logo.clearbit.com/airnewzealand.co.nz
-       */
-      logoUrl?: string;
-      /** @description Known product or service names for the supplier. */
-      products?: string[];
-      /**
-       * @description Country code used when searching for the supplier.
-       * @example NZL
-       */
-      countryCode?: string;
-      /** @description Spend-commodity taxonomy rows for the primary activity (used for emission factor selection) and any secondary mappings from the supplier industry. */
-      activities: components["schemas"]["SupplierSearchActivitiesDTO"];
-      /** @description Estimated CO₂e emissions for the supplied amount. */
-      emissions: components["schemas"]["SupplierSearchEmissionsDTO"];
-      /** @description Foreign-exchange data applied to normalise the amount. */
-      fx: components["schemas"]["SupplierSearchFxDTO"];
-      /** @description CPI inflation correction applied to the emission factor. */
-      cpi: components["schemas"]["SupplierSearchCpiDTO"];
-      /** @description The emission factor used for this estimate. */
-      factor: components["schemas"]["SupplierSearchFactorDTO"];
-      /**
-       * @description True when the factor was resolved from a supplier-specific database match rather than an industry average.
-       * @example false
-       */
-      isSupplierFactor: boolean;
-    };
-    CreateSupplierBatchItemDTO: {
-      /**
-       * @description Id you assign to this row to correlate it with your own records in batch item results and webhooks.
-       * @example line-item-4821
-       */
-      id: string;
-      /**
-       * @description The name of the supplier. Must be between 2 and 256 characters after trimming leading and trailing whitespace.
-       * @example Air New Zealand
-       */
-      name: string;
-      /**
-       * @description The country code of the supplier.
-       * @example NZL
-       * @enum {string}
-       */
-      countryCode:
-        | "AUS"
-        | "NZL"
-        | "AUT"
-        | "BEL"
-        | "BGR"
-        | "BRA"
-        | "CAN"
-        | "CHE"
-        | "CHN"
-        | "CYP"
-        | "CZE"
-        | "DEU"
-        | "DNK"
-        | "ESP"
-        | "EST"
-        | "FIN"
-        | "FRA"
-        | "GBR"
-        | "GRC"
-        | "HRV"
-        | "HUN"
-        | "IDN"
-        | "IND"
-        | "IRL"
-        | "ITA"
-        | "JPN"
-        | "KOR"
-        | "LTU"
-        | "LUX"
-        | "LVA"
-        | "MEX"
-        | "MLT"
-        | "NLD"
-        | "NOR"
-        | "POL"
-        | "PRT"
-        | "ROU"
-        | "RUS"
-        | "SVK"
-        | "SVN"
-        | "SWE"
-        | "TUR"
-        | "TWN"
-        | "USA"
-        | "ZAF"
-        | "AFG"
-        | "AGO"
-        | "ALB"
-        | "ARE"
-        | "ARG"
-        | "ARM"
-        | "AZE"
-        | "BDI"
-        | "BEN"
-        | "BFA"
-        | "BGD"
-        | "BHR"
-        | "BHS"
-        | "BIH"
-        | "BLR"
-        | "BLZ"
-        | "BOL"
-        | "BRN"
-        | "BTN"
-        | "BWA"
-        | "CAF"
-        | "CHL"
-        | "CIV"
-        | "CMR"
-        | "COD"
-        | "COG"
-        | "COL"
-        | "CRI"
-        | "CUB"
-        | "DJI"
-        | "DYE"
-        | "DOM"
-        | "DZA"
-        | "ECU"
-        | "EGY"
-        | "ERI"
-        | "ETH"
-        | "GAB"
-        | "GEO"
-        | "GHA"
-        | "GIN"
-        | "GMB"
-        | "GNQ"
-        | "GTM"
-        | "HND"
-        | "HKG"
-        | "HTI"
-        | "IRN"
-        | "IRQ"
-        | "ISL"
-        | "ISR"
-        | "JAM"
-        | "JOR"
-        | "KAZ"
-        | "KEN"
-        | "KGZ"
-        | "KHM"
-        | "KWT"
-        | "LAO"
-        | "LBN"
-        | "LBR"
-        | "LBY"
-        | "LKA"
-        | "MAR"
-        | "MDA"
-        | "MDG"
-        | "MKD"
-        | "MLI"
-        | "MMR"
-        | "MNG"
-        | "MOZ"
-        | "MRT"
-        | "MWI"
-        | "MYS"
-        | "NAM"
-        | "NER"
-        | "NGA"
-        | "NIC"
-        | "NPL"
-        | "OMN"
-        | "PAK"
-        | "PSE"
-        | "PAN"
-        | "PER"
-        | "PHL"
-        | "PNG"
-        | "PRY"
-        | "QAT"
-        | "RWA"
-        | "SAU"
-        | "SDS"
-        | "SEN"
-        | "SGP"
-        | "SLE"
-        | "SLV"
-        | "SOM"
-        | "SRB"
-        | "SDN"
-        | "SYR"
-        | "TCD"
-        | "TGO"
-        | "THA"
-        | "TJK"
-        | "TKM"
-        | "TUN"
-        | "TZA"
-        | "UGA"
-        | "UKR"
-        | "URY"
-        | "UZB"
-        | "VEN"
-        | "VNM"
-        | "YEM"
-        | "ZMB"
-        | "ZWE";
-      /**
-       * @description The total value of the transaction, including tax.
-       * @example 115
-       */
-      total: number;
-      /**
-       * @description The subtotal value of the transaction, excluding tax.
-       * @example 100
-       */
-      subtotal: number;
-      /**
-       * @description The tax value of the transaction. Optional - will be calculated from total and subtotal if excluded
-       * @example 15
-       */
-      tax?: number;
-      /**
-       * @description The currency of the transaction.
-       * @example USD
-       * @enum {string}
-       */
-      currency:
-        | "NZD"
-        | "AUD"
-        | "USD"
-        | "EUR"
-        | "GBP"
-        | "CAD"
-        | "CHF"
-        | "CNY"
-        | "PHP"
-        | "HKD"
-        | "IDR"
-        | "INR"
-        | "SGD"
-        | "SEK"
-        | "JPY"
-        | "KRW"
-        | "AED"
-        | "MYR"
-        | "THB"
-        | "TWD"
-        | "VND";
-      /**
-       * @description Optional disambiguation hints (e.g. bank fees, industrial gases) to steer the search when the supplier name could refer to multiple companies.
-       * @example [
-       *       "bank fees",
-       *       "account charges",
-       *       "banks and money"
-       *     ]
-       */
-      disambiguationHints?: Record<string, never>[][];
-    };
-    CreateSupplierBatchRequestDTO: {
-      /** @description Up to 100 suppliers to resolve and estimate emissions for. */
-      suppliers: components["schemas"]["CreateSupplierBatchItemDTO"][];
-    };
-    CreateSupplierBatchResponseDTO: {
-      /** @description Batch ids (one per chunk). Subscribe to supplier.batch.completed for each chunk when processing finishes. */
-      batchIds: string[];
-    };
-    GetSupplierBatchItemResponseDTO: {
-      /**
-       * @description CarbonAPI id for this row in the batch
-       * @example clxxxxxxxx
-       */
-      itemId: string;
-      /**
-       * @description The id you supplied in the batch submission
-       * @example line-item-4821
-       */
-      id: string;
-      /**
-       * @description Processing status for this supplier row
-       * @enum {string}
-       */
-      status: "Pending" | "Processing" | "Completed" | "Error";
-      name: string;
-      countryCode: string;
-      amount: number;
-      currency: string;
-      /** @description Disambiguation hints from the request */
-      disambiguationHints?: string[];
-      /** @description When status is Completed, the supplier resolution payload (same shape as GET /supplier/search/sync, nested under `supplier` in stored results). */
-      supplier?: components["schemas"]["SupplierSearchSyncResponseDTO"];
-      /** @description When status is Error, structured error details */
-      error?: Record<string, never>;
-    };
-    GetSupplierBatchResponseDTO: {
-      id: string;
-      /** @description Batch status (Pending, Processing, Completed, Error) */
-      status: string;
-      /** Format: date-time */
-      createdAt: string;
-      /** Format: date-time */
-      updatedAt: string;
-      /** @description Populated when the batch is Completed or Error; empty while Pending or Processing (same idea as GET /transaction/batch/:batchId). */
-      suppliers: components["schemas"]["GetSupplierBatchItemResponseDTO"][];
-    };
-    TaxonomyNodePublicDTO: {
-      urn: string;
-      /** @enum {string} */
-      type: "Commodity" | "Industry" | "Activity" | "Product" | "Supplier";
-      parentId?: string | null;
-      name: string;
-      description: string;
-      availability: string[];
-      sicCode?: string | null;
-    };
-    ListTaxonomyResponseDTO: {
-      items: components["schemas"]["TaxonomyNodePublicDTO"][];
-    };
-    TaxonomyCommodityUrnItemDTO: {
-      urn: string;
-      name: string;
-      description: string;
-      availability: string[];
-      sicCode?: string | null;
-    };
-    ListTaxonomyCommodityUrnsResponseDTO: {
-      items: components["schemas"]["TaxonomyCommodityUrnItemDTO"][];
-    };
-    DocumentDTO: {
-      /**
-       * @description A link to the file to be processed, for example a presigned S3 bucket object URL. Must be HTTPS and from an allowed domain.
-       * @example https://s3.amazonaws.com/example/example.pdf?X-AMZ-Signature=example
-       */
-      fileUrl: string;
-      /**
-       * @description The ID of the file to be processed. This can be used to help you keep track of requests. If supplied, we will also emit a webhook of progress on a per-file basis.
-       * @example file1234
-       */
-      fileId: string;
-      /**
-       * @description Provide a suggested document category. If set, then CarbonAPI will use this category to categorise the documents in the batch.
-       * @example FUEL
-       */
-      categoryHint: string;
-      /**
-       * @description Optional metadata for the document
-       * @example {
-       *       "key": "value"
-       *     }
-       */
-      meta: Record<string, never>;
-    };
-    CreateDocumentBatchRequestDTO: {
-      /** @description The documents to create a batch with */
-      documents: components["schemas"]["DocumentDTO"][];
-      /**
-       * @description The type of submission you are performing - for now just URL is supported.
-       * @example url
-       */
-      type: string;
-      /**
-       * @description An optional batchId for your own reconciliation.
-       * @example 11111111-1111-1111-1111-111111111111
-       */
-      batchId: string;
-      /**
-       * @description An optional meta object for your own reconciliation.
-       * @example {
-       *       "key": "value"
-       *     }
-       */
-      meta: Record<string, never>;
-    };
-    CreateDocumentBatchResponseDTO: {
-      /**
-       * @description The id of the batch
-       * @example 11111111-1111-1111-1111-111111111111
-       */
-      batchId: string;
-    };
-    DocumentFinancialInformation: {
-      /**
-       * @description Total
-       * @example 1000
-       */
-      total: number;
-      /**
-       * @description Subtotal
-       * @example 900
-       */
-      subtotal: number;
-      /**
-       * @description Tax
-       * @example 100
-       */
-      tax: number;
-      /**
-       * @description Supplier
-       * @example ABC Corp
-       */
-      supplier: string;
-      /**
-       * @description Customer
-       * @example XYZ Ltd
-       */
-      customer: string;
-      /**
-       * @description Currency
-       * @example USD
-       */
-      currency: string;
-    };
-    DocumentEmissionFactorItem: {
-      /**
-       * @description The emission factor code
-       * @example ACTIVITY_SCOPE2_ELECTRICITY_USAGE_ELECTRICITY_USED
-       */
-      code: string;
-      /**
-       * @description The emission factor name
-       * @example Electricity Used
-       */
-      name: string;
-      /**
-       * @description The year or default value for the emission factor
-       * @example 2023
-       */
-      yearOrDefault: string;
-      /**
-       * @description The source name of the emission factor
-       * @example EPA
-       */
-      sourceName: string;
-      /**
-       * @description The source URL of the emission factor
-       * @example https://www.epa.gov/emission-factors
-       */
-      sourceUrl: string;
-    };
-    DocumentEmissionsItem: {
-      /**
-       * @description CO2 equivalent emissions (kg CO2e)
-       * @example 1.5
-       */
-      co2e: number;
-      /**
-       * @description CO2 emissions (kg CO2)
-       * @example 1.2
-       */
-      co2: number;
-      /**
-       * @description CH4 emissions (kg CH4)
-       * @example 0.1
-       */
-      ch4: number;
-      /**
-       * @description N2O emissions (kg N2O)
-       * @example 0.2
-       */
-      n2o: number;
-    };
-    DocumentResponseItem: {
-      /**
-       * @description The start period of the emission
-       * @example 2023-03-01T00:00:00
-       */
-      periodFrom: string;
-      /**
-       * @description The end period of the emission
-       * @example 2023-03-31T23:59:59
-       */
-      periodTo: string;
-      /**
-       * @description Reference identifier for the emission
-       * @example REF-001
-       */
-      reference: string;
-      /**
-       * @description Description of the emission
-       * @example Electricity consumption for office building
-       */
-      description: string;
-      /**
-       * @description Quantity of the emission
-       * @example 1000
-       */
-      quantity: number;
-      /**
-       * @description Unit of measurement
-       * @example kWh
-       */
-      unit: string;
-      /**
-       * @description Emission factor ID
-       * @example ef-001
-       */
-      emissionFactorId: string;
-      /**
-       * @description Inference type
-       * @example 0
-       */
-      inference: number;
-      /**
-       * @description Processing steps
-       * @example [
-       *       "Calculate the emissions for the electricity used.",
-       *       "Apply transmission and distribution losses."
-       *     ]
-       */
-      steps: string[];
-      /**
-       * @description Hash of the processed document
-       * @example abc123def456
-       */
-      hash: string;
-      /** @description Emission factor details */
-      emissionFactor: components["schemas"]["DocumentEmissionFactorItem"];
-      /** @description Emissions breakdown */
-      emissions: components["schemas"]["DocumentEmissionsItem"];
-      /**
-       * @description Whether this is a side effect
-       * @example false
-       */
-      isSideEffect: boolean;
-      /**
-       * @description Optional metadata
-       * @example {
-       *       "key": "value"
-       *     }
-       */
-      meta: Record<string, never>;
-    };
-    DocumentResponseDTO: {
-      /**
-       * @description Processing status
-       * @example completed
-       */
-      status: string;
-      /**
-       * @description Document category
-       * @example FUEL
-       */
-      category: string;
-      /**
-       * @description Total tokens processed
-       * @example 1500
-       */
-      totalTokens: number;
-      /**
-       * @description Country code
-       * @example US
-       */
-      country: string;
-      /**
-       * @description Document reference
-       * @example DOC-001
-       */
-      reference: string;
-      /**
-       * @description Financial information
-       * @example {
-       *       "total": 1000,
-       *       "subtotal": 900,
-       *       "tax": 100,
-       *       "supplier": "ABC Corp",
-       *       "customer": "XYZ Ltd",
-       *       "currency": "USD"
-       *     }
-       */
-      financial: components["schemas"]["DocumentFinancialInformation"];
-      /** @description Response items */
-      items: components["schemas"]["DocumentResponseItem"][];
-    };
-    GetDocumentBatchResponseDTO: {
-      /**
-       * @description Batch processing status
-       * @example completed
-       */
-      status: string;
-      /** @description Array of document responses */
-      documents: components["schemas"]["DocumentResponseDTO"][];
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  "TransactionController_createBatch_2025-10-01": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "TransactionController_createBatch_2025-10-01": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBatchRequestDTO_2025_10_01"];
+            };
+        };
+        responses: {
+            /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateBatchResponseDTO"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateBatchRequestDTO_2025_10_01"];
-      };
+    "TransactionController_getTransactionsForBatch_2025-10-01": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                batchId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The results of the batch */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetBatchResponseDTO_2025_10_01"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Processing is queued, and will be processed in the background. Subscribe to the transaction.batch.completed webhook event to get notified when processing is complete. The array of batch ids is returned. */
-      201: {
-        headers: {
-          [name: string]: unknown;
+    "TransactionController_calculatePreCategorisedTransactions_2025-10-01": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["CreateBatchResponseDTO"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSyncTransactionRequestDTO"];
+            };
         };
-      };
+        responses: {
+            /** @description The processed transactions with measurements returned immediately */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateSyncTransactionResponseDTO"];
+                };
+            };
+        };
     };
-  };
-  "TransactionController_getTransactionsForBatch_2025-10-01": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        batchId: string;
-      };
-      cookie?: never;
+    SupplierController_searchSupplier: {
+        parameters: {
+            query: {
+                /** @description The name of the supplier. Must be between 2 and 256 characters after trimming leading and trailing whitespace. */
+                name: string;
+                /** @description The country code of the supplier. */
+                countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
+                /** @description The amount of the transaction, including tax. */
+                total: number;
+                /** @description The amount of the transaction, excluding tax. */
+                subtotal: number;
+                /** @description The tax amount of the transaction. */
+                tax: number;
+                /** @description The currency of the transaction. */
+                currency: "NZD" | "AUD" | "USD" | "EUR" | "GBP" | "CAD" | "CHF" | "CNY" | "PHP" | "HKD" | "IDR" | "INR" | "SGD" | "SEK" | "JPY" | "KRW" | "AED" | "MYR" | "THB" | "TWD" | "VND";
+                /** @description Optional disambiguation hints (e.g. bank fees, industrial gases) to steer the search when the supplier name could refer to multiple companies. */
+                disambiguationHints?: unknown[][];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Supplier resolved and emission estimate calculated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SupplierSearchSyncResponseDTO"];
+                };
+            };
+            /** @description No matching emission factor found for the supplier. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid API key. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Supplier could not be resolved (upstream search or factor lookup failure). */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description The results of the batch */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    SupplierController_createSupplierBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["GetBatchResponseDTO_2025_10_01"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSupplierBatchRequestDTO"];
+            };
         };
-      };
+        responses: {
+            /** @description Accepted. One batch id per chunk is returned. Processing happens asynchronously — subscribe to `supplier.batch.completed` to be notified when each chunk finishes. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateSupplierBatchResponseDTO"];
+                };
+            };
+            /** @description Validation error (e.g. more than 100 suppliers, missing required fields) or insufficient credits. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid API key. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Failed to enqueue the batch. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  "TransactionController_calculatePreCategorisedTransactions_2025-10-01": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    SupplierController_getSupplierBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Batch id returned from `POST /supplier/search/batch`. */
+                batchId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetSupplierBatchResponseDTO"];
+                };
+            };
+            /** @description Missing or invalid API key. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Batch not found or does not belong to this project. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unexpected error retrieving the batch. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateSyncTransactionRequestDTO"];
-      };
+    "TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListTaxonomyResponseDTO"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description The processed transactions with measurements returned immediately */
-      201: {
-        headers: {
-          [name: string]: unknown;
+    "TaxonomyController_searchCommodities_2025-10-01": {
+        parameters: {
+            query: {
+                /** @description Search query matched against commodity name and description using full-text search and trigram similarity. Supports multi-word natural-language queries (e.g. `air travel`) and tolerates minor typos. Results are ranked by relevance. */
+                q: string;
+                /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
+                countryCode?: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
+                /** @description Maximum number of results to return (default 100, max 500). */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["CreateSyncTransactionResponseDTO"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"];
+                };
+            };
         };
-      };
     };
-  };
-  SupplierController_searchSupplier: {
-    parameters: {
-      query: {
-        /** @description The name of the supplier. Must be between 2 and 256 characters after trimming leading and trailing whitespace. */
-        name: string;
-        /** @description The country code of the supplier. */
-        countryCode:
-          | "AUS"
-          | "NZL"
-          | "AUT"
-          | "BEL"
-          | "BGR"
-          | "BRA"
-          | "CAN"
-          | "CHE"
-          | "CHN"
-          | "CYP"
-          | "CZE"
-          | "DEU"
-          | "DNK"
-          | "ESP"
-          | "EST"
-          | "FIN"
-          | "FRA"
-          | "GBR"
-          | "GRC"
-          | "HRV"
-          | "HUN"
-          | "IDN"
-          | "IND"
-          | "IRL"
-          | "ITA"
-          | "JPN"
-          | "KOR"
-          | "LTU"
-          | "LUX"
-          | "LVA"
-          | "MEX"
-          | "MLT"
-          | "NLD"
-          | "NOR"
-          | "POL"
-          | "PRT"
-          | "ROU"
-          | "RUS"
-          | "SVK"
-          | "SVN"
-          | "SWE"
-          | "TUR"
-          | "TWN"
-          | "USA"
-          | "ZAF"
-          | "AFG"
-          | "AGO"
-          | "ALB"
-          | "ARE"
-          | "ARG"
-          | "ARM"
-          | "AZE"
-          | "BDI"
-          | "BEN"
-          | "BFA"
-          | "BGD"
-          | "BHR"
-          | "BHS"
-          | "BIH"
-          | "BLR"
-          | "BLZ"
-          | "BOL"
-          | "BRN"
-          | "BTN"
-          | "BWA"
-          | "CAF"
-          | "CHL"
-          | "CIV"
-          | "CMR"
-          | "COD"
-          | "COG"
-          | "COL"
-          | "CRI"
-          | "CUB"
-          | "DJI"
-          | "DYE"
-          | "DOM"
-          | "DZA"
-          | "ECU"
-          | "EGY"
-          | "ERI"
-          | "ETH"
-          | "GAB"
-          | "GEO"
-          | "GHA"
-          | "GIN"
-          | "GMB"
-          | "GNQ"
-          | "GTM"
-          | "HND"
-          | "HKG"
-          | "HTI"
-          | "IRN"
-          | "IRQ"
-          | "ISL"
-          | "ISR"
-          | "JAM"
-          | "JOR"
-          | "KAZ"
-          | "KEN"
-          | "KGZ"
-          | "KHM"
-          | "KWT"
-          | "LAO"
-          | "LBN"
-          | "LBR"
-          | "LBY"
-          | "LKA"
-          | "MAR"
-          | "MDA"
-          | "MDG"
-          | "MKD"
-          | "MLI"
-          | "MMR"
-          | "MNG"
-          | "MOZ"
-          | "MRT"
-          | "MWI"
-          | "MYS"
-          | "NAM"
-          | "NER"
-          | "NGA"
-          | "NIC"
-          | "NPL"
-          | "OMN"
-          | "PAK"
-          | "PSE"
-          | "PAN"
-          | "PER"
-          | "PHL"
-          | "PNG"
-          | "PRY"
-          | "QAT"
-          | "RWA"
-          | "SAU"
-          | "SDS"
-          | "SEN"
-          | "SGP"
-          | "SLE"
-          | "SLV"
-          | "SOM"
-          | "SRB"
-          | "SDN"
-          | "SYR"
-          | "TCD"
-          | "TGO"
-          | "THA"
-          | "TJK"
-          | "TKM"
-          | "TUN"
-          | "TZA"
-          | "UGA"
-          | "UKR"
-          | "URY"
-          | "UZB"
-          | "VEN"
-          | "VNM"
-          | "YEM"
-          | "ZMB"
-          | "ZWE";
-        /** @description The amount of the transaction. */
-        amount: number;
-        /** @description The currency of the transaction. */
-        currency:
-          | "NZD"
-          | "AUD"
-          | "USD"
-          | "EUR"
-          | "GBP"
-          | "CAD"
-          | "CHF"
-          | "CNY"
-          | "PHP"
-          | "HKD"
-          | "IDR"
-          | "INR"
-          | "SGD"
-          | "SEK"
-          | "JPY"
-          | "KRW"
-          | "AED"
-          | "MYR"
-          | "THB"
-          | "TWD"
-          | "VND";
-        /** @description Optional disambiguation hints (e.g. bank fees, industrial gases) to steer the search when the supplier name could refer to multiple companies. */
-        disambiguationHints?: unknown[][];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "TaxonomyController_listCommodityUrnsUnderPrefix_2025-10-01": {
+        parameters: {
+            query?: {
+                /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
+                countryCode?: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
+                /** @description Maximum number of URNs to return (default 2000, max 5000). */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                parentUrn: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      /** @description Supplier resolved and emission estimate calculated. */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    DocumentController_createDocumentBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["SupplierSearchSyncResponseDTO"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDocumentBatchRequestDTO"];
+            };
         };
-      };
-      /** @description No matching emission factor found for the supplier. */
-      400: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Processing is queued, and will be processed in the background. Subscribe to the document.batch.completed webhook event to get notified when processing is complete. The batch id is returned. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateDocumentBatchResponseDTO"];
+                };
+            };
         };
-        content?: never;
-      };
-      /** @description Missing or invalid API key. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Supplier could not be resolved (upstream search or factor lookup failure). */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
     };
-  };
-  SupplierController_createSupplierBatch: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    DocumentController_getDocumentBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetDocumentBatchResponseDTO"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateSupplierBatchRequestDTO"];
-      };
-    };
-    responses: {
-      /** @description Accepted. One batch id per chunk is returned. Processing happens asynchronously — subscribe to `supplier.batch.completed` to be notified when each chunk finishes. */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateSupplierBatchResponseDTO"];
-        };
-      };
-      /** @description Validation error (e.g. more than 100 suppliers, missing required fields) or insufficient credits. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Missing or invalid API key. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Failed to enqueue the batch. */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  SupplierController_getSupplierBatch: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Batch id returned from `POST /supplier/search/batch`. */
-        batchId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["GetSupplierBatchResponseDTO"];
-        };
-      };
-      /** @description Missing or invalid API key. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Batch not found or does not belong to this project. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error retrieving the batch. */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01": {
-    parameters: {
-      query?: {
-        /** @description Case-insensitive filter on taxonomy name (contains). */
-        q?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListTaxonomyResponseDTO"];
-        };
-      };
-    };
-  };
-  "TaxonomyController_searchCommodities_2025-10-01": {
-    parameters: {
-      query: {
-        /** @description Case-insensitive query string. */
-        q: string;
-        /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
-        countryCode?:
-          | "AUS"
-          | "NZL"
-          | "AUT"
-          | "BEL"
-          | "BGR"
-          | "BRA"
-          | "CAN"
-          | "CHE"
-          | "CHN"
-          | "CYP"
-          | "CZE"
-          | "DEU"
-          | "DNK"
-          | "ESP"
-          | "EST"
-          | "FIN"
-          | "FRA"
-          | "GBR"
-          | "GRC"
-          | "HRV"
-          | "HUN"
-          | "IDN"
-          | "IND"
-          | "IRL"
-          | "ITA"
-          | "JPN"
-          | "KOR"
-          | "LTU"
-          | "LUX"
-          | "LVA"
-          | "MEX"
-          | "MLT"
-          | "NLD"
-          | "NOR"
-          | "POL"
-          | "PRT"
-          | "ROU"
-          | "RUS"
-          | "SVK"
-          | "SVN"
-          | "SWE"
-          | "TUR"
-          | "TWN"
-          | "USA"
-          | "ZAF"
-          | "AFG"
-          | "AGO"
-          | "ALB"
-          | "ARE"
-          | "ARG"
-          | "ARM"
-          | "AZE"
-          | "BDI"
-          | "BEN"
-          | "BFA"
-          | "BGD"
-          | "BHR"
-          | "BHS"
-          | "BIH"
-          | "BLR"
-          | "BLZ"
-          | "BOL"
-          | "BRN"
-          | "BTN"
-          | "BWA"
-          | "CAF"
-          | "CHL"
-          | "CIV"
-          | "CMR"
-          | "COD"
-          | "COG"
-          | "COL"
-          | "CRI"
-          | "CUB"
-          | "DJI"
-          | "DYE"
-          | "DOM"
-          | "DZA"
-          | "ECU"
-          | "EGY"
-          | "ERI"
-          | "ETH"
-          | "GAB"
-          | "GEO"
-          | "GHA"
-          | "GIN"
-          | "GMB"
-          | "GNQ"
-          | "GTM"
-          | "HND"
-          | "HKG"
-          | "HTI"
-          | "IRN"
-          | "IRQ"
-          | "ISL"
-          | "ISR"
-          | "JAM"
-          | "JOR"
-          | "KAZ"
-          | "KEN"
-          | "KGZ"
-          | "KHM"
-          | "KWT"
-          | "LAO"
-          | "LBN"
-          | "LBR"
-          | "LBY"
-          | "LKA"
-          | "MAR"
-          | "MDA"
-          | "MDG"
-          | "MKD"
-          | "MLI"
-          | "MMR"
-          | "MNG"
-          | "MOZ"
-          | "MRT"
-          | "MWI"
-          | "MYS"
-          | "NAM"
-          | "NER"
-          | "NGA"
-          | "NIC"
-          | "NPL"
-          | "OMN"
-          | "PAK"
-          | "PSE"
-          | "PAN"
-          | "PER"
-          | "PHL"
-          | "PNG"
-          | "PRY"
-          | "QAT"
-          | "RWA"
-          | "SAU"
-          | "SDS"
-          | "SEN"
-          | "SGP"
-          | "SLE"
-          | "SLV"
-          | "SOM"
-          | "SRB"
-          | "SDN"
-          | "SYR"
-          | "TCD"
-          | "TGO"
-          | "THA"
-          | "TJK"
-          | "TKM"
-          | "TUN"
-          | "TZA"
-          | "UGA"
-          | "UKR"
-          | "URY"
-          | "UZB"
-          | "VEN"
-          | "VNM"
-          | "YEM"
-          | "ZMB"
-          | "ZWE";
-        /** @description Maximum number of results to return (default 100, max 500). */
-        limit?: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"];
-        };
-      };
-    };
-  };
-  "TaxonomyController_listCommodityUrnsUnderPrefix_2025-10-01": {
-    parameters: {
-      query?: {
-        /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
-        countryCode?:
-          | "AUS"
-          | "NZL"
-          | "AUT"
-          | "BEL"
-          | "BGR"
-          | "BRA"
-          | "CAN"
-          | "CHE"
-          | "CHN"
-          | "CYP"
-          | "CZE"
-          | "DEU"
-          | "DNK"
-          | "ESP"
-          | "EST"
-          | "FIN"
-          | "FRA"
-          | "GBR"
-          | "GRC"
-          | "HRV"
-          | "HUN"
-          | "IDN"
-          | "IND"
-          | "IRL"
-          | "ITA"
-          | "JPN"
-          | "KOR"
-          | "LTU"
-          | "LUX"
-          | "LVA"
-          | "MEX"
-          | "MLT"
-          | "NLD"
-          | "NOR"
-          | "POL"
-          | "PRT"
-          | "ROU"
-          | "RUS"
-          | "SVK"
-          | "SVN"
-          | "SWE"
-          | "TUR"
-          | "TWN"
-          | "USA"
-          | "ZAF"
-          | "AFG"
-          | "AGO"
-          | "ALB"
-          | "ARE"
-          | "ARG"
-          | "ARM"
-          | "AZE"
-          | "BDI"
-          | "BEN"
-          | "BFA"
-          | "BGD"
-          | "BHR"
-          | "BHS"
-          | "BIH"
-          | "BLR"
-          | "BLZ"
-          | "BOL"
-          | "BRN"
-          | "BTN"
-          | "BWA"
-          | "CAF"
-          | "CHL"
-          | "CIV"
-          | "CMR"
-          | "COD"
-          | "COG"
-          | "COL"
-          | "CRI"
-          | "CUB"
-          | "DJI"
-          | "DYE"
-          | "DOM"
-          | "DZA"
-          | "ECU"
-          | "EGY"
-          | "ERI"
-          | "ETH"
-          | "GAB"
-          | "GEO"
-          | "GHA"
-          | "GIN"
-          | "GMB"
-          | "GNQ"
-          | "GTM"
-          | "HND"
-          | "HKG"
-          | "HTI"
-          | "IRN"
-          | "IRQ"
-          | "ISL"
-          | "ISR"
-          | "JAM"
-          | "JOR"
-          | "KAZ"
-          | "KEN"
-          | "KGZ"
-          | "KHM"
-          | "KWT"
-          | "LAO"
-          | "LBN"
-          | "LBR"
-          | "LBY"
-          | "LKA"
-          | "MAR"
-          | "MDA"
-          | "MDG"
-          | "MKD"
-          | "MLI"
-          | "MMR"
-          | "MNG"
-          | "MOZ"
-          | "MRT"
-          | "MWI"
-          | "MYS"
-          | "NAM"
-          | "NER"
-          | "NGA"
-          | "NIC"
-          | "NPL"
-          | "OMN"
-          | "PAK"
-          | "PSE"
-          | "PAN"
-          | "PER"
-          | "PHL"
-          | "PNG"
-          | "PRY"
-          | "QAT"
-          | "RWA"
-          | "SAU"
-          | "SDS"
-          | "SEN"
-          | "SGP"
-          | "SLE"
-          | "SLV"
-          | "SOM"
-          | "SRB"
-          | "SDN"
-          | "SYR"
-          | "TCD"
-          | "TGO"
-          | "THA"
-          | "TJK"
-          | "TKM"
-          | "TUN"
-          | "TZA"
-          | "UGA"
-          | "UKR"
-          | "URY"
-          | "UZB"
-          | "VEN"
-          | "VNM"
-          | "YEM"
-          | "ZMB"
-          | "ZWE";
-        /** @description Case-insensitive filter on activity name (contains). */
-        q?: string;
-        /** @description Maximum number of URNs to return (default 2000, max 5000). */
-        limit?: number;
-      };
-      header?: never;
-      path: {
-        parentUrn: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListTaxonomyCommodityUrnsResponseDTO"];
-        };
-      };
-    };
-  };
-  DocumentController_createDocumentBatch: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateDocumentBatchRequestDTO"];
-      };
-    };
-    responses: {
-      /** @description Processing is queued, and will be processed in the background. Subscribe to the document.batch.completed webhook event to get notified when processing is complete. The batch id is returned. */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateDocumentBatchResponseDTO"];
-        };
-      };
-    };
-  };
-  DocumentController_getDocumentBatch: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["GetDocumentBatchResponseDTO"];
-        };
-      };
-    };
-  };
 }

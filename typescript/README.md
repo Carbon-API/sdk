@@ -235,6 +235,8 @@ For standalone types, use the schema names in the package’s TypeScript declara
 3. Build: `npm run build`
 4. Run tests: `npm test`
 
+To generate new types, spin up the API service, navigate to /api/json, and download the openapi file as openapi.json. USe that to generate types.
+
 ## License
 
 MIT
