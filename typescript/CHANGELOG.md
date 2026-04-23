@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 7.0.0
+
+### Major Changes
+
+- 1107a79: update supplier search methods to use total and subtotal instead of amount
+
 ## 6.5.1
 
 ### Patch Changes
