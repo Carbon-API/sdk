@@ -162,7 +162,7 @@ export interface paths {
         };
         /**
          * Search leaf commodity items
-         * @description Returns leaf commodity items whose name contains the `q` substring (case-insensitive). Optionally filter by country availability. Results are capped at 500.
+         * @description Returns leaf commodity items whose **name or description** match the query using full-text search and trigram similarity. Supports natural-language queries (e.g. `air travel`) and tolerates minor typos. Results are ranked by relevance. Optionally filter by country availability. Capped at 500.
          */
         get: operations["TaxonomyController_searchCommodities_2025-10-01"];
         put?: never;
@@ -885,10 +885,20 @@ export interface components {
              */
             countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
             /**
-             * @description The amount of the transaction.
+             * @description The total value of the transaction, including tax.
+             * @example 115
+             */
+            total: number;
+            /**
+             * @description The subtotal value of the transaction, excluding tax.
              * @example 100
              */
-            amount: number;
+            subtotal: number;
+            /**
+             * @description The tax value of the transaction.
+             * @example 15
+             */
+            tax: number;
             /**
              * @description The currency of the transaction.
              * @example USD
@@ -931,7 +941,12 @@ export interface components {
             status: "Pending" | "Processing" | "Completed" | "Error";
             name: string;
             countryCode: string;
-            amount: number;
+            /** @description Transaction total value, including tax */
+            total: number;
+            /** @description Transaction subtotal value, excluding tax */
+            subtotal: number;
+            /** @description Transaction tax value */
+            tax: number;
             currency: string;
             /** @description Disambiguation hints from the request */
             disambiguationHints?: string[];
@@ -1314,8 +1329,12 @@ export interface operations {
                 name: string;
                 /** @description The country code of the supplier. */
                 countryCode: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
-                /** @description The amount of the transaction. */
-                amount: number;
+                /** @description The amount of the transaction, including tax. */
+                total: number;
+                /** @description The amount of the transaction, excluding tax. */
+                subtotal: number;
+                /** @description The tax amount of the transaction. */
+                tax: number;
                 /** @description The currency of the transaction. */
                 currency: "NZD" | "AUD" | "USD" | "EUR" | "GBP" | "CAD" | "CHF" | "CNY" | "PHP" | "HKD" | "IDR" | "INR" | "SGD" | "SEK" | "JPY" | "KRW" | "AED" | "MYR" | "THB" | "TWD" | "VND";
                 /** @description Optional disambiguation hints (e.g. bank fees, industrial gases) to steer the search when the supplier name could refer to multiple companies. */
@@ -1449,10 +1468,7 @@ export interface operations {
     };
     "TaxonomyController_listTopLevelCommodityTaxonomies_2025-10-01": {
         parameters: {
-            query?: {
-                /** @description Case-insensitive filter on taxonomy name (contains). */
-                q?: string;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
@@ -1472,7 +1488,7 @@ export interface operations {
     "TaxonomyController_searchCommodities_2025-10-01": {
         parameters: {
             query: {
-                /** @description Case-insensitive query string. */
+                /** @description Search query matched against commodity name and description using full-text search and trigram similarity. Supports multi-word natural-language queries (e.g. `air travel`) and tolerates minor typos. Results are ranked by relevance. */
                 q: string;
                 /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
                 countryCode?: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
@@ -1500,8 +1516,6 @@ export interface operations {
             query?: {
                 /** @description When set, only return rows whose taxonomy `availability` includes this ISO 3166-1 alpha-3 code. */
                 countryCode?: "AUS" | "NZL" | "AUT" | "BEL" | "BGR" | "BRA" | "CAN" | "CHE" | "CHN" | "CYP" | "CZE" | "DEU" | "DNK" | "ESP" | "EST" | "FIN" | "FRA" | "GBR" | "GRC" | "HRV" | "HUN" | "IDN" | "IND" | "IRL" | "ITA" | "JPN" | "KOR" | "LTU" | "LUX" | "LVA" | "MEX" | "MLT" | "NLD" | "NOR" | "POL" | "PRT" | "ROU" | "RUS" | "SVK" | "SVN" | "SWE" | "TUR" | "TWN" | "USA" | "ZAF" | "AFG" | "AGO" | "ALB" | "ARE" | "ARG" | "ARM" | "AZE" | "BDI" | "BEN" | "BFA" | "BGD" | "BHR" | "BHS" | "BIH" | "BLR" | "BLZ" | "BOL" | "BRN" | "BTN" | "BWA" | "CAF" | "CHL" | "CIV" | "CMR" | "COD" | "COG" | "COL" | "CRI" | "CUB" | "DJI" | "DYE" | "DOM" | "DZA" | "ECU" | "EGY" | "ERI" | "ETH" | "GAB" | "GEO" | "GHA" | "GIN" | "GMB" | "GNQ" | "GTM" | "HND" | "HKG" | "HTI" | "IRN" | "IRQ" | "ISL" | "ISR" | "JAM" | "JOR" | "KAZ" | "KEN" | "KGZ" | "KHM" | "KWT" | "LAO" | "LBN" | "LBR" | "LBY" | "LKA" | "MAR" | "MDA" | "MDG" | "MKD" | "MLI" | "MMR" | "MNG" | "MOZ" | "MRT" | "MWI" | "MYS" | "NAM" | "NER" | "NGA" | "NIC" | "NPL" | "OMN" | "PAK" | "PSE" | "PAN" | "PER" | "PHL" | "PNG" | "PRY" | "QAT" | "RWA" | "SAU" | "SDS" | "SEN" | "SGP" | "SLE" | "SLV" | "SOM" | "SRB" | "SDN" | "SYR" | "TCD" | "TGO" | "THA" | "TJK" | "TKM" | "TUN" | "TZA" | "UGA" | "UKR" | "URY" | "UZB" | "VEN" | "VNM" | "YEM" | "ZMB" | "ZWE";
-                /** @description Case-insensitive filter on activity name (contains). */
-                q?: string;
                 /** @description Maximum number of URNs to return (default 2000, max 5000). */
                 limit?: number;
             };
