@@ -204,7 +204,7 @@ export interface paths {
         put?: never;
         /**
          * Submit a new batch of documents for processing
-         * @description Submit a new batch of documents for processing as Base64 content or blob. New Zealand only. Maximum request body size is 200 MB. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
+         * @description Submit a new batch of documents for processing as Base64 content. New Zealand only. Maximum request body size is 200 MB. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
          */
         post: operations["DocumentController_createDocumentBatch"];
         delete?: never;
@@ -991,15 +991,10 @@ export interface components {
         };
         DocumentDTO: {
             /**
-             * @description Base64-encoded document bytes. Provide content or blob (at least one required).
-             * @example JVBERi0xLjQKJc...
+             * @description Base64-encoded document bytes.
+             * @example JVBERi0xLjQ=
              */
-            content?: string;
-            /**
-             * @description Alias for content. Base64-encoded document bytes. Provide content or blob (at least one required).
-             * @example JVBERi0xLjQKJc...
-             */
-            blob?: string;
+            content: string;
             /**
              * @description MIME type of the Base64 document payload.
              * @example application/pdf
