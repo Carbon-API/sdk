@@ -204,7 +204,7 @@ export interface paths {
         put?: never;
         /**
          * Submit a new batch of documents for processing
-         * @description Submit a new batch of documents for processing. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
+         * @description Submit a new batch of documents for processing as Base64 content. New Zealand only. Maximum request body size is 200 MB. For more information, see: [Processing Documents Guide](https://docs.carbonapi.io/docs/guides/processing-documents).
          */
         post: operations["DocumentController_createDocumentBatch"];
         delete?: never;
@@ -913,7 +913,7 @@ export interface components {
              *       "banks and money"
              *     ]
              */
-            disambiguationHints?: Record<string, never>[][];
+            disambiguationHints?: string[][];
         };
         CreateSupplierBatchRequestDTO: {
             /** @description Up to 100 suppliers to resolve and estimate emissions for. */
@@ -991,48 +991,60 @@ export interface components {
         };
         DocumentDTO: {
             /**
-             * @description A link to the file to be processed, for example a presigned S3 bucket object URL. Must be HTTPS and from an allowed domain.
-             * @example https://s3.amazonaws.com/example/example.pdf?X-AMZ-Signature=example
+             * @description Base64-encoded document bytes.
+             * @example JVBERi0xLjQ=
              */
-            fileUrl: string;
+            content: string;
+            /**
+             * @description MIME type of the Base64 document payload.
+             * @example application/pdf
+             * @enum {string}
+             */
+            contentType: "application/pdf" | "image/jpeg";
             /**
              * @description The ID of the file to be processed. This can be used to help you keep track of requests. If supplied, we will also emit a webhook of progress on a per-file basis.
              * @example file1234
              */
-            fileId: string;
+            fileId?: string;
             /**
              * @description Provide a suggested document category. If set, then CarbonAPI will use this category to categorise the documents in the batch.
              * @example FUEL
              */
-            categoryHint: string;
+            categoryHint?: string;
             /**
              * @description Optional metadata for the document
              * @example {
              *       "key": "value"
              *     }
              */
-            meta: Record<string, never>;
+            meta?: Record<string, never>;
         };
         CreateDocumentBatchRequestDTO: {
             /** @description The documents to create a batch with */
             documents: components["schemas"]["DocumentDTO"][];
             /**
-             * @description The type of submission you are performing - for now just URL is supported.
-             * @example url
+             * @description The type of submission you are performing. Only Base64 inline content is supported. fileUrl upload is no longer supported.
+             * @example base64
              */
             type: string;
+            /**
+             * @description Country code for document processing. Only New Zealand (NZL) is supported. Defaults to NZL.
+             * @example NZL
+             * @enum {string}
+             */
+            countryCode?: "NZL";
             /**
              * @description An optional batchId for your own reconciliation.
              * @example 11111111-1111-1111-1111-111111111111
              */
-            batchId: string;
+            batchId?: string;
             /**
              * @description An optional meta object for your own reconciliation.
              * @example {
              *       "key": "value"
              *     }
              */
-            meta: Record<string, never>;
+            meta?: Record<string, never>;
         };
         CreateDocumentBatchResponseDTO: {
             /**
@@ -1122,6 +1134,11 @@ export interface components {
              */
             n2o: number;
         };
+        /**
+         * @description Catalogued machine-readable failure code when this line item failed (e.g. factor match). Prefer this over parsing failureReason.
+         * @enum {string}
+         */
+        DocumentLineItemErrorCode: "LINE_ITEM_FACTOR_NOT_MATCHED" | "LINE_ITEM_NO_FACTOR_SELECTED" | "LINE_ITEM_AIRPORT_NOT_FOUND";
         DocumentResponseItem: {
             /**
              * @description The start period of the emission
@@ -1184,15 +1201,30 @@ export interface components {
              * @description Whether this is a side effect
              * @example false
              */
-            isSideEffect: boolean;
+            isSideEffect?: boolean;
             /**
              * @description Optional metadata
              * @example {
              *       "key": "value"
              *     }
              */
-            meta: Record<string, never>;
+            meta?: Record<string, never>;
+            /**
+             * @description Catalogued machine-readable failure code when this line item failed (e.g. factor match). Prefer this over parsing failureReason.
+             * @example LINE_ITEM_FACTOR_NOT_MATCHED
+             */
+            failureCode?: components["schemas"]["DocumentLineItemErrorCode"];
+            /**
+             * @description Human-readable failure reason for this line item. Prefer failureCode for client mapping.
+             * @example This line item could not be matched to an allowlisted emission factor.
+             */
+            failureReason?: string;
         };
+        /**
+         * @description Catalogued machine-readable failure code when status is Error. Prefer this over parsing failureReason. For line-item failures, use DOCUMENT_LINE_ITEM_FAILED and inspect items[].failureCode.
+         * @enum {string}
+         */
+        DocumentProcessingErrorCode: "DOCUMENT_UNSUPPORTED_CONTENT_TYPE" | "DOCUMENT_INVALID_BASE64" | "DOCUMENT_PAYLOAD_TOO_LARGE" | "DOCUMENT_COUNTRY_NOT_SUPPORTED" | "DOCUMENT_EXTRACTION_FAILED" | "DOCUMENT_STORAGE_FAILED" | "DOCUMENT_UNSUPPORTED_DOCUMENT" | "DOCUMENT_LINE_ITEM_FAILED" | "DOCUMENT_UNKNOWN_ERROR";
         DocumentResponseDTO: {
             /**
              * @description Processing status
@@ -1233,6 +1265,16 @@ export interface components {
             financial: components["schemas"]["DocumentFinancialInformation"];
             /** @description Response items */
             items: components["schemas"]["DocumentResponseItem"][];
+            /**
+             * @description Catalogued machine-readable failure code when status is Error. Prefer this over parsing failureReason. For line-item failures, use DOCUMENT_LINE_ITEM_FAILED and inspect items[].failureCode.
+             * @example DOCUMENT_LINE_ITEM_FAILED
+             */
+            failureCode?: components["schemas"]["DocumentProcessingErrorCode"];
+            /**
+             * @description Human-readable failure reason. Prefer failureCode for client mapping.
+             * @example One or more line items could not be matched to an allowlisted emission factor.
+             */
+            failureReason?: string;
         };
         GetDocumentBatchResponseDTO: {
             /**

@@ -23,6 +23,14 @@ app.post("/webhook", async (req: express.Request, res: express.Response) => {
         // Handle batch completion
         break;
 
+      case "document.batch.completed":
+        console.log("Document batch completed:", event.batchId);
+        break;
+
+      case "supplier.batch.completed":
+        console.log("Supplier batch completed:", event.batchId);
+        break;
+
       default:
         console.log("Unknown event type:", event.type);
     }

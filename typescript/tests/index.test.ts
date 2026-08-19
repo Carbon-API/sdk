@@ -117,13 +117,15 @@ describe("CarbonAPIClient", () => {
       const batch = {
         documents: [
           {
-            fileUrl: "https://example.com/doc.pdf",
+            content: "JVBERi0xLjQKJc...",
+            contentType: "application/pdf" as const,
             fileId: "file-1",
             categoryHint: "FUEL",
             meta: {},
           },
         ],
-        type: "url",
+        type: "base64",
+        countryCode: "NZL" as const,
         batchId: "batch-123",
         meta: {},
       };
@@ -151,7 +153,7 @@ describe("CarbonAPIClient", () => {
 
       const batch = {
         documents: [],
-        type: "url",
+        type: "base64",
         batchId: "batch-123",
         meta: {},
       };
@@ -174,7 +176,7 @@ describe("CarbonAPIClient", () => {
 
       const batch = {
         documents: [],
-        type: "url",
+        type: "base64",
         batchId: "batch-123",
         meta: {},
       };

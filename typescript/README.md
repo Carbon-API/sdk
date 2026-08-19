@@ -75,15 +75,44 @@ const client = new CarbonAPIClient({
 });
 ```
 
+### Document emissions
+
+Submit documents as Base64 inline content (`type: "base64"`). URL upload is no longer supported. New Zealand only; max request body 200 MB.
+
+```typescript
+const documentBatch = await client.createDocumentEmissionsBatch({
+  type: "base64",
+  countryCode: "NZL",
+  documents: [
+    {
+      content: Buffer.from("...pdf bytes...").toString("base64"),
+      contentType: "application/pdf",
+      fileId: "invoice-001",
+      categoryHint: "FUEL",
+    },
+  ],
+});
+
+const documentBatchStatus = await client.getDocumentEmissionsBatch(
+  documentBatch.batchId,
+);
+
+if (documentBatchStatus.status === "Error") {
+  console.log(documentBatchStatus.failureCode, documentBatchStatus.failureReason);
+}
+```
+
 ### Supplier emissions
 
-Resolve a single supplier synchronously (name, country, amount, and currency are required query parameters; optional disambiguation hints are supported):
+Resolve a single supplier synchronously (name, country, total, subtotal, tax, and currency are required query parameters; optional disambiguation hints are supported):
 
 ```typescript
 const estimate = await client.searchSupplierSync({
   name: "Air New Zealand",
   countryCode: "NZL",
-  amount: 100,
+  total: 115,
+  subtotal: 100,
+  tax: 15,
   currency: "NZD",
 });
 ```
@@ -97,7 +126,9 @@ const created = await client.createSupplierBatch({
       id: "row-1",
       name: "Air New Zealand",
       countryCode: "NZL",
-      amount: 100,
+      total: 115,
+      subtotal: 100,
+      tax: 15,
       currency: "NZD",
     },
   ],
