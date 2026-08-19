@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 8.0.0
+
+### Major Changes
+
+- 3525b03: Handle major CarbonAPI document processing upgrades
+
 ## 7.0.0
 
 ### Major Changes
