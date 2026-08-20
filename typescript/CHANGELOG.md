@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 8.1.0
+
+### Minor Changes
+
+- 1fbc16d: Add additional typing information for supported document categories
+
 ## 8.0.0
 
 ### Major Changes
