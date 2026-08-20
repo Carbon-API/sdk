@@ -42,7 +42,6 @@ async function main() {
       countryCode: "NZL",
       documents: [
         {
-          // Prefer `content`; `blob` is an accepted alias
           content: Buffer.from("%PDF-1.4 example").toString("base64"),
           contentType: "application/pdf",
           fileId: "invoice-001",
