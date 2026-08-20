@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 8.1.1
+
+### Patch Changes
+
+- 0399ae3: Fix broken build
+
 ## 8.1.0
 
 ### Minor Changes
