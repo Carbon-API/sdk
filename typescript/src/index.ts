@@ -70,7 +70,7 @@ export class CarbonAPIClient {
 
   /**
    * Submit a batch of documents for processing as Base64 content (New Zealand only).
-   * Each document must include `content` or `blob` plus `contentType`.
+   * Each document must include `content` and `contentType`.
    */
   public async createDocumentEmissionsBatch(
     batch: components["schemas"]["CreateDocumentBatchRequestDTO"],

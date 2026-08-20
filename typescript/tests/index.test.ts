@@ -120,7 +120,7 @@ describe("CarbonAPIClient", () => {
             content: "JVBERi0xLjQKJc...",
             contentType: "application/pdf" as const,
             fileId: "file-1",
-            categoryHint: "FUEL",
+            categoryHint: "FUEL" as const,
             meta: {},
           },
         ],
