@@ -231,7 +231,9 @@ export interface paths {
     trace?: never;
   };
 }
+
 export type webhooks = Record<string, never>;
+
 export interface components {
   schemas: {
     TransactionDTO: {
@@ -1683,7 +1685,9 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+
 export type $defs = Record<string, never>;
+
 export interface operations {
   "TransactionController_createBatch_2025-10-01": {
     parameters: {
@@ -1953,6 +1957,8 @@ export interface operations {
           | "VND";
         /** @description Optional disambiguation hints (e.g. bank fees, industrial gases) to steer the search when the supplier name could refer to multiple companies. */
         disambiguationHints?: unknown[][];
+        /** @description The date to anchor the emissions estimate to. */
+        anchorDate?: string;
       };
       header?: never;
       path?: never;
