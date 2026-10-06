@@ -1,5 +1,11 @@
 # @carbonapi/typescript-sdk
 
+## 8.2.0
+
+### Minor Changes
+
+- c508049: add anchorDate parameter for supplier search
+
 ## 8.1.1
 
 ### Patch Changes
